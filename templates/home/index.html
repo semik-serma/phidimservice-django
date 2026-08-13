@@ -1,0 +1,2751 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phidimservice - Shop Smart. Live Better.</title>
+    <meta name="description"
+        content="Discover amazing deals on your favorite products and premium services at Phidimservice.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-orange: #ff5400;
+            --primary-orange-hover: #e04800;
+            --primary-orange-glow: rgba(255, 84, 0, 0.35);
+            --hero-bg-dark: #122b20;
+            --hero-bg-deep: #0b1c15;
+            --body-bg: #ffffff;
+            --section-bg-subtle: #faf8f5;
+            --text-dark: #1a1d20;
+            --text-muted: #6c757d;
+            --feature-bar-bg: #f5ede4;
+            --card-bg: #ffffff;
+            --border-subtle: rgba(0, 0, 0, 0.08);
+            --star-gold: #f59e0b;
+            --spark-gold: #fbbf24;
+            --badge-green-bg: #d1fae5;
+            --badge-green-text: #065f46;
+            --font-main: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--body-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ----------------------------------------------------
+           1. TOP NAVIGATION HEADER & LIVE SEARCH BAR
+        ---------------------------------------------------- */
+        .header-navbar {
+            width: 100%;
+            height: 76px;
+            background: #ffffff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            gap: 24px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #ff7a00, #ff4500);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 14px var(--primary-orange-glow);
+        }
+
+        .brand-text-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #1a1d20;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-title span {
+            color: var(--primary-orange);
+        }
+
+        .brand-subtitle {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.2px;
+        }
+
+        /* Center Nav Links */
+        .nav-links-menu {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-item-link {
+            text-decoration: none;
+            color: #333940;
+            font-size: 0.94rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-item-link:hover,
+        .nav-item-link.active {
+            color: var(--primary-orange);
+        }
+
+        .nav-item-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--primary-orange);
+            transition: width 0.2s ease;
+            border-radius: 2px;
+        }
+
+        .nav-item-link:hover::after,
+        .nav-item-link.active::after {
+            width: 100%;
+        }
+
+        /* Working Live Search Bar in Navbar */
+        .nav-search-container {
+            position: relative;
+            flex: 1;
+            max-width: 380px;
+        }
+
+        .nav-search-input-wrap {
+            display: flex;
+            align-items: center;
+            background: #f4f5f8;
+            border: 1.5px solid transparent;
+            border-radius: 12px;
+            padding: 0 14px;
+            height: 44px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-search-input-wrap:focus-within {
+            background: #ffffff;
+            border-color: var(--primary-orange);
+            box-shadow: 0 4px 18px rgba(255, 84, 0, 0.15);
+        }
+
+        .search-icon-left {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+
+        .nav-search-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            color: #111418;
+            font-weight: 500;
+        }
+
+        .nav-search-input::placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .search-clear-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 4px;
+            display: none;
+            transition: color 0.2s ease;
+        }
+
+        .search-clear-btn:hover {
+            color: #111418;
+        }
+
+        /* Live Search Results Dropdown */
+        .search-results-dropdown {
+            position: absolute;
+            top: 52px;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 14px;
+            display: none;
+            z-index: 2000;
+            max-height: 440px;
+            overflow-y: auto;
+            animation: fadeInDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-results-dropdown.active {
+            display: block;
+        }
+
+        .search-dropdown-header {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px 10px 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-item-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s ease;
+            margin-top: 4px;
+        }
+
+        .search-item-row:hover {
+            background-color: #faf8f5;
+        }
+
+        .search-item-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #f0f2f5;
+            flex-shrink: 0;
+        }
+
+        .search-item-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .search-item-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #111418;
+            line-height: 1.2;
+        }
+
+        .search-item-category {
+            font-size: 0.76rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .search-item-price {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary-orange);
+            white-space: nowrap;
+        }
+
+        .search-empty-state {
+            padding: 24px 16px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .search-trending-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding: 8px 6px 4px 6px;
+        }
+
+        .trending-chip {
+            background: #f4f5f8;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .trending-chip:hover {
+            background: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        /* Right Nav Action Area */
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .btn-shop-now {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 18px var(--primary-orange-glow);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-shop-now:hover {
+            background-color: var(--primary-orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(255, 84, 0, 0.45);
+        }
+
+        .nav-icon-btn {
+            background: none;
+            border: none;
+            color: #2b303a;
+            font-size: 1.15rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .nav-icon-btn:hover {
+            background-color: #f1f3f5;
+            color: var(--primary-orange);
+        }
+
+        /* ----------------------------------------------------
+           2. FULL SCREEN HERO SECTION
+        ---------------------------------------------------- */
+        .hero-fullscreen-section {
+            width: 100vw;
+            min-height: calc(100vh - 76px);
+            background: radial-gradient(circle at 72% 45%, #1f4534 0%, #122b20 45%, #0a1b14 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 50px 40px;
+        }
+
+        .hero-bg-art {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .hero-arch-line {
+            position: absolute;
+            top: 50%;
+            right: 15%;
+            transform: translate(0, -50%);
+            width: 650px;
+            height: 650px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-dot-grid {
+            position: absolute;
+            top: 50px;
+            right: 80px;
+            display: grid;
+            grid-template-columns: repeat(6, 6px);
+            gap: 10px;
+            opacity: 0.15;
+        }
+
+        .dot-cell {
+            width: 6px;
+            height: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+        }
+
+        .hero-inner-container {
+            max-width: 1480px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1.1fr 1fr;
+            align-items: center;
+            gap: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-left-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .hero-main-heading {
+            font-size: clamp(3.4rem, 5.8vw, 5.2rem);
+            font-weight: 800;
+            line-height: 1.05;
+            color: #ffffff;
+            margin-bottom: 22px;
+            letter-spacing: -1.2px;
+        }
+
+        .hero-highlight-text {
+            color: var(--primary-orange);
+            display: block;
+        }
+
+        .hero-lead-description {
+            font-size: 1.15rem;
+            line-height: 1.65;
+            color: rgba(255, 255, 255, 0.82);
+            margin-bottom: 40px;
+            max-width: 540px;
+            font-weight: 400;
+        }
+
+        .hero-features-row {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            margin-bottom: 44px;
+            flex-wrap: wrap;
+        }
+
+        .feature-pill-badge {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .pill-icon-circle {
+            width: 48px;
+            height: 48px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #122b20;
+            font-size: 1.15rem;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+            transition: transform 0.25s ease, color 0.25s ease;
+        }
+
+        .feature-pill-badge:hover .pill-icon-circle {
+            transform: scale(1.1);
+            color: var(--primary-orange);
+        }
+
+        .pill-text-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pill-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.2;
+        }
+
+        .pill-subtext {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.2;
+        }
+
+        .btn-explore-collection {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            padding: 18px 40px;
+            border-radius: 14px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: 0.6px;
+            text-decoration: none;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 6px 26px var(--primary-orange-glow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-explore-collection:hover {
+            background-color: var(--primary-orange-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 32px rgba(255, 84, 0, 0.55);
+            gap: 16px;
+        }
+
+        .hero-right-showcase {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .showcase-image-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 580px;
+        }
+
+        .showcase-product-img {
+            width: 100%;
+            height: auto;
+            max-height: 540px;
+            object-fit: cover;
+            border-radius: 28px;
+            display: block;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
+            transition: transform 0.4s ease;
+        }
+
+        .showcase-image-wrapper:hover .showcase-product-img {
+            transform: scale(1.02);
+        }
+
+        .floating-discount-badge {
+            position: absolute;
+            top: 20px;
+            right: -15px;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(145deg, #ff6b1a, #ff3c00);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            box-shadow: 0 10px 35px rgba(255, 60, 0, 0.6), inset 0 2px 6px rgba(255, 255, 255, 0.4);
+            border: 4px solid rgba(255, 255, 255, 0.25);
+            z-index: 10;
+            transform: rotate(6deg);
+            animation: subtleFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes subtleFloat {
+            0% {
+                transform: translateY(0px) rotate(6deg);
+            }
+
+            100% {
+                transform: translateY(-10px) rotate(8deg);
+            }
+        }
+
+        .discount-upto {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 1.2px;
+            line-height: 1;
+            text-transform: uppercase;
+            opacity: 0.95;
+        }
+
+        .discount-percent {
+            font-size: 2.1rem;
+            font-weight: 900;
+            line-height: 1;
+            margin: 3px 0;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .discount-off {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        /* ----------------------------------------------------
+           3. BOTTOM FEATURE PROPOSITIONS BAR
+        ---------------------------------------------------- */
+        .bottom-features-container {
+            width: 100vw;
+            background-color: var(--feature-bar-bg);
+            padding: 30px 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-bar-box {
+            max-width: 1480px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+            align-items: center;
+        }
+
+        .feature-column-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 6px 16px;
+        }
+
+        .feature-column-item:not(:last-child) {
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-col-icon {
+            font-size: 1.9rem;
+            color: #1a1d20;
+            flex-shrink: 0;
+        }
+
+        .feature-col-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .feature-col-heading {
+            font-size: 1.02rem;
+            font-weight: 700;
+            color: #1a1d20;
+            line-height: 1.25;
+            margin-bottom: 2px;
+        }
+
+        .feature-col-sub {
+            font-size: 0.84rem;
+            color: #636b75;
+            line-height: 1.3;
+        }
+
+        /* ----------------------------------------------------
+           3.5. "TRUSTED BY" ANIMATED MARQUEE (SMOOTH LEFT-TO-RIGHT)
+        ---------------------------------------------------- */
+        .trusted-by-section {
+            width: 100vw;
+            padding: 44px 0 40px 0;
+            background: #ffffff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trusted-by-header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 0 20px;
+        }
+
+        .trusted-by-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #6b7280;
+        }
+
+        .trusted-by-badge i {
+            color: #10b981;
+            font-size: 0.65rem;
+        }
+
+        /* Marquee Ticker Track & Fade Edges */
+        .marquee-wrapper {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .marquee-wrapper::before,
+        .marquee-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 140px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .marquee-wrapper::before {
+            left: 0;
+            background: linear-gradient(to right, #ffffff 15%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .marquee-wrapper::after {
+            right: 0;
+            background: linear-gradient(to left, #ffffff 15%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .marquee-track {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            width: max-content;
+            animation: marqueeLeftToRight 32s linear infinite;
+        }
+
+        .marquee-wrapper:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes marqueeLeftToRight {
+            0% {
+                transform: translateX(-50%);
+            }
+
+            100% {
+                transform: translateX(0%);
+            }
+        }
+
+        /* Brand Logo Cards */
+        .brand-logo-pill {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #faf8f5;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 12px 28px;
+            border-radius: 100px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #4b5563;
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .brand-logo-pill:hover {
+            background: #ffffff;
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-color: rgba(255, 84, 0, 0.3);
+            color: #111418;
+        }
+
+        .brand-logo-pill i {
+            font-size: 1.4rem;
+            color: #6b7280;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .brand-logo-pill:hover i {
+            transform: scale(1.15);
+        }
+
+        .brand-phidimbazar:hover i {
+            color: #ff5400;
+        }
+
+        .brand-phidimservice:hover i {
+            color: #122b20;
+        }
+
+        .brand-upayax:hover i {
+            color: #0284c7;
+        }
+
+        .brand-daraz:hover i {
+            color: #f85606;
+        }
+
+        .brand-bytherix:hover i {
+            color: #8b5cf6;
+        }
+
+        /* ----------------------------------------------------
+           4. SHOP BY CATEGORY SECTION
+        ---------------------------------------------------- */
+        .section-shop-by-category {
+            width: 100vw;
+            padding: 70px 40px 60px 40px;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        .category-container {
+            max-width: 1480px;
+            margin: 0 auto;
+        }
+
+        .category-header-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .category-title-wrap {
+            max-width: 640px;
+        }
+
+        .category-pill-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 84, 0, 0.08);
+            border: 1px solid rgba(255, 84, 0, 0.2);
+            color: var(--primary-orange);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin-bottom: 14px;
+        }
+
+        .category-main-title {
+            font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+            font-weight: 800;
+            color: #111418;
+            letter-spacing: -0.8px;
+            line-height: 1.15;
+            margin-bottom: 10px;
+        }
+
+        .category-subtext {
+            font-size: 1.05rem;
+            color: #6c757d;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+
+        .category-nav-filters {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .cat-filter-btn {
+            background: #f4f5f7;
+            border: 1px solid transparent;
+            color: #4b5563;
+            font-family: var(--font-main);
+            font-size: 0.88rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .cat-filter-btn:hover {
+            background: #eaedf1;
+            color: #111827;
+        }
+
+        .cat-filter-btn.active {
+            background: #122b20;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(18, 43, 32, 0.25);
+        }
+
+        .category-showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+        }
+
+        .category-modern-card {
+            background: #faf8f5;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .category-modern-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 45px rgba(0, 0, 0, 0.09);
+            border-color: rgba(255, 84, 0, 0.3);
+        }
+
+        .cat-card-media {
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+            background: #eae5de;
+        }
+
+        .cat-card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            display: block;
+        }
+
+        .category-modern-card:hover .cat-card-img {
+            transform: scale(1.08);
+        }
+
+        .cat-badge-promo {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(18, 43, 32, 0.85);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .cat-card-body {
+            padding: 24px 22px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        .cat-card-count {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--primary-orange);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .cat-card-heading {
+            font-size: 1.32rem;
+            font-weight: 800;
+            color: #111418;
+            line-height: 1.25;
+            margin-bottom: 8px;
+            letter-spacing: -0.3px;
+        }
+
+        .cat-card-description {
+            font-size: 0.86rem;
+            color: #636b75;
+            line-height: 1.45;
+            margin-bottom: 20px;
+        }
+
+        .cat-card-action-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #111418;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: color 0.2s ease, gap 0.2s ease;
+        }
+
+        .category-modern-card:hover .cat-card-action-row {
+            color: var(--primary-orange);
+            gap: 12px;
+        }
+
+        /* ----------------------------------------------------
+           5. EXCLUSIVE 15% OFF PROMO BANNER
+        ---------------------------------------------------- */
+        .exclusive-banner-section {
+            width: 100vw;
+            padding: 30px 40px 70px 40px;
+            background-color: #ffffff;
+        }
+
+        .exclusive-banner-container {
+            max-width: 1480px;
+            margin: 0 auto;
+        }
+
+        .exclusive-promo-card {
+            background: radial-gradient(circle at 50% 50%, #183e2e 0%, #122b20 50%, #0a1b14 100%);
+            border-radius: 20px;
+            padding: 32px 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(18, 43, 32, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            gap: 32px;
+        }
+
+        .spark-accent {
+            position: absolute;
+            pointer-events: none;
+            color: var(--spark-gold);
+            font-size: 1rem;
+            opacity: 0.85;
+            line-height: 1;
+        }
+
+        .spark-left-top {
+            top: 18px;
+            left: 35px;
+            transform: rotate(-25deg);
+            font-weight: 900;
+        }
+
+        .spark-left-dot {
+            top: 50%;
+            left: 24px;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .spark-left-bot {
+            bottom: 18px;
+            left: 40px;
+            transform: rotate(35deg);
+            font-weight: 900;
+        }
+
+        .spark-mid-top {
+            top: 16px;
+            left: 56%;
+            transform: rotate(35deg);
+            font-weight: 900;
+        }
+
+        .spark-mid-dot {
+            top: 48%;
+            left: 58%;
+            width: 6px;
+            height: 6px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.9;
+        }
+
+        .spark-mid-bot {
+            bottom: 16px;
+            left: 57%;
+            transform: rotate(-30deg);
+            font-weight: 900;
+        }
+
+        .spark-right-top {
+            top: 20px;
+            right: 35px;
+            transform: rotate(35deg);
+            font-weight: 900;
+        }
+
+        .spark-right-dot {
+            top: 50%;
+            right: 22px;
+            transform: translateY(-50%);
+            width: 5px;
+            height: 5px;
+            background: #ffffff;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+
+        .spark-right-bot {
+            bottom: 20px;
+            right: 40px;
+            transform: rotate(-35deg);
+            font-weight: 900;
+        }
+
+        .promo-left-wrap {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .promo-tag-icon-box {
+            width: 76px;
+            height: 76px;
+            background: #ffffff;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #122b20;
+            font-size: 2.2rem;
+            transform: rotate(-12deg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .exclusive-promo-card:hover .promo-tag-icon-box {
+            transform: rotate(0deg) scale(1.06);
+            color: var(--primary-orange);
+        }
+
+        .promo-text-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .promo-sub-label {
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 4px;
+        }
+
+        .promo-main-heading {
+            font-size: clamp(2rem, 3.2vw, 2.75rem);
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .promo-desc-line {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+        }
+
+        .promo-right-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+        }
+
+        .promo-code-dashed-box {
+            border: 2px dashed rgba(255, 255, 255, 0.45);
+            border-radius: 14px;
+            padding: 14px 34px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+
+        .promo-code-dashed-box:hover {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .code-title-small {
+            font-size: 0.74rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.75);
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .code-string-bold {
+            font-size: 1.55rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .promo-validity-text {
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        /* ----------------------------------------------------
+           5.5. "OUR SERVICES" SECTION (Matching Reference Image)
+        ---------------------------------------------------- */
+        .section-our-services {
+            width: 100vw;
+            padding: 100px 40px 115px 40px;
+            background-color: #f8fafc;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* Subtle Top-Right Machinery Watermark matching reference image */
+        .services-bg-watermark {
+            position: absolute;
+            top: 10px;
+            right: -10px;
+            width: 320px;
+            height: auto;
+            opacity: 0.25;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Subtle Top-Left Wave Contour Watermark */
+        .services-bg-waves {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 260px;
+            height: 100%;
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .services-container {
+            max-width: 1320px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .services-header-box {
+            text-align: center;
+            margin-bottom: 55px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .services-main-title {
+            font-size: clamp(2.2rem, 3.8vw, 3.1rem);
+            font-weight: 800;
+            color: #1e293b;
+            letter-spacing: -0.5px;
+            font-family: var(--font-main);
+            margin: 0 0 12px 0;
+            line-height: 1.2;
+        }
+
+        .services-title-dash {
+            width: 44px;
+            height: 3.5px;
+            background: var(--primary-orange);
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+
+        .services-subtext {
+            max-width: 680px;
+            margin: 0 auto;
+            color: #64748b;
+            font-size: 0.94rem;
+            line-height: 1.65;
+            font-weight: 400;
+        }
+
+        /* 4 Cards Grid */
+        .services-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 28px;
+            width: 100%;
+        }
+
+        .service-card {
+            background: #ffffff;
+            border-radius: 8px;
+            padding: 50px 24px 46px 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .service-card:hover,
+        .service-card.active {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.09);
+        }
+
+        /* Bottom orange accent bar */
+        .service-bottom-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3.5px;
+            background: var(--primary-orange);
+            border-radius: 0 0 8px 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover .service-bottom-bar,
+        .service-card.active .service-bottom-bar {
+            opacity: 1;
+        }
+
+        /* Floating Circular Arrow Button at bottom matching reference */
+        .service-action-btn {
+            position: absolute;
+            bottom: -18px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary-orange);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 14px rgba(255, 84, 0, 0.38);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .service-card:hover .service-action-btn,
+        .service-card.active .service-action-btn {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        /* Icon wrapper with soft peach/blush halo watercolor blob */
+        .service-icon-box {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 26px;
+        }
+
+        .service-icon-halo {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, rgba(255, 120, 50, 0.22) 0%, rgba(255, 190, 160, 0.28) 55%, transparent 75%);
+            border-radius: 46% 54% 48% 52% / 54% 48% 52% 46%;
+            filter: blur(3px);
+            transition: transform 0.35s ease;
+        }
+
+        .service-card:hover .service-icon-halo,
+        .service-card.active .service-icon-halo {
+            transform: scale(1.15) rotate(15deg);
+        }
+
+        .service-icon-art {
+            position: relative;
+            z-index: 2;
+            font-size: 2.2rem;
+            color: var(--primary-orange);
+            transition: transform 0.35s ease;
+        }
+
+        .service-card:hover .service-icon-art,
+        .service-card.active .service-icon-art {
+            transform: scale(1.08);
+        }
+
+        .service-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1e293b;
+            font-family: var(--font-main);
+            margin: 0 0 14px 0;
+            line-height: 1.35;
+            transition: color 0.25s ease;
+        }
+
+        .service-card:hover .service-card-title,
+        .service-card.active .service-card-title {
+            color: var(--primary-orange);
+        }
+
+        .service-card-desc {
+            font-size: 0.88rem;
+            color: #64748b;
+            line-height: 1.62;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        /* ----------------------------------------------------
+           6. "WHY CHOOSE US" SECTION (Pristine White Theme)
+        ---------------------------------------------------- */
+        .section-why-choose-us {
+            width: 100vw;
+            padding: 105px 40px 115px 40px;
+            background-color: #06070a;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 10% 90%, rgba(255, 255, 255, 0.03) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(255, 255, 255, 0.03) 0%, transparent 40%);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .why-choose-us-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .why-choose-us-header {
+            text-align: center;
+            margin-bottom: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .why-choose-us-badge {
+            display: inline-block;
+            color: #ffffff;
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            font-family: var(--font-main);
+            background: rgba(255, 255, 255, 0.08);
+            padding: 6px 18px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+        }
+
+        .why-choose-us-title {
+            color: #ffffff;
+            font-size: clamp(2.4rem, 4.5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            font-family: var(--font-main);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .why-choose-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            width: 100%;
+        }
+
+        .why-choose-card {
+            background: linear-gradient(180deg, #101217 0%, #08090c 100%);
+            border: 1.5px solid rgba(255, 255, 255, 0.18);
+            border-radius: 14px;
+            padding: 48px 36px 44px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+            min-height: 290px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
+        }
+
+        .why-choose-card:hover {
+            transform: translateY(-8px);
+            border-color: #ffffff;
+            box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), 0 0 30px rgba(255, 255, 255, 0.18);
+        }
+
+        .why-choose-quote {
+            font-family: 'Outfit', Georgia, serif;
+            font-size: 3.4rem;
+            line-height: 1;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 24px;
+            user-select: none;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .why-choose-card:hover .why-choose-quote {
+            color: #ffffff;
+            transform: scale(1.08);
+        }
+
+        .why-choose-text {
+            color: #d1d5db;
+            font-size: 0.96rem;
+            line-height: 1.7;
+            font-weight: 400;
+            margin: 0;
+            letter-spacing: 0.1px;
+            transition: color 0.3s ease;
+        }
+
+        .why-choose-card:hover .why-choose-text {
+            color: #ffffff;
+        }
+
+        /* ----------------------------------------------------
+           7. FOOTER
+        ---------------------------------------------------- */
+        .main-footer {
+            background-color: #122b20;
+            color: #ffffff;
+            padding: 60px 40px 30px 40px;
+            margin-top: auto;
+        }
+
+        .footer-inner {
+            max-width: 1480px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .footer-links-row {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .footer-link-item {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link-item:hover {
+            color: var(--primary-orange);
+        }
+
+        .footer-bottom-copy {
+            max-width: 1480px;
+            margin: 24px auto 0 auto;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Toast Popup */
+        .toast-popup {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #122b20;
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-orange);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .toast-popup.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+
+            .header-navbar,
+            .hero-fullscreen-section,
+            .bottom-features-container,
+            .section-shop-by-category,
+            .section-our-services,
+            .exclusive-banner-section,
+            .section-why-choose-us,
+            .main-footer {
+                padding-left: 32px;
+                padding-right: 32px;
+            }
+
+            .nav-links-menu {
+                gap: 18px;
+            }
+
+            .nav-search-container {
+                max-width: 260px;
+            }
+
+            .category-showcase-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+
+            .services-cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 28px;
+            }
+
+            .why-choose-cards-grid {
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .header-navbar {
+                padding: 0 20px;
+                gap: 12px;
+            }
+
+            .nav-links-menu {
+                display: none;
+            }
+
+            .nav-search-container {
+                max-width: 200px;
+            }
+
+            .hero-fullscreen-section {
+                padding: 40px 20px;
+                min-height: auto;
+            }
+
+            .hero-inner-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-left-content {
+                align-items: center;
+            }
+
+            .hero-lead-description {
+                max-width: 100%;
+            }
+
+            .hero-features-row {
+                justify-content: center;
+            }
+
+            .floating-discount-badge {
+                top: 10px;
+                right: 10px;
+                width: 95px;
+                height: 95px;
+            }
+
+            .discount-percent {
+                font-size: 1.6rem;
+            }
+
+            .bottom-features-container,
+            .section-shop-by-category,
+            .section-our-services,
+            .exclusive-banner-section,
+            .section-why-choose-us,
+            .main-footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .section-our-services {
+                padding: 70px 20px 85px 20px;
+            }
+
+            .services-cards-grid {
+                grid-template-columns: 1fr;
+                max-width: 440px;
+                margin: 0 auto;
+                gap: 34px;
+            }
+
+            .services-bg-watermark {
+                display: none;
+            }
+
+            .why-choose-cards-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+                gap: 20px;
+            }
+
+            .why-choose-card {
+                padding: 36px 28px;
+                min-height: auto;
+            }
+
+            .section-why-choose-us {
+                padding: 70px 20px 80px 20px;
+            }
+
+            .exclusive-promo-card {
+                flex-direction: column;
+                padding: 30px 24px;
+                text-align: center;
+            }
+
+            .promo-left-wrap {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .spark-mid-top,
+            .spark-mid-dot,
+            .spark-mid-bot {
+                display: none;
+            }
+
+            .feature-bar-box {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
+            .feature-column-item {
+                border-right: none !important;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+                padding-bottom: 16px;
+            }
+
+            .feature-column-item:last-child {
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .category-showcase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links-row {
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. Header Navigation Bar (with Functional Live Search Bar) -->
+    <header class="header-navbar">
+        <!-- Logo -->
+        <a href="/" class="nav-brand">
+            <div class="brand-logo-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <div class="brand-text-wrap">
+                <span class="brand-title">Phidim<span>service</span></span>
+                <span class="brand-subtitle">Shop Smart. Live Better.</span>
+            </div>
+        </a>
+
+        <!-- 4 Clean Nav Items -->
+        <nav>
+            <ul class="nav-links-menu">
+                <li><a href="/" class="nav-item-link active">Home</a></li>
+                <li><a href="{% url 'about' %}" class="nav-item-link">About</a></li>
+                <li><a href="{% url 'services' %}" class="nav-item-link">Services</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-item-link">Contact</a></li>
+                <li><a href="{% url 'profile' %}" class="nav-item-link">Profile</a></li>
+            </ul>
+        </nav>
+
+
+        <!-- Working Live Search Input & Results Dropdown -->
+        <div class="nav-search-container" id="navSearchContainer">
+            <div class="nav-search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+                <input type="text" class="nav-search-input" id="navSearchInput"
+                    placeholder="Search products, audio, sneakers..." autocomplete="off"
+                    oninput="handleSearch(this.value)" onfocus="handleSearchFocus()">
+                <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearchInput()" title="Clear Search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Live Dropdown Results -->
+            <div class="search-results-dropdown" id="searchResultsDropdown">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+        <!-- Right Actions Area -->
+        <div class="nav-actions">
+            <button class="nav-icon-btn" title="Focus Search"
+                onclick="document.getElementById('navSearchInput').focus()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <button class="nav-icon-btn" title="Your Shopping Cart" onclick="showToast('🛒 Cart: 0 items')">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+            {% if user.is_authenticated %}
+            <a href="{% url 'account_logout' %}" class="btn-shop-now" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>LOGOUT</span>
+            </a>
+            {% else %}
+            <a href="{% url 'account_login' %}" class="btn-shop-now" title="Login">
+                <i class="fa-regular fa-user"></i>
+                <span>LOGIN</span>
+            </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- 2. Fullscreen Hero Section -->
+    <main class="hero-fullscreen-section">
+
+        <!-- Ambient Background Art Elements -->
+        <div class="hero-bg-art">
+            <div class="hero-arch-line"></div>
+            <div class="hero-dot-grid">
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+                <div class="dot-cell"></div>
+            </div>
+        </div>
+
+        <!-- Centered Inner Container -->
+        <div class="hero-inner-container">
+
+            <!-- Left Content Column -->
+            <div class="hero-left-content">
+                <h1 class="hero-main-heading">
+                    Shop More,<br>
+                    <span class="hero-highlight-text">Save More!</span>
+                </h1>
+
+                <p class="hero-lead-description">
+                    Discover amazing deals on your favorite products and trusted home services with Phidimservice.
+                </p>
+
+                <div class="hero-features-row">
+                    <div class="feature-pill-badge">
+                        <div class="pill-icon-circle">
+                            <i class="fa-solid fa-tag"></i>
+                        </div>
+                        <div class="pill-text-block">
+                            <span class="pill-title">Best Prices</span>
+                            <span class="pill-subtext">Guaranteed</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-pill-badge">
+                        <div class="pill-icon-circle">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div class="pill-text-block">
+                            <span class="pill-title">Secure</span>
+                            <span class="pill-subtext">Payments</span>
+                        </div>
+                    </div>
+
+                    <div class="feature-pill-badge">
+                        <div class="pill-icon-circle">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <div class="pill-text-block">
+                            <span class="pill-title">Fast Delivery</span>
+                            <span class="pill-subtext">Worldwide</span>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="{% url 'product_detail' 'aeroflow-max' %}" class="btn-explore-collection">
+                    <span>EXPLORE FEATURED PRODUCT</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+
+            <!-- Right Showcase Column with Podium Display & 50% Off Promo Tag -->
+            <div class="hero-right-showcase">
+                <a href="{% url 'product_detail' 'aeroflow-max' %}" class="showcase-image-wrapper"
+                    title="Click to view AEROFLOW MAX details">
+                    <img src="{% static 'images/hero-showcase.png' %}" alt="Phidimservice Showcase Display"
+                        class="showcase-product-img">
+
+                    <div class="floating-discount-badge">
+                        <span class="discount-upto">UP TO</span>
+                        <span class="discount-percent">50%</span>
+                        <span class="discount-off">OFF</span>
+                    </div>
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 3. Bottom Features Guarantee Bar -->
+    <section class="bottom-features-container">
+        <div class="feature-bar-box">
+            <div class="feature-column-item">
+                <i class="fa-solid fa-truck-moving feature-col-icon"></i>
+                <div class="feature-col-content">
+                    <span class="feature-col-heading">Free Shipping</span>
+                    <span class="feature-col-sub">On orders over $75</span>
+                </div>
+            </div>
+
+            <div class="feature-column-item">
+                <i class="fa-solid fa-arrows-rotate feature-col-icon"></i>
+                <div class="feature-col-content">
+                    <span class="feature-col-heading">Easy Returns</span>
+                    <span class="feature-col-sub">30-day returns</span>
+                </div>
+            </div>
+
+            <div class="feature-column-item">
+                <i class="fa-solid fa-award feature-col-icon"></i>
+                <div class="feature-col-content">
+                    <span class="feature-col-heading">Premium Quality</span>
+                    <span class="feature-col-sub">100% original products</span>
+                </div>
+            </div>
+
+            <div class="feature-column-item">
+                <i class="fa-solid fa-headset feature-col-icon"></i>
+                <div class="feature-col-content">
+                    <span class="feature-col-heading">24/7 Support</span>
+                    <span class="feature-col-sub">We're here to help</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3.5. "TRUSTED BY" ANIMATED MARQUEE SECTION (Smooth Left-to-Right Loop) -->
+    <section class="trusted-by-section">
+        <div class="trusted-by-header">
+            <span class="trusted-by-badge">
+                <i class="fa-solid fa-circle"></i>
+                TRUSTED BY LEADING GLOBAL BRANDS & OVER 10,000+ CUSTOMERS WORLDWIDE
+            </span>
+        </div>
+
+        <div class="marquee-wrapper">
+            <!-- Two identical sets of brand logos to guarantee seamless infinite loop -->
+            <div class="marquee-track">
+                <!-- Brand Set 1 -->
+                <div class="brand-logo-pill brand-phidimbazar" onclick="showToast('🤝 Trusted Partner: Phidimbazar')">
+                    <i class="fa-solid fa-store"></i>
+                    <span>Phidimbazar</span>
+                </div>
+                <div class="brand-logo-pill brand-phidimservice"
+                    onclick="showToast('🤝 Trusted Platform: Phidimservice')">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Phidimservice</span>
+                </div>
+                <div class="brand-logo-pill brand-upayax" onclick="showToast('🤝 Delivery Partner: UpayaX')">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <span>UpayaX</span>
+                </div>
+                <div class="brand-logo-pill brand-daraz" onclick="showToast('🤝 Marketplace Partner: Daraz')">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span>Daraz</span>
+                </div>
+                <div class="brand-logo-pill brand-bytherix" onclick="showToast('🤝 Technology Partner: Bytherix')">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Bytherix</span>
+                </div>
+
+                <!-- Brand Set 2 (Duplicate for smooth infinite loop) -->
+                <div class="brand-logo-pill brand-phidimbazar" onclick="showToast('🤝 Trusted Partner: Phidimbazar')">
+                    <i class="fa-solid fa-store"></i>
+                    <span>Phidimbazar</span>
+                </div>
+                <div class="brand-logo-pill brand-phidimservice"
+                    onclick="showToast('🤝 Trusted Platform: Phidimservice')">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Phidimservice</span>
+                </div>
+                <div class="brand-logo-pill brand-upayax" onclick="showToast('🤝 Delivery Partner: UpayaX')">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <span>UpayaX</span>
+                </div>
+                <div class="brand-logo-pill brand-daraz" onclick="showToast('🤝 Marketplace Partner: Daraz')">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span>Daraz</span>
+                </div>
+                <div class="brand-logo-pill brand-bytherix" onclick="showToast('🤝 Technology Partner: Bytherix')">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Bytherix</span>
+                </div>
+
+                <!-- Brand Set 3 (Duplicate for wide screen fluid animation) -->
+                <div class="brand-logo-pill brand-phidimbazar" onclick="showToast('🤝 Trusted Partner: Phidimbazar')">
+                    <i class="fa-solid fa-store"></i>
+                    <span>Phidimbazar</span>
+                </div>
+                <div class="brand-logo-pill brand-phidimservice"
+                    onclick="showToast('🤝 Trusted Platform: Phidimservice')">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span>Phidimservice</span>
+                </div>
+                <div class="brand-logo-pill brand-upayax" onclick="showToast('🤝 Delivery Partner: UpayaX')">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <span>UpayaX</span>
+                </div>
+                <div class="brand-logo-pill brand-daraz" onclick="showToast('🤝 Marketplace Partner: Daraz')">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span>Daraz</span>
+                </div>
+                <div class="brand-logo-pill brand-bytherix" onclick="showToast('🤝 Technology Partner: Bytherix')">
+                    <i class="fa-solid fa-microchip"></i>
+                    <span>Bytherix</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Impressive "Shop By Category" Section -->
+    <section class="section-shop-by-category" id="categories">
+        <div class="category-container">
+
+            <div class="category-header-row">
+                <div class="category-title-wrap">
+
+                    <h2 class="category-main-title">Shop By Category</h2>
+                    <p class="category-subtext">
+                        Explore handpicked essentials, trending styles, and premium products curated for quality and
+                        value.
+                    </p>
+                </div>
+
+                <div class="category-nav-filters">
+                    <button class="cat-filter-btn active" onclick="filterCategory('all', this)">All Categories</button>
+                    <button class="cat-filter-btn" onclick="filterCategory('fashion', this)">Fashion</button>
+                    <button class="cat-filter-btn" onclick="filterCategory('footwear', this)">Footwear</button>
+                    <button class="cat-filter-btn" onclick="filterCategory('bags', this)">Accessories</button>
+                    <button class="cat-filter-btn" onclick="filterCategory('home', this)">Audio & Tech</button>
+                </div>
+            </div>
+
+            <!-- 4 Aesthetic Category Cards Grid -->
+            <div class="category-showcase-grid" id="categoryGrid">
+
+                <!-- Category 1: Women's Fashion -->
+                <a href="{% url 'product_detail' 'womens-attire' %}" class="category-modern-card"
+                    data-category="fashion">
+                    <div class="cat-card-media">
+                        <img src="{% static 'images/cat-fashion.png' %}" alt="Women's Attire & Fashion"
+                            class="cat-card-img">
+                        <span class="cat-badge-promo">NEW ARRIVAL</span>
+                    </div>
+                    <div class="cat-card-body">
+                        <div>
+                            <span class="cat-card-count">1,240+ PRODUCTS</span>
+                            <h3 class="cat-card-heading">Women's Attire</h3>
+                            <p class="cat-card-description">Chic blazers, modern casual wear, and seasonal luxury
+                                apparel.</p>
+                        </div>
+                        <div class="cat-card-action-row">
+                            <span>VIEW DETAILS</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Category 2: Athletic Sneakers -->
+                <a href="{% url 'product_detail' 'athletic-sneakers' %}" class="category-modern-card"
+                    data-category="footwear">
+                    <div class="cat-card-media">
+                        <img src="{% static 'images/category-grid.png' %}" alt="Athletic Sneakers & Footwear"
+                            class="cat-card-img" style="object-position: top right;">
+                        <span class="cat-badge-promo">TRENDING</span>
+                    </div>
+                    <div class="cat-card-body">
+                        <div>
+                            <span class="cat-card-count">480+ PRODUCTS</span>
+                            <h3 class="cat-card-heading">Athletic Sneakers</h3>
+                            <p class="cat-card-description">Performance sneakers, daily street kicks, and ergonomic
+                                comfort shoes.</p>
+                        </div>
+                        <div class="cat-card-action-row">
+                            <span>VIEW DETAILS</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Category 3: Leather Tote Bags -->
+                <a href="{% url 'product_detail' 'leather-tote-bags' %}" class="category-modern-card"
+                    data-category="bags">
+                    <div class="cat-card-media">
+                        <img src="{% static 'images/hero-showcase.png' %}" alt="Leather Tote Bags" class="cat-card-img"
+                            style="object-position: center;">
+                        <span class="cat-badge-promo">UP TO 30% OFF</span>
+                    </div>
+                    <div class="cat-card-body">
+                        <div>
+                            <span class="cat-card-count">350+ PRODUCTS</span>
+                            <h3 class="cat-card-heading">Leather Tote Bags</h3>
+                            <p class="cat-card-description">Sophisticated genuine leather handbags, travel totes, and
+                                shoulder bags.</p>
+                        </div>
+                        <div class="cat-card-action-row">
+                            <span>VIEW DETAILS</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Category 4: Featured Product -> AEROFLOW MAX -->
+                <a href="{% url 'product_detail' 'aeroflow-max' %}" class="category-modern-card" data-category="home">
+                    <div class="cat-card-media">
+                        <img src="{% static 'images/aeroflow-main.png' %}" alt="AEROFLOW MAX Headphones"
+                            class="cat-card-img">
+                        <span class="cat-badge-promo">HOT FEATURED</span>
+                    </div>
+                    <div class="cat-card-body">
+                        <div>
+                            <span class="cat-card-count">FLAGSHIP AUDIO</span>
+                            <h3 class="cat-card-heading">AEROFLOW MAX</h3>
+                            <p class="cat-card-description">Active Noise Canceling, 40-hour battery, pure acoustic
+                                luxury.</p>
+                        </div>
+                        <div class="cat-card-action-row" style="color: var(--primary-orange);">
+                            <span>EXPLORE AEROFLOW MAX</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </a>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 4.5. "OUR SERVICES" SECTION (Matching Reference Image) -->
+    <section class="section-our-services" id="services">
+        <!-- Top-Right Machinery / Forklift Watermark SVG -->
+        <svg class="services-bg-watermark" viewBox="0 0 300 200" fill="none" stroke="#94a3b8" stroke-width="1.8">
+            <path d="M40 160h160l20-40h40v40h20" stroke-linecap="round"/>
+            <circle cx="70" cy="165" r="22" stroke-width="2"/>
+            <circle cx="210" cy="165" r="22" stroke-width="2"/>
+            <path d="M90 120h90v40H90z"/>
+            <path d="M120 70h50l20 50h-70z"/>
+            <path d="M220 50v110M250 50v110M200 160h70M200 130h70M200 100h70"/>
+            <path d="M270 160h25M270 130h25M270 100h25"/>
+        </svg>
+
+        <!-- Top-Left Subtle Wave Contours SVG -->
+        <svg class="services-bg-waves" viewBox="0 0 200 400" fill="none" stroke="#cbd5e1" stroke-width="1.5">
+            <path d="M-50 40 Q 60 120 20 200 T 70 360"/>
+            <path d="M-30 80 Q 90 160 50 250 T 100 400"/>
+            <path d="M-10 120 Q 120 200 80 300 T 130 450"/>
+        </svg>
+
+        <div class="services-container">
+            <!-- Header matching screenshot -->
+            <div class="services-header-box">
+                <h2 class="services-main-title">Our Services</h2>
+                <div class="services-title-dash"></div>
+                <p class="services-subtext">
+                    While mirth large of on front. Ye he greater related adapted proceed entered an. Through it examine express promise no. Fast add size game cold girl off how old
+                </p>
+            </div>
+
+            <!-- 4 Services Cards Grid matching screenshot -->
+            <div class="services-cards-grid">
+
+                <!-- Card 1: Oil and Gass Energy -->
+                <div class="service-card" onclick="showToast('⚡ Exploring Oil and Gass Energy services...')">
+                    <div class="service-icon-box">
+                        <div class="service-icon-halo"></div>
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="service-icon-art">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 2a4 4 0 0 1 4 4c0 2-4 6-4 6s-4-4-4-6a4 4 0 0 1 4-4z"/>
+                            <path d="M12 12v10"/>
+                            <path d="M8 18h8"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-card-title">Oil and Gass Energy</h3>
+                    <p class="service-card-desc">
+                        Direct enough off others say eldest may exeter she pain oni. Possible all ignorant supplied get settling
+                    </p>
+                    <div class="service-bottom-bar"></div>
+                    <div class="service-action-btn">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <!-- Card 2: Agricultural Processing (Featured / Active in screenshot) -->
+                <div class="service-card active" onclick="showToast('🌾 Exploring Agricultural Processing services...')">
+                    <div class="service-icon-box">
+                        <div class="service-icon-halo"></div>
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="service-icon-art">
+                            <path d="M3 21h18"/>
+                            <path d="M3 10l9-7 9 7v11H3z"/>
+                            <circle cx="17" cy="7" r="2"/>
+                            <path d="M9 21v-6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v6"/>
+                            <path d="M7 10h2v2H7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-card-title">Agricultural Processing</h3>
+                    <p class="service-card-desc">
+                        Direct enough off others say eldest may exeter she pain oni. Possible all ignorant supplied get settling
+                    </p>
+                    <div class="service-bottom-bar"></div>
+                    <div class="service-action-btn">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <!-- Card 3: Petroleum Engineering -->
+                <div class="service-card" onclick="showToast('🏭 Exploring Petroleum Engineering services...')">
+                    <div class="service-icon-box">
+                        <div class="service-icon-halo"></div>
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="service-icon-art">
+                            <path d="M2 20h20"/>
+                            <path d="M6 20V10l6 4V8l8 5v7"/>
+                            <path d="M18 8a2 2 0 0 0-2-2h-2"/>
+                            <circle cx="6" cy="6" r="1"/>
+                            <circle cx="12" cy="4" r="1"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-card-title">Petroleum Engineering</h3>
+                    <p class="service-card-desc">
+                        Direct enough off others say eldest may exeter she pain oni. Possible all ignorant supplied get settling
+                    </p>
+                    <div class="service-bottom-bar"></div>
+                    <div class="service-action-btn">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+
+                <!-- Card 4: Civil Engineering -->
+                <div class="service-card" onclick="showToast('📐 Exploring Civil Engineering services...')">
+                    <div class="service-icon-box">
+                        <div class="service-icon-halo"></div>
+                        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="service-icon-art">
+                            <path d="M21.3 15.3l-9.6-9.6a2 2 0 0 0-2.8 0L3.3 11.3a2 2 0 0 0 0 2.8l9.6 9.6a2 2 0 0 0 2.8 0l5.6-5.6a2 2 0 0 0 0-2.8z"/>
+                            <path d="M8.5 13.5l3 3"/>
+                            <path d="M11.5 10.5l3 3"/>
+                            <path d="M14.5 7.5l3 3"/>
+                        </svg>
+                    </div>
+                    <h3 class="service-card-title">Civil Engineering</h3>
+                    <p class="service-card-desc">
+                        Direct enough off others say eldest may exeter she pain oni. Possible all ignorant supplied get settling
+                    </p>
+                    <div class="service-bottom-bar"></div>
+                    <div class="service-action-btn">
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. EXCLUSIVE 15% OFF PROMO BANNER -->
+    <section class="exclusive-banner-section">
+        <div class="exclusive-banner-container">
+            <div class="exclusive-promo-card">
+
+                <span class="spark-accent spark-left-top"><i class="fa-solid fa-slash"></i></span>
+                <span class="spark-accent spark-left-dot"></span>
+                <span class="spark-accent spark-left-bot"><i class="fa-solid fa-slash"></i></span>
+
+                <span class="spark-accent spark-mid-top"><i class="fa-solid fa-slash"></i></span>
+                <span class="spark-accent spark-mid-dot"></span>
+                <span class="spark-accent spark-mid-bot"><i class="fa-solid fa-slash"></i></span>
+
+                <span class="spark-accent spark-right-top"><i class="fa-solid fa-slash"></i></span>
+                <span class="spark-accent spark-right-dot"></span>
+                <span class="spark-accent spark-right-bot"><i class="fa-solid fa-slash"></i></span>
+
+                <div class="promo-left-wrap">
+                    <div class="promo-tag-icon-box">
+                        <i class="fa-solid fa-tag"></i>
+                    </div>
+                    <div class="promo-text-block">
+                        <span class="promo-sub-label">EXCLUSIVE OFFER JUST FOR YOU!</span>
+                        <h3 class="promo-main-heading">GET 15% OFF</h3>
+                        <p class="promo-desc-line">On your next order</p>
+                    </div>
+                </div>
+
+                <div class="promo-right-wrap">
+                    <div class="promo-code-dashed-box" onclick="copyCouponCode('WELCOME15')"
+                        title="Click to copy coupon code">
+                        <span class="code-title-small">USE CODE:</span>
+                        <span class="code-string-bold">WELCOME15</span>
+                    </div>
+                    <span class="promo-validity-text">Offer valid for the next 7 days only.</span>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. "WHY CHOOSE US" SECTION (Happy Viewers Reference) -->
+    <section class="section-why-choose-us" id="whyChooseUs">
+        <div class="why-choose-us-container">
+
+            <div class="why-choose-us-header">
+                <span class="why-choose-us-badge">HAPPY VIEWERS</span>
+                <h2 class="why-choose-us-title">Why Choose Us</h2>
+            </div>
+
+            <div class="why-choose-cards-grid">
+
+                <!-- Card 1: Neutral / Silver-White Border -->
+                <div class="why-choose-card card-neutral">
+                    <div class="why-choose-quote">“</div>
+                    <p class="why-choose-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                    </p>
+                </div>
+
+                <!-- Card 2: Signature Orange Border -->
+                <div class="why-choose-card card-orange">
+                    <div class="why-choose-quote">“</div>
+                    <p class="why-choose-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                    </p>
+                </div>
+
+                <!-- Card 3: Warm Amber Gold Border -->
+                <div class="why-choose-card card-gold">
+                    <div class="why-choose-quote">“</div>
+                    <p class="why-choose-text">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <!-- 7. Footer -->
+    <footer class="main-footer">
+        <div class="footer-inner">
+            <a href="/" class="footer-brand">
+                <div class="brand-logo-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <div class="brand-text-wrap">
+                    <span class="brand-title" style="color:#ffffff;">Phidim<span
+                            style="color:var(--primary-orange);">service</span></span>
+                    <span class="brand-subtitle" style="color:rgba(255,255,255,0.6);">Shop Smart. Live Better.</span>
+                </div>
+            </a>
+
+            <ul class="footer-links-row">
+                <li><a href="/" class="footer-link-item">Home</a></li>
+                <li><a href="{% url 'about' %}" class="footer-link-item">About</a></li>
+                <li><a href="{% url 'services' %}" class="footer-link-item">Services</a></li>
+                <li><a href="{% url 'contact' %}" class="footer-link-item">Contact</a></li>
+                <li><a href="{% url 'account_login' %}" class="footer-link-item">Account Login</a></li>
+            </ul>
+        </div>
+        <p class="footer-bottom-copy">
+            © 2026 Phidimservice. All Rights Reserved. Delivered with precision and care.
+        </p>
+    </footer>
+
+    <!-- Toast Popup -->
+    <div class="toast-popup" id="toastBox">Message</div>
+
+    <!-- Product Catalog Data & Live Search Script -->
+    <script>
+        const PRODUCT_CATALOG = [
+            {
+                id: 'aeroflow-max',
+                title: 'AEROFLOW MAX Headphone',
+                category: 'Audio & Smart Tech',
+                price: '$299.00',
+                image: "{% static 'images/aeroflow-main.png' %}",
+                url: "{% url 'product_detail' 'aeroflow-max' %}",
+                keywords: ['aeroflow', 'headphone', 'headphones', 'audio', 'sound', 'noise canceling', 'music', 'airpods', 'wireless', 'bluetooth']
+            },
+            {
+                id: 'womens-attire',
+                title: "Women's Luxury Attire & Blazer",
+                category: "Women's Fashion",
+                price: '$149.00',
+                image: "{% static 'images/cat-fashion.png' %}",
+                url: "{% url 'product_detail' 'womens-attire' %}",
+                keywords: ['women', 'attire', 'blazer', 'fashion', 'clothes', 'dress', 'outfit', 'apparel', 'luxury']
+            },
+            {
+                id: 'athletic-sneakers',
+                title: 'Athletic Performance Sneakers',
+                category: 'Footwear & Shoes',
+                price: '$119.00',
+                image: "{% static 'images/category-grid.png' %}",
+                url: "{% url 'product_detail' 'athletic-sneakers' %}",
+                keywords: ['sneakers', 'shoes', 'athletic', 'footwear', 'running', 'kicks', 'white sneakers', 'sport']
+            },
+            {
+                id: 'leather-tote-bags',
+                title: 'Genuine Leather Tote Bag',
+                category: 'Bags & Accessories',
+                price: '$189.00',
+                image: "{% static 'images/hero-showcase.png' %}",
+                url: "{% url 'product_detail' 'leather-tote-bags' %}",
+                keywords: ['bag', 'bags', 'tote', 'leather', 'handbag', 'luxury bag', 'purse', 'travel']
+            },
+            {
+                id: 'charging-case',
+                title: 'AeroFlow Wireless Case',
+                category: 'Audio Accessories',
+                price: '$59.00',
+                image: "{% static 'images/aeroflow-case.png' %}",
+                url: "{% url 'product_detail' 'aeroflow-max' %}",
+                keywords: ['case', 'charging', 'case', 'wireless', 'accessories', 'aeroflow']
+            },
+            {
+                id: 'smart-tech',
+                title: 'Smart Tech Gadgets & Devices',
+                category: 'Electronics & Gadgets',
+                price: '$199.00',
+                image: "{% static 'images/cat-tech.png' %}",
+                url: "{% url 'product_detail' 'aeroflow-max' %}",
+                keywords: ['tech', 'electronics', 'smart', 'gadgets', 'watch', 'phone', 'devices']
+            }
+        ];
+
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById('toastBox');
+            toast.innerText = msg;
+            toast.classList.add('active');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        function copyCouponCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                showToast(`🎉 Coupon code "${code}" copied to clipboard! (15% OFF applied)`);
+            }).catch(() => {
+                showToast(`🎉 Coupon code: ${code} (15% OFF)`);
+            });
+        }
+
+        // Live Search Handling
+        function handleSearch(query) {
+            const dropdown = document.getElementById('searchResultsDropdown');
+            const clearBtn = document.getElementById('searchClearBtn');
+            const q = query.trim().toLowerCase();
+
+            if (q.length > 0) {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+
+            if (!q) {
+                renderTrendingSearches();
+                dropdown.classList.add('active');
+                return;
+            }
+
+            const matches = PRODUCT_CATALOG.filter(item => {
+                return item.title.toLowerCase().includes(q) ||
+                    item.category.toLowerCase().includes(q) ||
+                    item.keywords.some(k => k.includes(q));
+            });
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = `
+                    <div class="search-empty-state">
+                        <i class="fa-solid fa-magnifying-glass" style="font-size: 1.5rem; margin-bottom: 8px; color: #9ca3af; display: block;"></i>
+                        <p>No products found for "<strong>${escapeHtml(query)}</strong>"</p>
+                        <p style="font-size: 0.78rem; color: #9ca3af; margin-top: 4px;">Try searching for <em>headphones</em>, <em>sneakers</em>, <em>bags</em>, or <em>blazers</em></p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div class="search-dropdown-header">
+                        <span>Found ${matches.length} Product${matches.length > 1 ? 's' : ''}</span>
+                        <span style="color: var(--primary-orange); cursor: pointer;" onclick="closeSearchDropdown()">Close</span>
+                    </div>
+                `;
+
+                matches.forEach(item => {
+                    html += `
+                        <a href="${item.url}" class="search-item-row">
+                            <img src="${item.image}" alt="${item.title}" class="search-item-img">
+                            <div class="search-item-info">
+                                <span class="search-item-title">${highlightMatch(item.title, q)}</span>
+                                <span class="search-item-category">${item.category}</span>
+                            </div>
+                            <span class="search-item-price">${item.price}</span>
+                        </a>
+                    `;
+                });
+
+                dropdown.innerHTML = html;
+            }
+
+            dropdown.classList.add('active');
+        }
+
+        function handleSearchFocus() {
+            const input = document.getElementById('navSearchInput');
+            if (!input.value.trim()) {
+                renderTrendingSearches();
+            } else {
+                handleSearch(input.value);
+            }
+            document.getElementById('searchResultsDropdown').classList.add('active');
+        }
+
+        function renderTrendingSearches() {
+            const dropdown = document.getElementById('searchResultsDropdown');
+            dropdown.innerHTML = `
+                <div class="search-dropdown-header">
+                    <span>Popular Searches</span>
+                </div>
+                <div class="search-trending-chips">
+                    <button class="trending-chip" onclick="quickSearch('headphones')">🎧 Headphones</button>
+                    <button class="trending-chip" onclick="quickSearch('aeroflow')">🔥 AeroFlow Max</button>
+                    <button class="trending-chip" onclick="quickSearch('sneakers')">👟 Sneakers</button>
+                    <button class="trending-chip" onclick="quickSearch('bags')">👜 Leather Bags</button>
+                    <button class="trending-chip" onclick="quickSearch('attire')">👗 Women's Attire</button>
+                </div>
+            `;
+        }
+
+        function quickSearch(term) {
+            const input = document.getElementById('navSearchInput');
+            input.value = term;
+            handleSearch(term);
+        }
+
+        function clearSearchInput() {
+            const input = document.getElementById('navSearchInput');
+            input.value = '';
+            document.getElementById('searchClearBtn').style.display = 'none';
+            renderTrendingSearches();
+            input.focus();
+        }
+
+        function closeSearchDropdown() {
+            document.getElementById('searchResultsDropdown').classList.remove('active');
+        }
+
+        function highlightMatch(text, query) {
+            const idx = text.toLowerCase().indexOf(query.toLowerCase());
+            if (idx === -1) return escapeHtml(text);
+            const before = text.substring(0, idx);
+            const match = text.substring(idx, idx + query.length);
+            const after = text.substring(idx + query.length);
+            return `${escapeHtml(before)}<strong style="color: var(--primary-orange);">${escapeHtml(match)}</strong>${escapeHtml(after)}`;
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function (e) {
+            const container = document.getElementById('navSearchContainer');
+            if (container && !container.contains(e.target)) {
+                closeSearchDropdown();
+            }
+        });
+
+        // Category Filter Logic
+        function filterCategory(cat, btnElement) {
+            const cards = document.querySelectorAll('.category-modern-card');
+            const btns = document.querySelectorAll('.cat-filter-btn');
+
+            if (btnElement) {
+                btns.forEach(b => b.classList.remove('active'));
+                btnElement.classList.add('active');
+            }
+
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (cat === 'all' || cardCat === cat) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            showToast(`Filtering: ${cat.toUpperCase()}`);
+        }
+
+        // Review Slide switcher
+        function switchReviewSlide(idx) {
+            const dots = document.querySelectorAll('.reviews-pagination-dots .carousel-dot');
+            dots.forEach((d, i) => {
+                if (i === idx) {
+                    d.className = 'carousel-dot active';
+                } else {
+                    d.className = 'carousel-dot dot-circle';
+                }
+            });
+            showToast(`Customer Reviews: Page ${idx + 1}`);
+        }
+    </script>
+</body>
+
+</html>

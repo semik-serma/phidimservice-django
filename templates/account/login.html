@@ -1,0 +1,580 @@
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In // CYBER DIAVEL</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Outfit:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --accent-orange: #ff8c00;
+            --accent-orange-light: #ffa726;
+            --accent-orange-glow: rgba(255, 140, 0, 0.45);
+            --bg-dark: #0c0d10;
+            --bg-card: rgba(18, 20, 26, 0.82);
+            --border-card: rgba(255, 255, 255, 0.1);
+            --text-main: #f5f6fa;
+            --text-dim: #9aa0a6;
+            --text-muted: #5f6368;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Light Orange Background Glows */
+        .ambient-glow-1 {
+            position: absolute;
+            top: -150px;
+            left: -150px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.22) 0%, rgba(255, 100, 0, 0.06) 50%, transparent 70%);
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .ambient-glow-2 {
+            position: absolute;
+            bottom: -150px;
+            right: -150px;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(255, 170, 0, 0.18) 0%, rgba(255, 87, 34, 0.05) 50%, transparent 70%);
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Top Back to Home Button */
+        .back-home-btn {
+            position: fixed;
+            top: 28px;
+            left: 36px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            z-index: 10;
+            transition: all 0.25s ease;
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .back-home-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 140, 0, 0.15);
+            border-color: var(--accent-orange);
+            transform: translateX(-4px);
+            box-shadow: 0 0 15px var(--accent-orange-glow);
+        }
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Brand Crest Header */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 26px;
+        }
+
+        .brand-crest-logo {
+            display: inline-flex;
+            margin-bottom: 16px;
+            text-decoration: none;
+        }
+
+        .shield-crest {
+            width: 50px;
+            height: 55px;
+            background: linear-gradient(145deg, var(--accent-orange), #d95700);
+            clip-path: polygon(50% 100%, 100% 75%, 100% 0, 0 0, 0 75%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 25px var(--accent-orange-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .brand-crest-logo:hover .shield-crest {
+            transform: scale(1.1);
+        }
+
+        .shield-crest span {
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: #ffffff;
+        }
+
+        .brand-tagline {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-orange-light);
+            margin-bottom: 4px;
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .auth-subtitle {
+            font-size: 0.92rem;
+            color: var(--text-dim);
+            margin-top: 6px;
+        }
+
+        /* Glassmorphism Auth Card */
+        .auth-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-card);
+            border-radius: 24px;
+            padding: 36px 32px;
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(255, 140, 0, 0.06);
+            position: relative;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-orange), transparent);
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            margin-bottom: 20px;
+            line-height: 1.45;
+        }
+
+        .alert-error {
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            color: #fca5a5;
+        }
+
+        .alert-info {
+            background: rgba(255, 140, 0, 0.12);
+            border: 1px solid rgba(255, 140, 0, 0.35);
+            color: #ffcc80;
+        }
+
+        /* Form Inputs */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 8px;
+        }
+
+        .input-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            pointer-events: none;
+            transition: color 0.2s ease;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px 16px 14px 46px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-orange);
+            background: rgba(255, 140, 0, 0.05);
+            box-shadow: 0 0 0 3px rgba(255, 140, 0, 0.18), 0 0 20px rgba(255, 140, 0, 0.25);
+        }
+
+        .form-input:focus ~ .input-icon {
+            color: var(--accent-orange);
+        }
+
+        .password-toggle-btn {
+            position: absolute;
+            right: 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .password-toggle-btn:hover {
+            color: #ffffff;
+        }
+
+        .field-error {
+            color: #f87171;
+            font-size: 0.8rem;
+            margin-top: 6px;
+        }
+
+        /* Checkbox & Forgot */
+        .form-row-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            font-size: 0.86rem;
+        }
+
+        .remember-checkbox-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-dim);
+            cursor: pointer;
+        }
+
+        .remember-checkbox-wrap input[type="checkbox"] {
+            accent-color: var(--accent-orange);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .forgot-password-link {
+            color: var(--accent-orange-light);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .forgot-password-link:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+
+        /* Submit Button */
+        .btn-submit-main {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent-orange) 0%, #ff5722 100%);
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(255, 140, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-submit-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.65);
+        }
+
+        .btn-submit-main:active {
+            transform: translateY(0);
+        }
+
+        /* Divider */
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .auth-divider span {
+            padding: 0 14px;
+        }
+
+        /* Social OAuth Buttons */
+        .social-oauth-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-oauth-social {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 600;
+            text-decoration: none;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.25s ease;
+        }
+
+        .btn-oauth-social:hover {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .btn-oauth-social.google:hover {
+            border-color: rgba(66, 133, 244, 0.6);
+            box-shadow: 0 0 18px rgba(66, 133, 244, 0.25);
+        }
+
+        .btn-oauth-social.facebook {
+            background: rgba(24, 119, 242, 0.12);
+            border-color: rgba(24, 119, 242, 0.3);
+        }
+
+        .btn-oauth-social.facebook:hover {
+            background: rgba(24, 119, 242, 0.22);
+            border-color: rgba(24, 119, 242, 0.5);
+            box-shadow: 0 0 18px rgba(24, 119, 242, 0.3);
+        }
+
+        .oauth-svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        /* Footer switch to register */
+        .auth-bottom-footer {
+            text-align: center;
+            margin-top: 26px;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+        }
+
+        .auth-bottom-footer a {
+            color: var(--accent-orange-light);
+            font-weight: 700;
+            text-decoration: none;
+            margin-left: 6px;
+            transition: color 0.2s ease;
+        }
+
+        .auth-bottom-footer a:hover {
+            color: #ffffff;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient Glow Orbs -->
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
+
+    <!-- Back to Home Link -->
+    <a href="/" class="back-home-btn">
+        <i class="fa-solid fa-arrow-left"></i> Home
+    </a>
+
+    <div class="auth-wrapper">
+        <!-- Brand Header -->
+        <div class="brand-header">
+            <a href="/" class="brand-crest-logo">
+                <div class="shield-crest">
+                    <span>CYBER</span>
+                </div>
+            </a>
+            <div class="brand-tagline">Diavel 1260 S // Neural</div>
+            <h1 class="auth-title">Welcome Back</h1>
+            <p class="auth-subtitle">Access your 360° telemetry dashboard & vehicle profile</p>
+        </div>
+
+        <!-- Auth Card -->
+        <div class="auth-card">
+            <!-- Messages -->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-info">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <!-- Non-field Errors -->
+            {% if form.non_field_errors %}
+                <div class="alert alert-error">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form method="POST" action="{% url 'account_login' %}">
+                {% csrf_token %}
+
+                <!-- Username or Email -->
+                <div class="form-group">
+                    <label class="form-label" for="id_login">Email or Username</label>
+                    <div class="input-box">
+                        <i class="fa-solid fa-user input-icon"></i>
+                        <input type="text" name="login" id="id_login" class="form-input" placeholder="pilot@cyberdiavel.com or username" required autofocus>
+                    </div>
+                    {% if form.login.errors %}
+                        <div class="field-error">{{ form.login.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Password -->
+                <div class="form-group">
+                    <label class="form-label" for="id_password">Password</label>
+                    <div class="input-box">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input type="password" name="password" id="id_password" class="form-input" placeholder="••••••••••••" required>
+                        <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye" id="pwEyeIcon"></i></button>
+                    </div>
+                    {% if form.password.errors %}
+                        <div class="field-error">{{ form.password.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <!-- Remember & Forgot -->
+                <div class="form-row-actions">
+                    <label class="remember-checkbox-wrap">
+                        <input type="checkbox" name="remember" id="id_remember">
+                        <span>Remember credentials</span>
+                    </label>
+                    <a href="{% url 'account_reset_password' %}" class="forgot-password-link">Forgot password?</a>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-submit-main">
+                    <span>INITIALIZE SIGN IN</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="auth-divider">
+                <span>OR SIGN IN WITH</span>
+            </div>
+
+            <!-- Social OAuth -->
+            <div class="social-oauth-group">
+                <a href="{% provider_login_url 'google' %}" class="btn-oauth-social google">
+                    <svg class="oauth-svg" viewBox="0 0 24 24">
+                        <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
+                        <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+                        <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+                        <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+                    </svg>
+                    <span>Continue with Google</span>
+                </a>
+
+                <a href="{% provider_login_url 'facebook' %}" class="btn-oauth-social facebook">
+                    <svg class="oauth-svg" viewBox="0 0 24 24" fill="#1877F2">
+                        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                    <span>Continue with Facebook</span>
+                </a>
+            </div>
+
+            <!-- Footer Switch -->
+            <div class="auth-bottom-footer">
+                Need telemetry clearance?
+                <a href="{% url 'account_signup' %}">Create Account</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const pwInput = document.getElementById('id_password');
+            const eyeIcon = document.getElementById('pwEyeIcon');
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                pwInput.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+    </script>
+</body>
+</html>

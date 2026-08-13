@@ -1,0 +1,1649 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Phidimservice</title>
+    <meta name="description" content="Learn about Phidimservice, our workflow, our commitment to quality, global delivery, and 24/7 support.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-orange: #ff5400;
+            --primary-orange-hover: #e04800;
+            --primary-orange-glow: rgba(255, 84, 0, 0.35);
+            --gold-accent: #f59e0b;
+            --dark-section-bg: #141619;
+            --dark-card-bg: #1d2026;
+            --dark-card-border: rgba(255, 255, 255, 0.08);
+            --text-dark: #111418;
+            --text-muted: #6c757d;
+            --font-main: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #ffffff;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* ----------------------------------------------------
+           1. TOP NAVIGATION HEADER (HOME, ABOUT, SERVICES, CONTACT)
+        ---------------------------------------------------- */
+        .header-navbar {
+            width: 100%;
+            height: 76px;
+            background: #ffffff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+            gap: 24px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #ff7a00, #ff4500);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 14px var(--primary-orange-glow);
+        }
+
+        .brand-text-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #1a1d20;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-title span {
+            color: var(--primary-orange);
+        }
+
+        .brand-subtitle {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.2px;
+        }
+
+        /* 4 Simplified Nav Links: Home, About, Services, Contact */
+        .nav-links-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-item-link {
+            text-decoration: none;
+            color: #333940;
+            font-size: 0.95rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-item-link:hover,
+        .nav-item-link.active {
+            color: var(--primary-orange);
+        }
+
+        .nav-item-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--primary-orange);
+            transition: width 0.2s ease;
+            border-radius: 2px;
+        }
+
+        .nav-item-link:hover::after,
+        .nav-item-link.active::after {
+            width: 100%;
+        }
+
+        /* Live Search Bar */
+        .nav-search-container {
+            position: relative;
+            flex: 1;
+            max-width: 340px;
+        }
+
+        .nav-search-input-wrap {
+            display: flex;
+            align-items: center;
+            background: #f4f5f8;
+            border: 1.5px solid transparent;
+            border-radius: 12px;
+            padding: 0 14px;
+            height: 44px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-search-input-wrap:focus-within {
+            background: #ffffff;
+            border-color: var(--primary-orange);
+            box-shadow: 0 4px 18px rgba(255, 84, 0, 0.15);
+        }
+
+        .search-icon-left {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+
+        .nav-search-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            color: #111418;
+            font-weight: 500;
+        }
+
+        .search-clear-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 4px;
+            display: none;
+        }
+
+        .search-results-dropdown {
+            position: absolute;
+            top: 52px;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 14px;
+            display: none;
+            z-index: 2000;
+            max-height: 440px;
+            overflow-y: auto;
+        }
+
+        .search-results-dropdown.active {
+            display: block;
+        }
+
+        .search-dropdown-header {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px 10px 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-item-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s ease;
+            margin-top: 4px;
+        }
+
+        .search-item-row:hover {
+            background-color: #faf8f5;
+        }
+
+        .search-item-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #f0f2f5;
+            flex-shrink: 0;
+        }
+
+        .search-item-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .search-item-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #111418;
+        }
+
+        .search-item-category {
+            font-size: 0.76rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .search-item-price {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary-orange);
+        }
+
+        .search-trending-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding: 8px 6px 4px 6px;
+        }
+
+        .trending-chip {
+            background: #f4f5f8;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .trending-chip:hover {
+            background: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .btn-shop-now {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            box-shadow: 0 4px 18px var(--primary-orange-glow);
+            transition: all 0.25s ease;
+        }
+
+        .btn-shop-now:hover {
+            background-color: var(--primary-orange-hover);
+            transform: translateY(-2px);
+        }
+
+        .nav-icon-btn {
+            background: none;
+            border: none;
+            color: #2b303a;
+            font-size: 1.15rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-icon-btn:hover {
+            background-color: #f1f3f5;
+            color: var(--primary-orange);
+        }
+
+        /* ----------------------------------------------------
+           2. ABOUT US MOODY HERO BANNER
+        ---------------------------------------------------- */
+        .about-hero-header {
+            width: 100vw;
+            height: 280px;
+            background: linear-gradient(rgba(10, 12, 15, 0.72), rgba(10, 12, 15, 0.88)), url("{% static 'images/about-hero-bg.png' %}") center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .about-hero-title {
+            font-size: clamp(3rem, 5.5vw, 4.5rem);
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ----------------------------------------------------
+           3. MAIN DARK SECTION (FEATURED / FREE SHIPPING / 24/7 SUPPORT)
+        ---------------------------------------------------- */
+        .about-main-dark-section {
+            width: 100vw;
+            background-color: var(--dark-section-bg);
+            color: #ffffff;
+            padding: 80px 40px 70px 40px;
+        }
+
+        .about-inner-container {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        /* 3-Column Showcase Grid */
+        .about-features-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr;
+            gap: 36px;
+            align-items: stretch;
+            margin-bottom: 70px;
+        }
+
+        /* Left Column: Featured Outline Title + The Perfection */
+        .about-story-col {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 20px;
+        }
+
+        .featured-outline-title {
+            font-size: clamp(2.6rem, 4vw, 3.4rem);
+            font-weight: 900;
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(245, 158, 11, 0.7);
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            margin-bottom: 4px;
+            font-family: 'Outfit', sans-serif;
+            text-transform: capitalize;
+        }
+
+        .perfection-heading {
+            font-size: clamp(2.2rem, 3.5vw, 3rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            margin-bottom: 18px;
+        }
+
+        .about-story-paragraph {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 400;
+            max-width: 440px;
+        }
+
+        /* Middle Column Card: Leaf / Asymmetric Curved Card */
+        .feature-card-leaf {
+            background-color: var(--dark-card-bg);
+            border-radius: 36px 8px 36px 8px;
+            padding: 40px 32px;
+            border: 1px solid var(--dark-card-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .feature-card-leaf:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+        }
+
+        .feature-card-icon {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 18px;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .feature-card-leaf:hover .feature-card-icon {
+            transform: scale(1.1);
+            color: var(--primary-orange);
+        }
+
+        .feature-card-title {
+            font-size: 1.28rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .feature-card-desc {
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 22px;
+            max-width: 260px;
+        }
+
+        .feature-card-link {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--gold-accent);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            margin-top: auto;
+        }
+
+        .feature-card-link:hover {
+            color: #ffffff;
+            gap: 10px;
+        }
+
+        /* Right Column Card: Gold Border Glow Card */
+        .feature-card-gold-border {
+            background-color: var(--dark-card-bg);
+            border-radius: 24px;
+            padding: 40px 32px;
+            border: 1.5px solid rgba(245, 158, 11, 0.45);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.06);
+        }
+
+        .feature-card-gold-border:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold-accent);
+            box-shadow: 0 16px 40px rgba(245, 158, 11, 0.15);
+        }
+
+        .feature-card-gold-border:hover .feature-card-icon {
+            transform: scale(1.1);
+            color: var(--gold-accent);
+        }
+
+        /* ----------------------------------------------------
+           4. BOTTOM 4-COLUMN STATS / METRICS (13, 20, 100+, 11)
+        ---------------------------------------------------- */
+        .about-stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .stat-metric-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-metric-number {
+            font-size: clamp(2.4rem, 4.2vw, 3.4rem);
+            font-weight: 900;
+            color: var(--gold-accent);
+            line-height: 1;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .stat-metric-label {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            letter-spacing: 0.3px;
+        }
+
+        /* ----------------------------------------------------
+           4.5. "HOW WE WORK" SECTION (MATCHING REFERENCE IMAGE)
+        ---------------------------------------------------- */
+        .section-how-we-work {
+            width: 100vw;
+            background-color: #0c0e12;
+            color: #ffffff;
+            padding: 85px 40px 95px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            position: relative;
+        }
+
+        .how-we-work-container {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.05fr 1fr;
+            gap: 64px;
+            align-items: center;
+        }
+
+        /* Left Side: Video Preview Card */
+        .work-video-wrapper {
+            position: relative;
+            width: 100%;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: #14161a;
+            cursor: pointer;
+        }
+
+        .work-video-img {
+            width: 100%;
+            height: auto;
+            max-height: 420px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+        }
+
+        .work-video-wrapper:hover .work-video-img {
+            transform: scale(1.04);
+            filter: brightness(0.88);
+        }
+
+        /* Floating Glass Play Button */
+        .video-play-btn-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 72px;
+            height: 72px;
+            background: rgba(18, 20, 24, 0.75);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.35rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 5;
+        }
+
+        .video-play-btn-circle i {
+            margin-left: 4px;
+            transition: transform 0.3s ease;
+        }
+
+        .work-video-wrapper:hover .video-play-btn-circle {
+            transform: translate(-50%, -50%) scale(1.12);
+            background: var(--primary-orange);
+            border-color: #ffffff;
+            box-shadow: 0 12px 35px var(--primary-orange-glow);
+        }
+
+        .work-video-badge {
+            position: absolute;
+            bottom: 18px;
+            left: 18px;
+            background: rgba(10, 12, 15, 0.85);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .work-video-badge i {
+            color: #ef4444;
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Right Side: Content & Checklist */
+        .work-content-column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .work-pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 84, 0, 0.1);
+            border: 1px solid rgba(255, 84, 0, 0.25);
+            color: var(--primary-orange);
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 30px;
+            margin-bottom: 14px;
+        }
+
+        .work-main-title {
+            font-size: clamp(2.4rem, 4vw, 3.4rem);
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            line-height: 1.15;
+            margin-bottom: 18px;
+        }
+
+        .work-description-text {
+            font-size: 0.96rem;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 32px;
+            max-width: 520px;
+        }
+
+        /* 2-Column Checklist (6 Checkpoints matching reference) */
+        .work-checklist-grid {
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 28px;
+            margin-bottom: 34px;
+        }
+
+        .work-check-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.94rem;
+            font-weight: 600;
+            color: #ffffff;
+            transition: transform 0.2s ease;
+        }
+
+        .work-check-item:hover {
+            transform: translateX(4px);
+        }
+
+        .work-check-icon {
+            color: var(--primary-orange);
+            font-size: 0.95rem;
+            flex-shrink: 0;
+        }
+
+        .btn-work-cta {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            padding: 16px 36px;
+            border-radius: 12px;
+            font-size: 0.92rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 6px 24px var(--primary-orange-glow);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-work-cta:hover {
+            background-color: var(--primary-orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 84, 0, 0.5);
+            gap: 16px;
+        }
+
+        /* ----------------------------------------------------
+           6. FOOTER
+        ---------------------------------------------------- */
+        .main-footer {
+            background-color: #122b20;
+            color: #ffffff;
+            padding: 60px 40px 30px 40px;
+            margin-top: auto;
+        }
+
+        .footer-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .footer-links-row {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .footer-link-item {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link-item:hover {
+            color: var(--primary-orange);
+        }
+
+        .footer-bottom-copy {
+            max-width: 1240px;
+            margin: 24px auto 0 auto;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Toast Popup */
+        .toast-popup {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #122b20;
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-orange);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .toast-popup.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ----------------------------------------------------
+           4.8. "EXPLORE OUR LATEST ARTICLES" SECTION (Matching Screenshot)
+        ---------------------------------------------------- */
+        .section-latest-articles {
+            width: 100vw;
+            padding: 95px 40px 110px 40px;
+            background-color: #f8fafc;
+            position: relative;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .articles-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .articles-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .articles-main-title {
+            font-size: clamp(2rem, 3.6vw, 2.9rem);
+            font-weight: 800;
+            color: #1e293b;
+            letter-spacing: -0.5px;
+            font-family: var(--font-main);
+            margin: 0;
+            line-height: 1.2;
+            flex-shrink: 0;
+        }
+
+        .articles-accent-wrap {
+            position: relative;
+            display: inline-block;
+            color: #1e293b;
+        }
+
+        .articles-accent-curve {
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            pointer-events: none;
+        }
+
+        .articles-header-subtext {
+            max-width: 520px;
+            color: #64748b;
+            font-size: 0.94rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* 3-Column Grid */
+        .articles-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            margin-bottom: 55px;
+        }
+
+        .article-card {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.09);
+        }
+
+        .article-media {
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            background: #e2e8f0;
+            position: relative;
+        }
+
+        .article-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .article-card:hover .article-img {
+            transform: scale(1.06);
+        }
+
+        .article-body {
+            padding: 24px 26px 28px 26px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
+        .article-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.4;
+            margin: 0 0 14px 0;
+            font-family: var(--font-main);
+            transition: color 0.2s ease;
+        }
+
+        .article-card:hover .article-title {
+            color: var(--primary-orange);
+        }
+
+        .article-date-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            font-size: 0.84rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .article-date-row i {
+            font-size: 0.82rem;
+            color: #64748b;
+        }
+
+        .article-read-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #1e293b;
+            font-size: 0.9rem;
+            font-weight: 700;
+            transition: gap 0.2s ease, color 0.2s ease;
+        }
+
+        .article-card:hover .article-read-more {
+            color: var(--primary-orange);
+            gap: 12px;
+        }
+
+        /* Bottom View All Articles Button */
+        .articles-footer-btn-wrap {
+            display: flex;
+            justify-content: center;
+        }
+
+        .btn-view-all-articles {
+            background: #1e293b;
+            color: #ffffff;
+            border: none;
+            padding: 14px 34px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 15px rgba(30, 41, 59, 0.2);
+            font-family: var(--font-main);
+        }
+
+        .btn-view-all-articles:hover {
+            background: var(--primary-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 84, 0, 0.35);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 992px) {
+            .header-navbar,
+            .about-main-dark-section,
+            .section-how-we-work,
+            .section-latest-articles,
+            .main-footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .about-features-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .about-story-col {
+                text-align: center;
+                align-items: center;
+                padding-right: 0;
+            }
+            .about-stats-row {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 32px;
+            }
+            .how-we-work-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .work-content-column {
+                align-items: center;
+                text-align: center;
+            }
+            .work-checklist-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .articles-header-row {
+                flex-direction: column;
+                gap: 16px;
+                text-align: center;
+                align-items: center;
+            }
+            .articles-cards-grid {
+                grid-template-columns: 1fr;
+                max-width: 480px;
+                margin-left: auto;
+                margin-right: auto;
+                gap: 28px;
+            }
+            .section-latest-articles {
+                padding: 70px 20px 80px 20px;
+            }
+            .nav-links-menu {
+                display: none;
+            }
+            .nav-search-container {
+                max-width: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Header Navigation Bar (Home, About, Services, Contact) -->
+    <header class="header-navbar">
+        <!-- Logo -->
+        <a href="/" class="nav-brand">
+            <div class="brand-logo-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <div class="brand-text-wrap">
+                <span class="brand-title">Phidim<span>service</span></span>
+                <span class="brand-subtitle">Shop Smart. Live Better.</span>
+            </div>
+        </a>
+
+        <!-- 4 Clean Nav Items -->
+        <nav>
+            <ul class="nav-links-menu">
+                <li><a href="/" class="nav-item-link">Home</a></li>
+                <li><a href="{% url 'about' %}" class="nav-item-link active">About</a></li>
+                <li><a href="{% url 'services' %}" class="nav-item-link">Services</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-item-link">Contact</a></li>
+                <li><a href="{% url 'profile' %}" class="nav-item-link">Profile</a></li>
+            </ul>
+        </nav>
+
+        <!-- Live Search Bar -->
+        <div class="nav-search-container" id="navSearchContainer">
+            <div class="nav-search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+                <input 
+                    type="text" 
+                    class="nav-search-input" 
+                    id="navSearchInput" 
+                    placeholder="Search catalog..." 
+                    autocomplete="off"
+                    oninput="handleSearch(this.value)"
+                    onfocus="handleSearchFocus()"
+                >
+                <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearchInput()" title="Clear Search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="search-results-dropdown" id="searchResultsDropdown">
+                <!-- Injected via JS -->
+            </div>
+        </div>
+
+        <!-- Right Actions -->
+        <div class="nav-actions">
+            <button class="nav-icon-btn" title="Shopping Cart" onclick="showToast('🛒 Cart: 0 items')">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+            {% if user.is_authenticated %}
+            <a href="{% url 'account_logout' %}" class="btn-shop-now" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>LOGOUT</span>
+            </a>
+            {% else %}
+            <a href="{% url 'account_login' %}" class="btn-shop-now" title="Login">
+                <i class="fa-regular fa-user"></i>
+                <span>LOGIN</span>
+            </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- 2. About Us Hero Header -->
+    <section class="about-hero-header">
+        <h1 class="about-hero-title">About Us</h1>
+    </section>
+
+    <!-- 3. Main Dark Section (Featured The Perfection / Free Shipping / 24/7 Support) -->
+    <main class="about-main-dark-section">
+        <div class="about-inner-container">
+            
+            <!-- 3-Column Showcase Grid -->
+            <div class="about-features-grid">
+                
+                <!-- Left Column: Story -->
+                <div class="about-story-col">
+                    <h2 class="featured-outline-title">Featured</h2>
+                    <h3 class="perfection-heading">The Perfection</h3>
+                    <p class="about-story-paragraph">
+                        We are dedicated to delivering unparalleled quality, certified excellence, and exceptional service to every customer. From handpicked global lifestyle essentials to cutting-edge smart technology, Phidimservice is built on trust, innovation, and craftsmanship.
+                    </p>
+                </div>
+
+                <!-- Middle Column Card: Leaf / Asymmetric Free Shipping Card -->
+                <div class="feature-card-leaf">
+                    <i class="fa-solid fa-truck-moving feature-card-icon"></i>
+                    <h4 class="feature-card-title">Free Shipping</h4>
+                    <p class="feature-card-desc">
+                        Enjoy insured fast delivery on all eligible orders with end-to-end doorstep tracking.
+                    </p>
+                    <a href="javascript:void(0)" class="feature-card-link" onclick="showToast('🚚 Free shipping applies to orders over $75!')">
+                        <span>Learn More</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+                <!-- Right Column Card: Gold Border 24/7 Support Card -->
+                <div class="feature-card-gold-border">
+                    <i class="fa-solid fa-headset feature-card-icon"></i>
+                    <h4 class="feature-card-title">24/7 Support</h4>
+                    <p class="feature-card-desc">
+                        Our dedicated support concierge is ready 24 hours a day to assist with orders and technical inquiries.
+                    </p>
+                    <a href="javascript:void(0)" class="feature-card-link" onclick="showToast('🎧 24/7 Live Support available anytime!')">
+                        <span>Learn More</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- 4. Bottom Metrics / Stats Row (13, 20, 100+, 11) -->
+            <div class="about-stats-row">
+                <div class="stat-metric-item">
+                    <span class="stat-metric-number">13</span>
+                    <span class="stat-metric-label">Years Experience</span>
+                </div>
+                <div class="stat-metric-item">
+                    <span class="stat-metric-number">20</span>
+                    <span class="stat-metric-label">Product Categories</span>
+                </div>
+                <div class="stat-metric-item">
+                    <span class="stat-metric-number">100+</span>
+                    <span class="stat-metric-label">Happy Customers</span>
+                </div>
+                <div class="stat-metric-item">
+                    <span class="stat-metric-number">11</span>
+                    <span class="stat-metric-label">Outlets & Service Hubs</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 4.5. "HOW WE WORK" SECTION (MATCHING VIDEO REFERENCE) -->
+    <section class="section-how-we-work">
+        <div class="how-we-work-container">
+            
+            <!-- Left Side: Interactive Video Showcase Card -->
+            <div class="work-video-wrapper" onclick="playWorkflowVideo()">
+                <img src="{% static 'images/how-we-work.png' %}" alt="Phidimservice Workflow & Quality Video" class="work-video-img">
+                
+                <!-- Floating Circular Play Button -->
+                <div class="video-play-btn-circle" title="Play Video">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+
+                <!-- Video Status Pill Badge -->
+                <div class="work-video-badge">
+                    <i class="fa-solid fa-circle"></i>
+                    <span>WATCH WORKFLOW DEMO (1:45)</span>
+                </div>
+            </div>
+
+            <!-- Right Side: Content Narrative & 2-Column Checklist -->
+            <div class="work-content-column">
+                <span class="work-pill-badge">
+                    <i class="fa-solid fa-bolt"></i>
+                    OUR PROMISE & PROCESS
+                </span>
+
+                <h2 class="work-main-title">How We Work</h2>
+
+                <p class="work-description-text">
+                    We combine direct global sourcing with strict multi-stage quality verification to ensure only certified, top-tier products reach your doorstep. From warehouse packaging to real-time express delivery, precision is our standard.
+                </p>
+
+                <!-- 2-Column Checklist (6 Points matching reference) -->
+                <div class="work-checklist-grid">
+                    <div class="work-check-item">
+                        <i class="fa-solid fa-check work-check-icon"></i>
+                        <span>Direct Global Sourcing</span>
+                    </div>
+
+                    <div class="work-check-item">
+                        <i class="fa-solid fa-check work-check-icon"></i>
+                        <span>Express Tracked Delivery</span>
+                    </div>
+
+                    <div class="work-check-item">
+                        <i class="fa-solid fa-check work-check-icon"></i>
+                        <span>Multi-Tier Quality Check</span>
+                    </div>
+
+                    <div class="work-check-item">
+                        <i class="fa-solid fa-check work-check-icon"></i>
+                        <span>30-Day Easy Returns</span>
+                    </div>
+
+                    <div class="work-check-item">
+                        <i class="fa-solid fa-check work-check-icon"></i>
+                        <span>100% Secure Payments</span>
+                    </div>
+
+                    <div class="work-check-item">
+                        <i class="fa-solid fa-check work-check-icon"></i>
+                        <span>24/7 Customer Care</span>
+                    </div>
+                </div>
+
+                <button class="btn-work-cta" onclick="showToast('⭐ Discovering Phidimservice verified standards...')">
+                    <span>EXPLORE OUR CATALOG</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 4.8. "EXPLORE OUR LATEST ARTICLES" SECTION (Matching Reference Image) -->
+    <section class="section-latest-articles" id="articles">
+        <div class="articles-container">
+
+            <!-- Header Row matching screenshot -->
+            <div class="articles-header-row">
+                <h2 class="articles-main-title">
+                    Explore Our Latest <span class="articles-accent-wrap">Articles<svg class="articles-accent-curve" viewBox="0 0 120 12" fill="none"><path d="M2 9 C 40 2, 80 12, 118 4" stroke="#06b6d4" stroke-width="3.5" stroke-linecap="round"/></svg></span>
+                </h2>
+                <p class="articles-header-subtext">
+                    Lorem ipsum dolor sit amet, consecte turin ole adip iscing vipu dalit elit taras tellus neul sarat tame lat macorper del materio mattis luco.
+                </p>
+            </div>
+
+            <!-- 3-Column x 2-Row Grid (6 Cards matching screenshot) -->
+            <div class="articles-cards-grid">
+
+                <!-- Article 1: Empowering Entrepreneurs -->
+                <article class="article-card" onclick="showToast('📖 Opening: Empowering Entrepreneurs Success Unveiled')">
+                    <div class="article-media">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80" alt="Empowering Entrepreneurs" class="article-img">
+                    </div>
+                    <div class="article-body">
+                        <div>
+                            <h3 class="article-title">Empowering Entrepreneurs Success Unveiled</h3>
+                            <div class="article-date-row">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>November 21, 2023</span>
+                            </div>
+                        </div>
+                        <div class="article-read-more">
+                            <span>Read More</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 2: Dynamic Startup Landscape -->
+                <article class="article-card" onclick="showToast('📖 Opening: Thriving in a Dynamic Startup Landscape')">
+                    <div class="article-media">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600&q=80" alt="Dynamic Startup Landscape" class="article-img">
+                    </div>
+                    <div class="article-body">
+                        <div>
+                            <h3 class="article-title">Thriving in a Dynamic Startup Landscape</h3>
+                            <div class="article-date-row">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>December 6, 2023</span>
+                            </div>
+                        </div>
+                        <div class="article-read-more">
+                            <span>Read More</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 3: Propelling Tech Startups -->
+                <article class="article-card" onclick="showToast('📖 Opening: Strategies Propelling Tech Startups to Success')">
+                    <div class="article-media">
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=600&q=80" alt="Strategies Propelling Tech Startups" class="article-img">
+                    </div>
+                    <div class="article-body">
+                        <div>
+                            <h3 class="article-title">Strategies Propelling Tech Startups to Success</h3>
+                            <div class="article-date-row">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>December 6, 2023</span>
+                            </div>
+                        </div>
+                        <div class="article-read-more">
+                            <span>Read More</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 4: Pioneering the Future -->
+                <article class="article-card" onclick="showToast('📖 Opening: Pioneering the Future in Our Startup Showcase')">
+                    <div class="article-media">
+                        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80" alt="Pioneering the Future" class="article-img">
+                    </div>
+                    <div class="article-body">
+                        <div>
+                            <h3 class="article-title">Pioneering the Future in Our Startup Showcase</h3>
+                            <div class="article-date-row">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>December 8, 2023</span>
+                            </div>
+                        </div>
+                        <div class="article-read-more">
+                            <span>Read More</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 5: Artificial Intelligence Impact -->
+                <article class="article-card" onclick="showToast('📖 Opening: Artificial Intelligence Impact on Modern Industries')">
+                    <div class="article-media">
+                        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=600&q=80" alt="Artificial Intelligence Impact" class="article-img">
+                    </div>
+                    <div class="article-body">
+                        <div>
+                            <h3 class="article-title">Artificial Intelligence Impact on Modern Industries</h3>
+                            <div class="article-date-row">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>December 11, 2023</span>
+                            </div>
+                        </div>
+                        <div class="article-read-more">
+                            <span>Read More</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Article 6: Healthy Eating Habits -->
+                <article class="article-card" onclick="showToast('📖 Opening: Healthy Eating Habits for a Busy Lifestyle')">
+                    <div class="article-media">
+                        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" alt="Healthy Eating Habits" class="article-img">
+                    </div>
+                    <div class="article-body">
+                        <div>
+                            <h3 class="article-title">Healthy Eating Habits for a Busy Lifestyle</h3>
+                            <div class="article-date-row">
+                                <i class="fa-regular fa-calendar"></i>
+                                <span>December 11, 2023</span>
+                            </div>
+                        </div>
+                        <div class="article-read-more">
+                            <span>Read More</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+
+            <!-- Bottom CTA Button matching screenshot -->
+            <div class="articles-footer-btn-wrap">
+                <button class="btn-view-all-articles" onclick="showToast('📰 Displaying all archive articles & editorial insights...')">
+                    View all articles
+                </button>
+            </div>
+
+    </section>
+
+    <!-- 6. Footer -->
+    <footer class="main-footer">
+        <div class="footer-inner">
+            <a href="/" class="footer-brand">
+                <div class="brand-logo-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <div class="brand-text-wrap">
+                    <span class="brand-title" style="color:#ffffff;">Phidim<span style="color:var(--primary-orange);">service</span></span>
+                    <span class="brand-subtitle" style="color:rgba(255,255,255,0.6);">Shop Smart. Live Better.</span>
+                </div>
+            </a>
+
+            <ul class="footer-links-row">
+                <li><a href="/" class="footer-link-item">Home</a></li>
+                <li><a href="{% url 'about' %}" class="footer-link-item">About</a></li>
+                <li><a href="{% url 'services' %}" class="footer-link-item">Services</a></li>
+                <li><a href="{% url 'contact' %}" class="footer-link-item">Contact</a></li>
+            </ul>
+        </div>
+        <p class="footer-bottom-copy">
+            © 2026 Phidimservice. All Rights Reserved. Delivered with precision and care.
+        </p>
+    </footer>
+
+    <!-- Toast Popup -->
+    <div class="toast-popup" id="toastBox">Message</div>
+
+    <!-- Product Catalog Data & Live Search Script -->
+    <script>
+        const PRODUCT_CATALOG = [
+            {
+                id: 'aeroflow-max',
+                title: 'AEROFLOW MAX Headphone',
+                category: 'Audio & Smart Tech',
+                price: '$299.00',
+                image: "{% static 'images/aeroflow-main.png' %}",
+                url: "{% url 'product_detail' 'aeroflow-max' %}",
+                keywords: ['aeroflow', 'headphone', 'headphones', 'audio', 'sound', 'noise canceling', 'music', 'airpods']
+            },
+            {
+                id: 'womens-attire',
+                title: "Women's Luxury Attire & Blazer",
+                category: "Women's Fashion",
+                price: '$149.00',
+                image: "{% static 'images/cat-fashion.png' %}",
+                url: "{% url 'product_detail' 'womens-attire' %}",
+                keywords: ['women', 'attire', 'blazer', 'fashion', 'clothes', 'dress']
+            },
+            {
+                id: 'athletic-sneakers',
+                title: 'Athletic Performance Sneakers',
+                category: 'Footwear & Shoes',
+                price: '$119.00',
+                image: "{% static 'images/category-grid.png' %}",
+                url: "{% url 'product_detail' 'athletic-sneakers' %}",
+                keywords: ['sneakers', 'shoes', 'athletic', 'footwear', 'running']
+            },
+            {
+                id: 'leather-tote-bags',
+                title: 'Genuine Leather Tote Bag',
+                category: 'Bags & Accessories',
+                price: '$189.00',
+                image: "{% static 'images/hero-showcase.png' %}",
+                url: "{% url 'product_detail' 'leather-tote-bags' %}",
+                keywords: ['bag', 'bags', 'tote', 'leather', 'handbag']
+            }
+        ];
+
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById('toastBox');
+            toast.innerText = msg;
+            toast.classList.add('active');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        function playWorkflowVideo() {
+            showToast('🎬 Launching Phidimservice Behind-The-Scenes Workflow Video...');
+        }
+
+        // Live Search Handling
+        function handleSearch(query) {
+            const dropdown = document.getElementById('searchResultsDropdown');
+            const clearBtn = document.getElementById('searchClearBtn');
+            const q = query.trim().toLowerCase();
+
+            if (q.length > 0) {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+
+            if (!q) {
+                renderTrendingSearches();
+                dropdown.classList.add('active');
+                return;
+            }
+
+            const matches = PRODUCT_CATALOG.filter(item => {
+                return item.title.toLowerCase().includes(q) ||
+                       item.category.toLowerCase().includes(q) ||
+                       item.keywords.some(k => k.includes(q));
+            });
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = `
+                    <div class="search-empty-state" style="padding: 20px; text-align: center; color: #6b7280;">
+                        <p>No products found for "<strong>${escapeHtml(query)}</strong>"</p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div class="search-dropdown-header">
+                        <span>Found ${matches.length} Product${matches.length > 1 ? 's' : ''}</span>
+                        <span style="color: var(--primary-orange); cursor: pointer;" onclick="closeSearchDropdown()">Close</span>
+                    </div>
+                `;
+
+                matches.forEach(item => {
+                    html += `
+                        <a href="${item.url}" class="search-item-row">
+                            <img src="${item.image}" alt="${item.title}" class="search-item-img">
+                            <div class="search-item-info">
+                                <span class="search-item-title">${item.title}</span>
+                                <span class="search-item-category">${item.category}</span>
+                            </div>
+                            <span class="search-item-price">${item.price}</span>
+                        </a>
+                    `;
+                });
+
+                dropdown.innerHTML = html;
+            }
+
+            dropdown.classList.add('active');
+        }
+
+        function handleSearchFocus() {
+            const input = document.getElementById('navSearchInput');
+            if (!input.value.trim()) {
+                renderTrendingSearches();
+            } else {
+                handleSearch(input.value);
+            }
+            document.getElementById('searchResultsDropdown').classList.add('active');
+        }
+
+        function renderTrendingSearches() {
+            const dropdown = document.getElementById('searchResultsDropdown');
+            dropdown.innerHTML = `
+                <div class="search-dropdown-header">
+                    <span>Popular Searches</span>
+                </div>
+                <div class="search-trending-chips">
+                    <button class="trending-chip" onclick="quickSearch('headphones')">🎧 Headphones</button>
+                    <button class="trending-chip" onclick="quickSearch('aeroflow')">🔥 AeroFlow Max</button>
+                    <button class="trending-chip" onclick="quickSearch('sneakers')">👟 Sneakers</button>
+                    <button class="trending-chip" onclick="quickSearch('bags')">👜 Leather Bags</button>
+                </div>
+            `;
+        }
+
+        function quickSearch(term) {
+            const input = document.getElementById('navSearchInput');
+            input.value = term;
+            handleSearch(term);
+        }
+
+        function clearSearchInput() {
+            const input = document.getElementById('navSearchInput');
+            input.value = '';
+            document.getElementById('searchClearBtn').style.display = 'none';
+            renderTrendingSearches();
+            input.focus();
+        }
+
+        function closeSearchDropdown() {
+            document.getElementById('searchResultsDropdown').classList.remove('active');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        document.addEventListener('click', function(e) {
+            const container = document.getElementById('navSearchContainer');
+            if (container && !container.contains(e.target)) {
+                closeSearchDropdown();
+            }
+        });
+    </script>
+</body>
+</html>

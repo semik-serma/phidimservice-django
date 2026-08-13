@@ -1,0 +1,2349 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Phidimservice - Account & Preferences</title>
+    <meta name="description"
+        content="Manage your personal profile, contact information, regional coordinates, and account preferences at Phidimservice.">
+
+    <!-- Google Fonts: Outfit, Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-orange: #ff5400;
+            --primary-orange-hover: #e04800;
+            --primary-orange-light: #fff7ed;
+            --primary-orange-glow: rgba(255, 84, 0, 0.35);
+            --hero-bg-dark: #122b20;
+            --hero-bg-deep: #0b1c15;
+            --body-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --text-subtle: #94a3b8;
+            --border-light: #e2e8f0;
+            --border-focus: #ff5400;
+            --star-gold: #f59e0b;
+            --spark-gold: #fbbf24;
+            --badge-green-bg: #d1fae5;
+            --badge-green-text: #065f46;
+            --badge-amber-bg: #fef3c7;
+            --badge-amber-text: #92400e;
+            --badge-red-bg: #fee2e2;
+            --badge-red-text: #991b1b;
+            --font-heading: 'Outfit', sans-serif;
+            --font-main: 'Plus Jakarta Sans', 'Inter', sans-serif;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 12px 30px -4px rgba(15, 23, 42, 0.08);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--body-bg);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ----------------------------------------------------
+           1. TOP NAVIGATION HEADER & LIVE SEARCH BAR
+        ---------------------------------------------------- */
+        .header-navbar {
+            width: 100%;
+            height: 80px;
+            background: #ffffff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+            gap: 24px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ff7a00, #ff4500);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.35rem;
+            box-shadow: 0 6px 16px var(--primary-orange-glow);
+        }
+
+        .brand-text-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-family: var(--font-heading);
+            font-size: 1.45rem;
+            font-weight: 800;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            color: #1e293b;
+        }
+
+        .brand-title span {
+            color: var(--primary-orange);
+        }
+
+        .brand-subtitle {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-item-link {
+            text-decoration: none;
+            color: #475569;
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: 8px 4px;
+            position: relative;
+            transition: color 0.25s ease;
+        }
+
+        .nav-item-link:hover,
+        .nav-item-link.active {
+            color: var(--primary-orange);
+        }
+
+        .nav-item-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2.5px;
+            background-color: var(--primary-orange);
+            border-radius: 2px;
+        }
+
+        .nav-search-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .nav-search-input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .search-icon-left {
+            position: absolute;
+            left: 16px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            pointer-events: none;
+        }
+
+        .nav-search-input {
+            width: 100%;
+            height: 44px;
+            background-color: #f1f5f9;
+            border: 1.5px solid transparent;
+            border-radius: 25px;
+            padding: 0 42px 0 44px;
+            font-size: 0.9rem;
+            color: #1e293b;
+            outline: none;
+            transition: all 0.25s ease;
+            font-family: inherit;
+        }
+
+        .nav-search-input:focus {
+            background-color: #ffffff;
+            border-color: var(--primary-orange);
+            box-shadow: 0 4px 14px rgba(255, 84, 0, 0.12);
+        }
+
+        .search-clear-btn {
+            position: absolute;
+            right: 14px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            display: none;
+            padding: 4px;
+        }
+
+        .search-results-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: 100%;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: 14px;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12);
+            display: none;
+            z-index: 1100;
+            max-height: 380px;
+            overflow-y: auto;
+        }
+
+        .search-results-dropdown.active {
+            display: block;
+        }
+
+        .search-dropdown-header {
+            padding: 12px 18px;
+            background: #f8fafc;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #64748b;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .search-item-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 18px;
+            text-decoration: none;
+            color: #1e293b;
+            border-bottom: 1px solid #f1f5f9;
+            transition: background 0.2s ease;
+        }
+
+        .search-item-row:hover {
+            background: #fff7ed;
+        }
+
+        .search-item-img {
+            width: 42px;
+            height: 42px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .search-item-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .search-item-title {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .search-item-category {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .search-item-price {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--primary-orange);
+        }
+
+        .nav-actions-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-nav-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-nav-login {
+            background-color: var(--hero-bg-dark);
+            color: #ffffff;
+        }
+
+        .btn-nav-login:hover {
+            background-color: #0b1c15;
+            box-shadow: 0 4px 14px rgba(18, 43, 32, 0.25);
+            transform: translateY(-1px);
+        }
+
+        .btn-nav-primary {
+            background: linear-gradient(135deg, #ff7a00, #ff4500);
+            color: #ffffff;
+            box-shadow: 0 4px 14px var(--primary-orange-glow);
+        }
+
+        .btn-nav-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px var(--primary-orange-glow);
+        }
+
+        /* ----------------------------------------------------
+           2. HERO PROFILE HEADER BANNER
+        ---------------------------------------------------- */
+        .profile-hero-banner {
+            background: linear-gradient(135deg, var(--hero-bg-dark) 0%, var(--hero-bg-deep) 100%);
+            color: #ffffff;
+            padding: 48px 40px 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-ambient-glow {
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 84, 0, 0.18) 0%, rgba(255, 84, 0, 0) 70%);
+            filter: blur(80px);
+            pointer-events: none;
+        }
+
+        .hero-ambient-dots {
+            position: absolute;
+            inset: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+            background-size: 24px 24px;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .profile-hero-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .profile-breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.65);
+            margin-bottom: 24px;
+        }
+
+        .profile-breadcrumb a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .profile-breadcrumb a:hover {
+            color: var(--primary-orange);
+        }
+
+        .profile-hero-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .hero-title-group h1 {
+            font-family: var(--font-heading);
+            font-size: 2.3rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .hero-title-group h1 span {
+            color: var(--primary-orange);
+        }
+
+        .hero-title-group p {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 0.98rem;
+            max-width: 580px;
+        }
+
+        .hero-badges-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .hero-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .pill-verified {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+            border-color: rgba(52, 211, 153, 0.3);
+        }
+
+        .pill-active {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border-color: rgba(96, 165, 250, 0.3);
+        }
+
+        .pill-member {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f1f5f9;
+        }
+
+        /* ----------------------------------------------------
+           3. MAIN PROFILE CONTAINER & LAYOUT
+        ---------------------------------------------------- */
+        .profile-main-container {
+            max-width: 1200px;
+            margin: -60px auto 60px;
+            padding: 0 24px;
+            position: relative;
+            z-index: 5;
+            width: 100%;
+        }
+
+        .profile-grid-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .profile-grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ----------------------------------------------------
+           4. LEFT COLUMN: PROFILE CARD & QUICK STATS
+        ---------------------------------------------------- */
+        .profile-sidebar-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 32px 24px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: sticky;
+            top: 100px;
+        }
+
+        /* Avatar Container & Live Preview */
+        .avatar-uploader-wrap {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .avatar-frame {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            object-fit: cover;
+            background-color: #f1f5f9;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar-initials-fallback {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 4px solid #ffffff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            background: linear-gradient(135deg, #ff7a00, #ff4500);
+            color: #ffffff;
+            font-family: var(--font-heading);
+            font-size: 2.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+
+        .avatar-edit-badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 38px;
+            height: 38px;
+            background: var(--primary-orange);
+            color: #ffffff;
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: all 0.25s ease;
+        }
+
+        .avatar-edit-badge:hover {
+            background: var(--primary-orange-hover);
+            transform: scale(1.1);
+        }
+
+        .file-input-hidden {
+            display: none !important;
+        }
+
+        .profile-sidebar-name {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 4px;
+        }
+
+        .profile-sidebar-handle {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .profile-sidebar-bio {
+            font-size: 0.88rem;
+            color: #475569;
+            margin-bottom: 24px;
+            line-height: 1.5;
+            background: #f8fafc;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px dashed var(--border-light);
+            width: 100%;
+            word-break: break-word;
+        }
+
+        .profile-quick-meta-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-top: 1px solid var(--border-light);
+            padding-top: 20px;
+            text-align: left;
+        }
+
+        .quick-meta-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .meta-label {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-value {
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .status-badge.verified {
+            background: var(--badge-green-bg);
+            color: var(--badge-green-text);
+        }
+
+        .status-badge.unverified {
+            background: var(--badge-amber-bg);
+            color: var(--badge-amber-text);
+        }
+
+        .status-badge.active {
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .status-badge.inactive {
+            background: #f1f5f9;
+            color: #64748b;
+        }
+
+        .status-badge.deleted {
+            background: var(--badge-red-bg);
+            color: var(--badge-red-text);
+        }
+
+        /* ----------------------------------------------------
+           5. RIGHT COLUMN: PURPOSE-DRIVEN FORM SECTIONS
+        ---------------------------------------------------- */
+        .profile-form-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        /* Django Flash Messages Container */
+        .messages-alert-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .alert-banner {
+            padding: 16px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.92rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-banner.success {
+            background-color: #ecfdf5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+        }
+
+        .alert-banner.error {
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+
+        .alert-banner.warning {
+            background-color: #fffbeb;
+            border: 1px solid #fde68a;
+            color: #92400e;
+        }
+
+        .alert-banner-close {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: inherit;
+            opacity: 0.7;
+            font-size: 1rem;
+        }
+
+        /* Section Card Container */
+        .form-section-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .form-section-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border-light);
+            gap: 16px;
+        }
+
+        .section-header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .section-icon-badge {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .badge-personal {
+            background: #fff7ed;
+            color: var(--primary-orange);
+            border: 1px solid #fed7aa;
+        }
+
+        .badge-contact {
+            background: #eff6ff;
+            color: #2563eb;
+            border: 1px solid #bfdbfe;
+        }
+
+        .badge-location {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+
+        .badge-account {
+            background: #fdf4ff;
+            color: #9333ea;
+            border: 1px solid #f5d0fe;
+        }
+
+        .section-title-wrap h2 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .section-title-wrap p {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            margin-top: 3px;
+        }
+
+        .section-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-subtle);
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 12px;
+        }
+
+        /* Form Grid and Fields */
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 640px) {
+            .form-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-label .required-dot {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
+        .form-label-hint {
+            font-size: 0.76rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        .input-icon-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            pointer-events: none;
+            transition: color 0.2s ease;
+        }
+
+        .form-control-input {
+            width: 100%;
+            height: 48px;
+            background: #ffffff;
+            border: 1.5px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 0 16px 0 44px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            color: var(--text-dark);
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .form-control-input.no-icon {
+            padding-left: 16px;
+        }
+
+        .form-control-input:focus,
+        .form-control-textarea:focus {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 4px rgba(255, 84, 0, 0.12);
+        }
+
+        .input-icon-wrap:focus-within .input-icon {
+            color: var(--primary-orange);
+        }
+
+        .form-control-textarea {
+            width: 100%;
+            background: #ffffff;
+            border: 1.5px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            font-size: 0.92rem;
+            font-family: inherit;
+            color: var(--text-dark);
+            outline: none;
+            resize: vertical;
+            min-height: 105px;
+            transition: all 0.25s ease;
+        }
+
+        .char-counter {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            text-align: right;
+            margin-top: 4px;
+        }
+
+        .field-error-msg {
+            font-size: 0.8rem;
+            color: #dc2626;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        /* ----------------------------------------------------
+           AVATAR DROPZONE IN FORM
+        ---------------------------------------------------- */
+        .avatar-dropzone {
+            border: 2px dashed #cbd5e1;
+            border-radius: var(--radius-md);
+            padding: 24px;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .avatar-dropzone:hover {
+            border-color: var(--primary-orange);
+            background: #fffaf5;
+        }
+
+        .dropzone-preview-img {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background: #e2e8f0;
+        }
+
+        .dropzone-info {
+            flex: 1;
+        }
+
+        .dropzone-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 2px;
+        }
+
+        .dropzone-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .dropzone-btn {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #334155;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .dropzone-btn:hover {
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
+        }
+
+        /* ----------------------------------------------------
+           LOCATION / GEOLOCATION INTERACTIVE STYLES
+        ---------------------------------------------------- */
+        .geo-action-banner {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border: 1px solid #bbf7d0;
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .geo-banner-text {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .geo-pulse-icon {
+            width: 36px;
+            height: 36px;
+            background: #22c55e;
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+            }
+        }
+
+        .geo-btn-detect {
+            background: #16a34a;
+            color: #ffffff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
+        }
+
+        .geo-btn-detect:hover {
+            background: #15803d;
+            transform: translateY(-1px);
+        }
+
+        .geo-preview-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .geo-coords-display {
+            font-family: monospace;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .btn-copy-coords {
+            background: none;
+            border: none;
+            color: var(--primary-orange);
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* ----------------------------------------------------
+           STATUS & SWITCH TOGGLES (SECTION 4)
+        ---------------------------------------------------- */
+        .toggle-cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .toggle-item-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+        }
+
+        .toggle-item-row:hover {
+            background: #ffffff;
+            border-color: #cbd5e1;
+        }
+
+        .toggle-item-row.warning-row {
+            background: #fff1f2;
+            border-color: #fecdd3;
+        }
+
+        .toggle-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding-right: 20px;
+        }
+
+        .toggle-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toggle-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Modern Switch Control */
+        .switch-control {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 28px;
+            flex-shrink: 0;
+        }
+
+        .switch-control input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #cbd5e1;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 34px;
+        }
+
+        .switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .switch-control input:checked+.switch-slider {
+            background-color: var(--primary-orange);
+        }
+
+        .switch-control input:checked+.switch-slider.green-slider {
+            background-color: #10b981;
+        }
+
+        .switch-control input:checked+.switch-slider.red-slider {
+            background-color: #ef4444;
+        }
+
+        .switch-control input:checked+.switch-slider:before {
+            transform: translateX(24px);
+        }
+
+        /* Readonly Timestamps Grid */
+        .timestamps-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border-light);
+        }
+
+        @media (max-width: 640px) {
+            .timestamps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .timestamp-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .timestamp-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .timestamp-val {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        /* ----------------------------------------------------
+           6. FORM ACTIONS / SUBMIT BAR
+        ---------------------------------------------------- */
+        .form-actions-bar {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 24px 28px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .actions-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .actions-buttons-group {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .btn-action-discard {
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid var(--border-light);
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-discard:hover {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .btn-action-save {
+            background: linear-gradient(135deg, #ff7a00, #ff4500);
+            color: #ffffff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 16px var(--primary-orange-glow);
+            transition: all 0.25s ease;
+        }
+
+        .btn-action-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px var(--primary-orange-glow);
+            background: linear-gradient(135deg, #ff8800, #ff5000);
+        }
+
+        .btn-action-save:active {
+            transform: translateY(0);
+        }
+
+        /* ----------------------------------------------------
+           7. FOOTER
+        ---------------------------------------------------- */
+        .main-footer {
+            background-color: var(--hero-bg-deep);
+            color: #ffffff;
+            padding: 60px 40px 30px;
+            margin-top: auto;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .footer-links-row {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .footer-link-item {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link-item:hover {
+            color: var(--primary-orange);
+        }
+
+        .footer-bottom-copy {
+            max-width: 1200px;
+            margin: 24px auto 0;
+            text-align: center;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Toast Popup */
+        .toast-popup {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1e293b;
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        .toast-popup.active {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 1. Header & Navigation -->
+    <header class="header-navbar">
+        <a href="/" class="nav-brand">
+            <div class="brand-logo-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <div class="brand-text-wrap">
+                <span class="brand-title">Phidim<span>service</span></span>
+                <span class="brand-subtitle">Shop Smart. Live Better.</span>
+            </div>
+        </a>
+
+        <!-- Middle Navigation Links -->
+        <nav>
+            <ul class="nav-links-menu">
+                <li><a href="/" class="nav-item-link">Home</a></li>
+                <li><a href="{% url 'about' %}" class="nav-item-link">About</a></li>
+                <li><a href="{% url 'services' %}" class="nav-item-link">Services</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-item-link">Contact</a></li>
+                <li><a href="{% url 'profile' %}" class="nav-item-link active">Profile</a></li>
+            </ul>
+        </nav>
+
+        <!-- Live Search Bar -->
+        <div class="nav-search-container" id="navSearchContainer">
+            <div class="nav-search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+                <input type="text" class="nav-search-input" id="navSearchInput"
+                    placeholder="Search products, services..." autocomplete="off" oninput="handleSearch(this.value)"
+                    onfocus="handleSearchFocus()">
+                <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearchInput()" title="Clear Search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="search-results-dropdown" id="searchResultsDropdown"></div>
+        </div>
+
+        <!-- Header Actions -->
+        <div class="nav-actions-wrap">
+            {% if user.is_authenticated %}
+            <a href="{% url 'account_logout' %}" class="btn-nav-action btn-nav-login" title="Sign out">
+                <span>LOGOUT</span>
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
+            {% else %}
+            <a href="{% url 'account_login' %}" class="btn-nav-action btn-nav-primary" title="Sign in">
+                <span>LOGIN</span>
+                <i class="fa-solid fa-user"></i>
+            </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- 2. Hero Profile Header -->
+    <section class="profile-hero-banner">
+        <div class="hero-ambient-glow"></div>
+        <div class="hero-ambient-dots"></div>
+
+        <div class="profile-hero-inner">
+            <div class="profile-breadcrumb">
+                <a href="/">Home</a>
+                <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                <a href="#">Account</a>
+                <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem;"></i>
+                <span>User Profile</span>
+            </div>
+
+            <div class="profile-hero-content">
+                <div class="hero-title-group">
+                    <h1>Manage Your <span>Account Profile</span></h1>
+                    <p>Update personal information, communication preferences, geolocation coordinates, and security
+                        configurations.</p>
+                </div>
+
+                <div class="hero-badges-row">
+                    {% if profile and profile.is_verified or not profile and p_form.is_verified.value %}
+                    <span class="hero-status-pill pill-verified">
+                        <i class="fa-solid fa-shield-check"></i> Verified Account
+                    </span>
+                    {% else %}
+                    <span class="hero-status-pill pill-member">
+                        <i class="fa-solid fa-user-clock"></i> Verification Pending
+                    </span>
+                    {% endif %}
+
+                    {% if profile and profile.is_active or not profile and p_form.is_active.value %}
+                    <span class="hero-status-pill pill-active">
+                        <i class="fa-solid fa-circle-check"></i> Active Status
+                    </span>
+                    {% endif %}
+
+                    <span class="hero-status-pill pill-member">
+                        <i class="fa-regular fa-calendar"></i>
+                        {% if profile and profile.created_at %}
+                        Member since {{ profile.created_at|date:"M Y" }}
+                        {% else %}
+                        Member Account
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Main Form Section -->
+    <main class="profile-main-container">
+
+        <!-- Django Flash Messages -->
+        {% if messages %}
+        <div class="messages-alert-container">
+            {% for message in messages %}
+            <div class="alert-banner {{ message.tags }}">
+                <span>
+                    <i class="fa-solid {% if message.tags == 'success' %}fa-circle-check{% elif message.tags == 'error' %}fa-circle-exclamation{% else %}fa-triangle-exclamation{% endif %}"
+                        style="margin-right: 8px;"></i>
+                    {{ message }}
+                </span>
+                <button class="alert-banner-close" onclick="this.parentElement.remove()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if is_demo %}
+        <div class="alert-banner warning" style="margin-bottom: 24px;">
+            <span>
+                <i class="fa-solid fa-info-circle" style="margin-right: 8px;"></i>
+                <strong>Demo Mode Preview:</strong> You are viewing an interactive preview of the profile editing form.
+                <a href="{% url 'account_login' %}"
+                    style="color: inherit; text-decoration: underline; font-weight: 700;">Sign in</a> to save real-time
+                changes to your account.
+            </span>
+        </div>
+        {% endif %}
+
+        <form method="POST" action="{% url 'profile' %}" enctype="multipart/form-data" id="profileMasterForm">
+            {% csrf_token %}
+
+            <div class="profile-grid-layout">
+
+                <!-- LEFT COLUMN: Profile Sidebar -->
+                <aside class="profile-sidebar-card">
+
+                    <!-- Avatar Preview & Quick Trigger -->
+                    <div class="avatar-uploader-wrap">
+                        {% if profile and profile.profile_picture %}
+                        <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="avatar-frame"
+                            id="sidebarAvatarPreview">
+                        {% else %}
+                        <div class="avatar-initials-fallback" id="sidebarAvatarFallback">
+                            {% if user.first_name and user.last_name %}
+                            {{ user.first_name|first }}{{ user.last_name|first }}
+                            {% elif user.username %}
+                            {{ user.username|first|upper }}
+                            {% else %}
+                            A
+                            {% endif %}
+                        </div>
+                        <img src="" alt="Profile Picture" class="avatar-frame" id="sidebarAvatarPreview"
+                            style="display: none;">
+                        {% endif %}
+
+                        <label for="id_profile_picture" class="avatar-edit-badge" title="Change Profile Picture">
+                            <i class="fa-solid fa-camera"></i>
+                        </label>
+                    </div>
+
+                    <h3 class="profile-sidebar-name" id="sidebarFullName">
+                        {% if user.first_name or user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                        {% elif u_form.first_name.value or u_form.last_name.value %}
+                        {{ u_form.first_name.value }} {{ u_form.last_name.value }}
+                        {% else %}
+                        {{ user.username|default:"Alex Morgan" }}
+                        {% endif %}
+                    </h3>
+
+                    <p class="profile-sidebar-handle" id="sidebarUsername">
+                        @{{ user.username|default:u_form.username.value|default:"alex_morgan" }}
+                    </p>
+
+                    <div class="profile-sidebar-bio" id="sidebarBioPreview">
+                        {{ profile.bio|default:p_form.bio.value|default:"No bio added yet. Tell us about yourself!" }}
+                    </div>
+
+                    <div class="profile-quick-meta-list">
+                        <div class="quick-meta-item">
+                            <span class="meta-label"><i class="fa-solid fa-envelope"></i> Email</span>
+                            <span class="meta-value">
+                                {{ user.email|default:u_form.email.value|default:"alex@example.com"}}
+                            </span>
+                        </div>
+
+                        <div class="quick-meta-item">
+                            <span class="meta-label"><i class="fa-solid fa-phone"></i> Contact</span>
+                            <span class="meta-value" id="sidebarPhone">{{
+                                profile.phone_number|default:p_form.phone_number.value|default:"Not set" }}</span>
+                        </div>
+
+                        <div class="quick-meta-item">
+                            <span class="meta-label"><i class="fa-solid fa-location-dot"></i> Coordinates</span>
+                            <span class="meta-value" id="sidebarCoords">
+                                {% if profile and profile.latitude and profile.longitude %}
+                                {{ profile.latitude|floatformat:4 }}, {{ profile.longitude|floatformat:4 }}
+                                {% elif p_form.latitude.value and p_form.longitude.value %}
+                                {{ p_form.latitude.value|slice:":7" }}, {{ p_form.longitude.value|slice:":7" }}
+                                {% else %}
+                                Not calibrated
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="quick-meta-item">
+                            <span class="meta-label"><i class="fa-solid fa-certificate"></i> Status</span>
+                            {% if profile and profile.is_verified or not profile and p_form.is_verified.value %}
+                            <span class="status-badge verified"><i class="fa-solid fa-check"></i> Verified</span>
+                            {% else %}
+                            <span class="status-badge unverified"><i class="fa-solid fa-clock"></i> Unverified</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- RIGHT COLUMN: PURPOSE-DRIVEN FORM SECTIONS -->
+                <div class="profile-form-wrapper">
+
+                    <!-- ==============================================
+                         SECTION 1: PERSONAL & IDENTITY DETAILS
+                    =============================================== -->
+                    <div class="form-section-card">
+                        <div class="section-header">
+                            <div class="section-header-left">
+                                <div class="section-icon-badge badge-personal">
+                                    <i class="fa-solid fa-user-pen"></i>
+                                </div>
+                                <div class="section-title-wrap">
+                                    <h2>Personal & Identity</h2>
+                                    <p>Your profile picture, full name, username, and public introduction.</p>
+                                </div>
+                            </div>
+                            <span class="section-tag">Section 01</span>
+                        </div>
+
+                        <!-- Profile Picture Drag & Drop Field -->
+                        <div class="form-group">
+                            <label class="form-label">
+                                <span>Profile Photo (`profile_picture`)</span>
+                                <span class="form-label-hint">PNG, JPG, WebP up to 5MB</span>
+                            </label>
+
+                            <div class="avatar-dropzone"
+                                onclick="document.getElementById('id_profile_picture').click()">
+                                <img src="{% if profile and profile.profile_picture %}{{ profile.profile_picture.url }}{% else %}https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80{% endif %}"
+                                    alt="Preview" class="dropzone-preview-img" id="dropzonePreview">
+                                <div class="dropzone-info">
+                                    <h4 class="dropzone-title">Upload a new profile picture</h4>
+                                    <p class="dropzone-desc">Click here to browse files or drag and drop your photo.</p>
+                                </div>
+                                <button type="button" class="dropzone-btn">
+                                    <i class="fa-solid fa-cloud-arrow-up" style="margin-right: 6px;"></i> Browse File
+                                </button>
+                            </div>
+
+                            <!-- Django File Input Widget -->
+                            {{ p_form.profile_picture }}
+                            {% if p_form.profile_picture.errors %}
+                            <div class="field-error-msg">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                {{ p_form.profile_picture.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- First Name & Last Name Grid -->
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label" for="id_first_name">
+                                    <span>First Name</span>
+                                </label>
+                                <div class="input-icon-wrap">
+                                    <i class="fa-regular fa-user input-icon"></i>
+                                    {{ u_form.first_name }}
+                                </div>
+                                {% if u_form.first_name.errors %}
+                                <div class="field-error-msg">{{ u_form.first_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="id_last_name">
+                                    <span>Last Name</span>
+                                </label>
+                                <div class="input-icon-wrap">
+                                    <i class="fa-regular fa-user input-icon"></i>
+                                    {{ u_form.last_name }}
+                                </div>
+                                {% if u_form.last_name.errors %}
+                                <div class="field-error-msg">{{ u_form.last_name.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Username & Email Grid -->
+                        <div class="form-grid-2">
+                            <div class="form-group">
+                                <label class="form-label" for="id_username">
+                                    <span>Username</span>
+                                    <span class="required-dot">*</span>
+                                </label>
+                                <div class="input-icon-wrap">
+                                    <i class="fa-solid fa-at input-icon"></i>
+                                    {{ u_form.username }}
+                                </div>
+                                {% if u_form.username.errors %}
+                                <div class="field-error-msg">{{ u_form.username.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="id_email">
+                                    <span>Email Address</span>
+                                </label>
+                                <div class="input-icon-wrap">
+                                    <i class="fa-regular fa-envelope input-icon"></i>
+                                    {{ u_form.email }}
+                                </div>
+                                {% if u_form.email.errors %}
+                                <div class="field-error-msg">{{ u_form.email.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Bio / Description Field -->
+                        <div class="form-group">
+                            <label class="form-label" for="id_bio">
+                                <span>Professional Bio (`bio`)</span>
+                                <span class="form-label-hint">Brief summary shown to clients & team</span>
+                            </label>
+                            {{ p_form.bio }}
+                            <div class="char-counter">
+                                <span id="bioCharCount">0</span> characters
+                            </div>
+                            {% if p_form.bio.errors %}
+                            <div class="field-error-msg">{{ p_form.bio.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+
+                    <!-- ==============================================
+                         SECTION 2: CONTACT & COMMUNICATION
+                    =============================================== -->
+                    <div class="form-section-card">
+                        <div class="section-header">
+                            <div class="section-header-left">
+                                <div class="section-icon-badge badge-contact">
+                                    <i class="fa-solid fa-phone-volume"></i>
+                                </div>
+                                <div class="section-title-wrap">
+                                    <h2>Contact & Communication</h2>
+                                    <p>Phone number and communication channel preferences.</p>
+                                </div>
+                            </div>
+                            <span class="section-tag">Section 02</span>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <!-- Phone Number Field -->
+                            <div class="form-group">
+                                <label class="form-label" for="id_phone_number">
+                                    <span>Phone Number (`phone_number`)</span>
+                                    <span class="form-label-hint">10 digits</span>
+                                </label>
+                                <div class="input-icon-wrap">
+                                    <i class="fa-solid fa-mobile-screen-button input-icon"></i>
+                                    {{ p_form.phone_number }}
+                                </div>
+                                {% if p_form.phone_number.errors %}
+                                <div class="field-error-msg">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    {{ p_form.phone_number.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Read-only verified contact display note -->
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <span>SMS & Order Notifications</span>
+                                </label>
+                                <div class="geo-preview-box" style="height: 48px;">
+                                    <span><i class="fa-solid fa-bell-ring"
+                                            style="color: var(--primary-orange); margin-right: 6px;"></i> Instant
+                                        Delivery Alerts</span>
+                                    <span class="status-badge active">Enabled</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ==============================================
+                         SECTION 3: GEOLOCATION & LOCATION COORDINATES
+                    =============================================== -->
+                    <div class="form-section-card">
+                        <div class="section-header">
+                            <div class="section-header-left">
+                                <div class="section-icon-badge badge-location">
+                                    <i class="fa-solid fa-location-crosshairs"></i>
+                                </div>
+                                <div class="section-title-wrap">
+                                    <h2>Geolocation & Regional Coordinates</h2>
+                                    <p>Precision latitude and longitude calibration for localized shipping & service
+                                        delivery.</p>
+                                </div>
+                            </div>
+                            <span class="section-tag">Section 03</span>
+                        </div>
+
+                        <!-- One-Click GPS Auto-Detection Banner -->
+                        <div class="geo-action-banner">
+                            <div class="geo-banner-text">
+                                <div class="geo-pulse-icon">
+                                    <i class="fa-solid fa-satellite-dish"></i>
+                                </div>
+                                <div>
+                                    <h4 style="font-size: 0.95rem; font-weight: 700; color: #065f46;">Auto-Detect Device
+                                        GPS</h4>
+                                    <p style="font-size: 0.8rem; color: #166534;">Click to populate high-precision
+                                        decimal coordinates from your browser.</p>
+                                </div>
+                            </div>
+
+                            <button type="button" class="geo-btn-detect" id="detectLocationBtn"
+                                onclick="detectGPSLocation()">
+                                <i class="fa-solid fa-location-arrow"></i>
+                                <span>Detect My Location</span>
+                            </button>
+                        </div>
+
+                        <div class="form-grid-2">
+                            <!-- Latitude Field -->
+                            <div class="form-group">
+                                <label class="form-label" for="id_latitude">
+                                    <span>Latitude (`latitude`)</span>
+                                    <span class="form-label-hint">Max 12 decimal places</span>
+                                </label>
+                                <div class="input-icon-wrap">
+                                    <i class="fa-solid fa-compass input-icon"></i>
+                                    {{ p_form.latitude }}
+                                </div>
+                                {% if p_form.latitude.errors %}
+                                <div class="field-error-msg">{{ p_form.latitude.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+
+                            <!-- Longitude Field -->
+                            <div class="form-group">
+                                <label class="form-label" for="id_longitude">
+                                    <span>Longitude (`longitude`)</span>
+                                    <span class="form-label-hint">Max 12 decimal places</span>
+                                </label>
+                                <div class="input-icon-wrap">
+                                    <i class="fa-solid fa-compass input-icon"></i>
+                                    {{ p_form.longitude }}
+                                </div>
+                                {% if p_form.longitude.errors %}
+                                <div class="field-error-msg">{{ p_form.longitude.errors.0 }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Coordinates Preview & Quick Copy -->
+                        <div class="geo-preview-box" style="margin-top: 10px;">
+                            <div>
+                                <i class="fa-solid fa-map-pin" style="color: #16a34a; margin-right: 6px;"></i>
+                                Current Coordinates: <span class="geo-coords-display" id="coordsPreviewText">27.717245,
+                                    85.323960</span>
+                            </div>
+                            <button type="button" class="btn-copy-coords" onclick="copyCoordinates()">
+                                <i class="fa-regular fa-copy"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+
+
+                    <!-- ==============================================
+                         SECTION 4: ACCOUNT STATUS & SYSTEM SETTINGS
+                    =============================================== -->
+                    <div class="form-section-card">
+                        <div class="section-header">
+                            <div class="section-header-left">
+                                <div class="section-icon-badge badge-account">
+                                    <i class="fa-solid fa-sliders"></i>
+                                </div>
+                                <div class="section-title-wrap">
+                                    <h2>Account Status & System Controls</h2>
+                                    <p>Account lifecycle flags, verification credentials, and timestamp auditing.</p>
+                                </div>
+                            </div>
+                            <span class="section-tag">Section 04</span>
+                        </div>
+
+                        <div class="toggle-cards-list">
+
+                            <!-- Toggle: is_active -->
+                            <div class="toggle-item-row">
+                                <div class="toggle-item-info">
+                                    <span class="toggle-title">
+                                        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+                                        Account Active (`is_active`)
+                                    </span>
+                                    <span class="toggle-desc">
+                                        Determines whether this profile account is actively enabled for operations,
+                                        checkout, and platform services.
+                                    </span>
+                                </div>
+                                <label class="switch-control">
+                                    {{ p_form.is_active }}
+                                    <span class="switch-slider green-slider"></span>
+                                </label>
+                            </div>
+
+                            <!-- Toggle: is_verified -->
+
+
+                            <!-- Toggle: is_deleted -->
+                            <div class="toggle-item-row warning-row">
+                                <div class="toggle-item-info">
+                                    <span class="toggle-title" style="color: #991b1b;">
+                                        <i class="fa-solid fa-triangle-exclamation"></i>
+                                        Soft Delete / Archive Account (`is_deleted`)
+                                    </span>
+                                    <span class="toggle-desc" style="color: #7f1d1d;">
+                                        Enabling this marks the account as soft-deleted. The profile will be archived
+                                        and hidden from public lookups while retaining database integrity.
+                                    </span>
+                                </div>
+                                <label class="switch-control">
+                                    {{ p_form.is_deleted }}
+                                    <span class="switch-slider red-slider"></span>
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <!-- Read-only Audit Timestamps -->
+                        <div class="timestamps-grid">
+                            <div class="timestamp-box">
+                                <span class="timestamp-label"><i class="fa-regular fa-clock"></i> Created At
+                                    (`created_at`)</span>
+                                <span class="timestamp-val">
+                                    {% if profile and profile.created_at %}
+                                    {{ profile.created_at|date:"F j, Y, g:i a" }}
+                                    {% else %}
+                                    August 11, 2026, 6:25 am (Initial)
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <div class="timestamp-box">
+                                <span class="timestamp-label"><i class="fa-solid fa-rotate"></i> Last Updated
+                                    (`updated_at`)</span>
+                                <span class="timestamp-val">
+                                    {% if profile and profile.updated_at %}
+                                    {{ profile.updated_at|date:"F j, Y, g:i a" }}
+                                    {% else %}
+                                    Just now
+                                    {% endif %}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- ==============================================
+                         FORM ACTIONS BAR (SAVE / DISCARD)
+                    =============================================== -->
+                    <div class="form-actions-bar">
+                        <div class="actions-info">
+                            <i class="fa-solid fa-shield-halved"
+                                style="color: var(--primary-orange); font-size: 1.1rem;"></i>
+                            <span>All changes are secured with CSRF protection & strict schema validation.</span>
+                        </div>
+
+                        <div class="actions-buttons-group">
+                            <a href="{% url 'profile' %}" class="btn-action-discard">
+                                Discard
+                            </a>
+                            <button type="submit" class="btn-action-save" id="saveProfileBtn">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                                <span>Save Changes</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </main>
+
+    <!-- 7. Footer -->
+    <footer class="main-footer">
+        <div class="footer-inner">
+            <a href="/" class="footer-brand">
+                <div class="brand-logo-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <div class="brand-text-wrap">
+                    <span class="brand-title" style="color:#ffffff;">Phidim<span
+                            style="color:var(--primary-orange);">service</span></span>
+                    <span class="brand-subtitle" style="color:rgba(255,255,255,0.6);">Shop Smart. Live Better.</span>
+                </div>
+            </a>
+
+            <ul class="footer-links-row">
+                <li><a href="/" class="footer-link-item">Home</a></li>
+                <li><a href="{% url 'about' %}" class="footer-link-item">About</a></li>
+                <li><a href="{% url 'services' %}" class="footer-link-item">Services</a></li>
+                <li><a href="{% url 'contact' %}" class="footer-link-item">Contact</a></li>
+                <li><a href="{% url 'profile' %}" class="footer-link-item">Profile</a></li>
+            </ul>
+        </div>
+        <p class="footer-bottom-copy">
+            © 2026 Phidimservice. All Rights Reserved. Built with precision and care.
+        </p>
+    </footer>
+
+    <!-- Toast Popup -->
+    <div class="toast-popup" id="toastBox">
+        <i class="fa-solid fa-circle-check" style="color: #10b981;"></i>
+        <span id="toastMessage">Notification</span>
+    </div>
+
+    <!-- Interactive Client Scripts -->
+    <script>
+        // 1. Live Catalog Search Data matching index/services
+        const PRODUCT_CATALOG = [
+            {
+                id: 'aeroflow-max',
+                title: 'AEROFLOW MAX Headphone',
+                category: 'Audio & Smart Tech',
+                price: '$299.00',
+                image: "{% static 'images/aeroflow-main.png' %}",
+                url: "{% url 'product_detail' 'aeroflow-max' %}",
+                keywords: ['aeroflow', 'headphone', 'headphones', 'audio', 'sound', 'noise canceling']
+            },
+            {
+                id: 'womens-attire',
+                title: "Women's Luxury Attire & Blazer",
+                category: "Women's Fashion",
+                price: '$149.00',
+                image: "{% static 'images/cat-fashion.png' %}",
+                url: "{% url 'product_detail' 'womens-attire' %}",
+                keywords: ['women', 'attire', 'blazer', 'fashion', 'clothes']
+            },
+            {
+                id: 'athletic-sneakers',
+                title: 'Athletic Performance Sneakers',
+                category: 'Footwear & Shoes',
+                price: '$119.00',
+                image: "{% static 'images/category-grid.png' %}",
+                url: "{% url 'product_detail' 'athletic-sneakers' %}",
+                keywords: ['sneakers', 'shoes', 'athletic', 'footwear']
+            }
+        ];
+
+        // 2. Toast Notification Function
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById('toastBox');
+            const messageEl = document.getElementById('toastMessage');
+            messageEl.innerText = msg;
+            toast.classList.add('active');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3500);
+        }
+
+        // 3. Live Image Upload Preview
+        const profilePicInput = document.getElementById('id_profile_picture');
+        const sidebarAvatarPreview = document.getElementById('sidebarAvatarPreview');
+        const sidebarAvatarFallback = document.getElementById('sidebarAvatarFallback');
+        const dropzonePreview = document.getElementById('dropzonePreview');
+
+        if (profilePicInput) {
+            profilePicInput.addEventListener('change', function (e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const newImgSrc = event.target.result;
+                        if (sidebarAvatarPreview) {
+                            sidebarAvatarPreview.src = newImgSrc;
+                            sidebarAvatarPreview.style.display = 'block';
+                        }
+                        if (sidebarAvatarFallback) {
+                            sidebarAvatarFallback.style.display = 'none';
+                        }
+                        if (dropzonePreview) {
+                            dropzonePreview.src = newImgSrc;
+                        }
+                        showToast("Photo selected! Click 'Save Changes' to apply.");
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
+
+        // 4. Real-time Form Synchronizers for Sidebar
+        const firstNameInput = document.getElementById('id_first_name');
+        const lastNameInput = document.getElementById('id_last_name');
+        const usernameInput = document.getElementById('id_username');
+        const bioInput = document.getElementById('id_bio');
+        const phoneInput = document.getElementById('id_phone_number');
+        const latInput = document.getElementById('id_latitude');
+        const lngInput = document.getElementById('id_longitude');
+
+        function updateSidebarMeta() {
+            const fName = firstNameInput ? firstNameInput.value.trim() : '';
+            const lName = lastNameInput ? lastNameInput.value.trim() : '';
+            const fullNameEl = document.getElementById('sidebarFullName');
+            if (fullNameEl) {
+                fullNameEl.innerText = (fName || lName) ? `${fName} ${lName}` : 'Alex Morgan';
+            }
+
+            const uName = usernameInput ? usernameInput.value.trim() : '';
+            const uNameEl = document.getElementById('sidebarUsername');
+            if (uNameEl && uName) {
+                uNameEl.innerText = `@${uName}`;
+            }
+
+            const bioVal = bioInput ? bioInput.value : '';
+            const bioEl = document.getElementById('sidebarBioPreview');
+            const bioCount = document.getElementById('bioCharCount');
+            if (bioEl) {
+                bioEl.innerText = bioVal || 'No bio added yet. Tell us about yourself!';
+            }
+            if (bioCount) {
+                bioCount.innerText = bioVal.length;
+            }
+
+            const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+            const phoneEl = document.getElementById('sidebarPhone');
+            if (phoneEl) {
+                phoneEl.innerText = phoneVal || 'Not set';
+            }
+
+            updateCoordsDisplay();
+        }
+
+        function updateCoordsDisplay() {
+            const lat = latInput ? latInput.value.trim() : '';
+            const lng = lngInput ? lngInput.value.trim() : '';
+            const coordsText = document.getElementById('coordsPreviewText');
+            const sidebarCoords = document.getElementById('sidebarCoords');
+            if (lat && lng) {
+                const formatted = `${parseFloat(lat).toFixed(6)}, ${parseFloat(lng).toFixed(6)}`;
+                if (coordsText) coordsText.innerText = formatted;
+                if (sidebarCoords) sidebarCoords.innerText = formatted;
+            } else {
+                if (coordsText) coordsText.innerText = 'Coordinates not calibrated';
+                if (sidebarCoords) sidebarCoords.innerText = 'Not calibrated';
+            }
+        }
+
+        [firstNameInput, lastNameInput, usernameInput, phoneInput].forEach(el => {
+            if (el) el.addEventListener('input', updateSidebarMeta);
+        });
+
+        if (bioInput) {
+            bioInput.addEventListener('input', updateSidebarMeta);
+            // initialize bio char count
+            const bioCount = document.getElementById('bioCharCount');
+            if (bioCount) bioCount.innerText = bioInput.value.length;
+        }
+
+        if (latInput) latInput.addEventListener('input', updateCoordsDisplay);
+        if (lngInput) lngInput.addEventListener('input', updateCoordsDisplay);
+
+        // 5. GPS Auto-Detection via Browser Geolocation API
+        function detectGPSLocation() {
+            const detectBtn = document.getElementById('detectLocationBtn');
+            if (!navigator.geolocation) {
+                showToast("Geolocation is not supported by your browser.");
+                return;
+            }
+
+            const originalBtnText = detectBtn.innerHTML;
+            detectBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Detecting...';
+            detectBtn.disabled = true;
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const lat = position.coords.latitude.toFixed(12);
+                    const lng = position.coords.longitude.toFixed(12);
+
+                    if (latInput) latInput.value = lat;
+                    if (lngInput) lngInput.value = lng;
+
+                    updateCoordsDisplay();
+                    detectBtn.innerHTML = '<i class="fa-solid fa-check"></i> Calibrated!';
+                    showToast(`📍 Location calibrated: ${position.coords.latitude.toFixed(4)}, ${position.coords.longitude.toFixed(4)}`);
+
+                    setTimeout(() => {
+                        detectBtn.innerHTML = originalBtnText;
+                        detectBtn.disabled = false;
+                    }, 2500);
+                },
+                (error) => {
+                    console.warn("GPS detection failed:", error.message);
+                    // Fallback to Kathmandu coordinates for demonstration
+                    if (latInput) latInput.value = "27.717245300000";
+                    if (lngInput) lngInput.value = "85.323960500000";
+                    updateCoordsDisplay();
+                    detectBtn.innerHTML = originalBtnText;
+                    detectBtn.disabled = false;
+                    showToast("Calibrated default coordinates (Kathmandu, Nepal)");
+                },
+                { enableHighAccuracy: true, timeout: 8000, maximumAge: 0 }
+            );
+        }
+
+        // 6. Copy Coordinates to Clipboard
+        function copyCoordinates() {
+            const coordsText = document.getElementById('coordsPreviewText').innerText;
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(coordsText).then(() => {
+                    showToast("📋 Coordinates copied to clipboard!");
+                });
+            } else {
+                showToast(`Coordinates: ${coordsText}`);
+            }
+        }
+
+        // 7. Live Search Handlers
+        function handleSearch(query) {
+            const dropdown = document.getElementById('searchResultsDropdown');
+            const clearBtn = document.getElementById('searchClearBtn');
+            const q = query.trim().toLowerCase();
+
+            if (q.length > 0) {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+
+            if (!q) {
+                dropdown.classList.remove('active');
+                return;
+            }
+
+            const matches = PRODUCT_CATALOG.filter(item => {
+                return item.title.toLowerCase().includes(q) ||
+                    item.category.toLowerCase().includes(q) ||
+                    item.keywords.some(k => k.includes(q));
+            });
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = `
+                    <div style="padding: 20px; text-align: center; color: #6b7280;">
+                        <p>No results found for "<strong>${escapeHtml(query)}</strong>"</p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div class="search-dropdown-header">
+                        <span>Found ${matches.length} Result${matches.length > 1 ? 's' : ''}</span>
+                        <span style="color: var(--primary-orange); cursor: pointer;" onclick="closeSearchDropdown()">Close</span>
+                    </div>
+                `;
+
+                matches.forEach(item => {
+                    html += `
+                        <a href="${item.url}" class="search-item-row">
+                            <img src="${item.image}" alt="${item.title}" class="search-item-img">
+                            <div class="search-item-info">
+                                <span class="search-item-title">${item.title}</span>
+                                <span class="search-item-category">${item.category}</span>
+                            </div>
+                            <span class="search-item-price">${item.price}</span>
+                        </a>
+                    `;
+                });
+
+                dropdown.innerHTML = html;
+            }
+
+            dropdown.classList.add('active');
+        }
+
+        function handleSearchFocus() {
+            const input = document.getElementById('navSearchInput');
+            if (input.value.trim()) {
+                handleSearch(input.value);
+            }
+        }
+
+        function clearSearchInput() {
+            const input = document.getElementById('navSearchInput');
+            input.value = '';
+            document.getElementById('searchClearBtn').style.display = 'none';
+            document.getElementById('searchResultsDropdown').classList.remove('active');
+            input.focus();
+        }
+
+        function closeSearchDropdown() {
+            document.getElementById('searchResultsDropdown').classList.remove('active');
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag));
+        }
+
+        document.addEventListener('click', function (e) {
+            const container = document.getElementById('navSearchContainer');
+            if (container && !container.contains(e.target)) {
+                closeSearchDropdown();
+            }
+        });
+
+        // Initialize state on load
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSidebarMeta();
+        });
+    </script>
+</body>
+
+</html>

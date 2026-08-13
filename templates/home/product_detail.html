@@ -1,0 +1,1420 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEROFLOW MAX - Phidimservice</title>
+    <meta name="description" content="Experience pure sound with AEROFLOW MAX Active Noise Canceling Headphones at Phidimservice.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-orange: #ff5400;
+            --primary-orange-hover: #e04800;
+            --primary-orange-glow: rgba(255, 84, 0, 0.35);
+            --text-dark: #111418;
+            --text-muted: #6b7280;
+            --badge-green-bg: #d1fae5;
+            --badge-green-text: #065f46;
+            --card-gray-bg: #f5f6f9;
+            --btn-dark: #2b303a;
+            --btn-dark-hover: #1e2229;
+            --star-gold: #f59e0b;
+            --spark-gold: #fbbf24;
+            --font-main: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #ffffff;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Navbar */
+        .header-navbar {
+            width: 100%;
+            height: 76px;
+            background: #ffffff;
+            padding: 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            gap: 24px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+            flex-shrink: 0;
+        }
+
+        .brand-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #ff7a00, #ff4500);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 14px var(--primary-orange-glow);
+        }
+
+        .brand-text-wrap {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #1a1d20;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-title span {
+            color: var(--primary-orange);
+        }
+
+        .brand-subtitle {
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.2px;
+        }
+
+        .nav-links-menu {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .nav-item-link {
+            text-decoration: none;
+            color: #333940;
+            font-size: 0.94rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+
+        .nav-item-link:hover {
+            color: var(--primary-orange);
+        }
+
+        /* Working Live Search Bar */
+        .nav-search-container {
+            position: relative;
+            flex: 1;
+            max-width: 380px;
+        }
+
+        .nav-search-input-wrap {
+            display: flex;
+            align-items: center;
+            background: #f4f5f8;
+            border: 1.5px solid transparent;
+            border-radius: 12px;
+            padding: 0 14px;
+            height: 44px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-search-input-wrap:focus-within {
+            background: #ffffff;
+            border-color: var(--primary-orange);
+            box-shadow: 0 4px 18px rgba(255, 84, 0, 0.15);
+        }
+
+        .search-icon-left {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-right: 10px;
+        }
+
+        .nav-search-input {
+            width: 100%;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: var(--font-main);
+            font-size: 0.9rem;
+            color: #111418;
+            font-weight: 500;
+        }
+
+        .nav-search-input::placeholder {
+            color: #9ca3af;
+            font-weight: 400;
+        }
+
+        .search-clear-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            font-size: 0.85rem;
+            padding: 4px;
+            display: none;
+            transition: color 0.2s ease;
+        }
+
+        .search-clear-btn:hover {
+            color: #111418;
+        }
+
+        .search-results-dropdown {
+            position: absolute;
+            top: 52px;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.14);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 14px;
+            display: none;
+            z-index: 2000;
+            max-height: 440px;
+            overflow-y: auto;
+            animation: fadeInDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .search-results-dropdown.active {
+            display: block;
+        }
+
+        .search-dropdown-header {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 8px 10px 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-item-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: inherit;
+            transition: background 0.2s ease;
+            margin-top: 4px;
+        }
+
+        .search-item-row:hover {
+            background-color: #faf8f5;
+        }
+
+        .search-item-img {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #f0f2f5;
+            flex-shrink: 0;
+        }
+
+        .search-item-info {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .search-item-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #111418;
+            line-height: 1.2;
+        }
+
+        .search-item-category {
+            font-size: 0.76rem;
+            color: #6b7280;
+            margin-top: 2px;
+        }
+
+        .search-item-price {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary-orange);
+            white-space: nowrap;
+        }
+
+        .search-empty-state {
+            padding: 24px 16px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .search-trending-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            padding: 8px 6px 4px 6px;
+        }
+
+        .trending-chip {
+            background: #f4f5f8;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .trending-chip:hover {
+            background: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+
+        .btn-shop-now {
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            text-transform: uppercase;
+            box-shadow: 0 4px 18px var(--primary-orange-glow);
+            transition: all 0.25s ease;
+        }
+
+        .btn-shop-now:hover {
+            background-color: var(--primary-orange-hover);
+            transform: translateY(-2px);
+        }
+
+        .nav-icon-btn {
+            background: none;
+            border: none;
+            color: #2b303a;
+            font-size: 1.15rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-icon-btn:hover {
+            background-color: #f1f3f5;
+            color: var(--primary-orange);
+        }
+
+        /* Breadcrumbs */
+        .breadcrumbs-bar {
+            max-width: 1240px;
+            margin: 24px auto 0 auto;
+            padding: 0 40px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #6b7280;
+        }
+
+        .breadcrumbs-bar a {
+            color: #6b7280;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .breadcrumbs-bar a:hover {
+            color: var(--primary-orange);
+        }
+
+        .breadcrumbs-bar span.active {
+            color: #111418;
+            font-weight: 700;
+        }
+
+        /* Main Product Detail Section */
+        .product-detail-wrapper {
+            max-width: 1240px;
+            margin: 20px auto 50px auto;
+            padding: 0 40px;
+            width: 100%;
+        }
+
+        .product-showcase-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 56px;
+            align-items: start;
+        }
+
+        .product-gallery-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .main-image-display {
+            background-color: var(--card-gray-bg);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 480px;
+            position: relative;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02);
+        }
+
+        .main-product-img {
+            width: 100%;
+            max-width: 380px;
+            height: auto;
+            max-height: 400px;
+            object-fit: contain;
+            display: block;
+            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.12));
+            transition: transform 0.3s ease, opacity 0.2s ease;
+        }
+
+        .main-image-display:hover .main-product-img {
+            transform: scale(1.04);
+        }
+
+        .thumbnails-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .thumb-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .thumb-img-box {
+            width: 100%;
+            height: 90px;
+            background-color: var(--card-gray-bg);
+            border-radius: 14px;
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+
+        .thumb-img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.2s ease;
+        }
+
+        .thumb-card:hover .thumb-img-box {
+            border-color: rgba(0, 0, 0, 0.2);
+        }
+
+        .thumb-card:hover .thumb-img-box img {
+            transform: scale(1.08);
+        }
+
+        .thumb-card.active .thumb-img-box {
+            border-color: #111418;
+            background-color: #f0f2f6;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .thumb-label {
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #4b5563;
+            text-align: center;
+        }
+
+        .product-info-column {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-top: 10px;
+        }
+
+        .product-main-title {
+            font-size: 2.75rem;
+            font-weight: 900;
+            color: #111418;
+            line-height: 1.1;
+            letter-spacing: -0.5px;
+            margin-bottom: 6px;
+        }
+
+        .product-tagline {
+            font-size: 1.1rem;
+            color: #4b5563;
+            font-weight: 500;
+            margin-bottom: 14px;
+        }
+
+        .product-ratings-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+
+        .rating-stars {
+            color: var(--star-gold);
+            font-size: 0.95rem;
+            display: flex;
+            gap: 2px;
+        }
+
+        .rating-score {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #111418;
+            margin-left: 2px;
+        }
+
+        .rating-reviews-count {
+            font-size: 0.88rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .product-pricing-wrap {
+            margin-bottom: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .price-original {
+            font-size: 1.05rem;
+            color: #9ca3af;
+            text-decoration: line-through;
+            font-weight: 500;
+        }
+
+        .price-current-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .price-current {
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: var(--primary-orange);
+            line-height: 1;
+            letter-spacing: -0.5px;
+        }
+
+        .price-savings-badge {
+            background-color: var(--badge-green-bg);
+            color: var(--badge-green-text);
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        .product-description-text {
+            font-size: 0.98rem;
+            line-height: 1.65;
+            color: #4b5563;
+            margin-bottom: 28px;
+            max-width: 500px;
+        }
+
+        .product-buttons-stack {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .btn-add-to-cart {
+            width: 100%;
+            background-color: var(--primary-orange);
+            color: #ffffff;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 18px var(--primary-orange-glow);
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .btn-add-to-cart:hover {
+            background-color: var(--primary-orange-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(255, 84, 0, 0.45);
+        }
+
+        .btn-buy-now {
+            width: 100%;
+            background-color: var(--btn-dark);
+            color: #ffffff;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .btn-buy-now:hover {
+            background-color: var(--btn-dark-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .shipping-hint-text {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #6b7280;
+            margin-bottom: 28px;
+        }
+
+        .trust-guarantee-box {
+            width: 100%;
+            max-width: 500px;
+            background-color: #f9fafb;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 16px;
+            padding: 20px 24px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 24px;
+        }
+
+        .trust-item-pill {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.86rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .trust-item-pill i {
+            color: #4b5563;
+            font-size: 1.05rem;
+        }
+
+        /* 15% Off Banner */
+        .exclusive-banner-section {
+            max-width: 1240px;
+            margin: 0 auto 70px auto;
+            padding: 0 40px;
+            width: 100%;
+        }
+
+        .exclusive-promo-card {
+            background: radial-gradient(circle at 50% 50%, #183e2e 0%, #122b20 50%, #0a1b14 100%);
+            border-radius: 20px;
+            padding: 30px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(18, 43, 32, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            gap: 32px;
+        }
+
+        .spark-accent {
+            position: absolute;
+            pointer-events: none;
+            color: var(--spark-gold);
+            font-size: 1rem;
+            opacity: 0.85;
+            line-height: 1;
+        }
+
+        .spark-left-top { top: 18px; left: 35px; transform: rotate(-25deg); font-weight: 900; }
+        .spark-left-dot { top: 50%; left: 24px; transform: translateY(-50%); width: 5px; height: 5px; background: #ffffff; border-radius: 50%; opacity: 0.8; }
+        .spark-left-bot { bottom: 18px; left: 40px; transform: rotate(35deg); font-weight: 900; }
+
+        .spark-mid-top { top: 16px; left: 56%; transform: rotate(35deg); font-weight: 900; }
+        .spark-mid-dot { top: 48%; left: 58%; width: 6px; height: 6px; background: #ffffff; border-radius: 50%; opacity: 0.9; }
+        .spark-mid-bot { bottom: 16px; left: 57%; transform: rotate(-30deg); font-weight: 900; }
+
+        .spark-right-top { top: 20px; right: 35px; transform: rotate(35deg); font-weight: 900; }
+        .spark-right-dot { top: 50%; right: 22px; transform: translateY(-50%); width: 5px; height: 5px; background: #ffffff; border-radius: 50%; opacity: 0.8; }
+        .spark-right-bot { bottom: 20px; right: 40px; transform: rotate(-35deg); font-weight: 900; }
+
+        .promo-left-wrap {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .promo-tag-icon-box {
+            width: 70px;
+            height: 70px;
+            background: #ffffff;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #122b20;
+            font-size: 2rem;
+            transform: rotate(-12deg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .exclusive-promo-card:hover .promo-tag-icon-box {
+            transform: rotate(0deg) scale(1.06);
+            color: var(--primary-orange);
+        }
+
+        .promo-text-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .promo-sub-label {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 3px;
+        }
+
+        .promo-main-heading {
+            font-size: 2.3rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+
+        .promo-desc-line {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+        }
+
+        .promo-right-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex-shrink: 0;
+        }
+
+        .promo-code-dashed-box {
+            border: 2px dashed rgba(255, 255, 255, 0.45);
+            border-radius: 14px;
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            user-select: none;
+        }
+
+        .promo-code-dashed-box:hover {
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+
+        .code-title-small {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.75);
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .code-string-bold {
+            font-size: 1.45rem;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 2px;
+            line-height: 1.1;
+        }
+
+        .promo-validity-text {
+            font-size: 0.74rem;
+            color: rgba(255, 255, 255, 0.65);
+            margin-top: 6px;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: #122b20;
+            color: #ffffff;
+            padding: 50px 40px 25px 40px;
+            margin-top: auto;
+        }
+
+        .footer-inner {
+            max-width: 1240px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .footer-links-row {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+        }
+
+        .footer-link-item {
+            color: rgba(255, 255, 255, 0.75);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-link-item:hover {
+            color: var(--primary-orange);
+        }
+
+        .footer-bottom-copy {
+            max-width: 1240px;
+            margin: 20px auto 0 auto;
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Toast Popup */
+        .toast-popup {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #122b20;
+            color: #ffffff;
+            padding: 14px 24px;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary-orange);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 10000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .toast-popup.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .header-navbar,
+            .breadcrumbs-bar,
+            .product-detail-wrapper,
+            .exclusive-banner-section,
+            .main-footer {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            .product-showcase-card {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+            .product-info-column {
+                align-items: stretch;
+            }
+            .product-description-text,
+            .product-buttons-stack,
+            .shipping-hint-text,
+            .trust-guarantee-box {
+                max-width: 100%;
+            }
+            .nav-links-menu {
+                display: none;
+            }
+            .nav-search-container {
+                max-width: 200px;
+            }
+            .exclusive-promo-card {
+                flex-direction: column;
+                padding: 28px 20px;
+                text-align: center;
+            }
+            .promo-left-wrap {
+                flex-direction: column;
+                gap: 16px;
+            }
+            .spark-mid-top, .spark-mid-dot, .spark-mid-bot {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Header Navbar (with Functional Live Search Bar) -->
+    <header class="header-navbar">
+        <a href="/" class="nav-brand">
+            <div class="brand-logo-icon">
+                <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <div class="brand-text-wrap">
+                <span class="brand-title">Phidim<span>service</span></span>
+                <span class="brand-subtitle">Shop Smart. Live Better.</span>
+            </div>
+        </a>
+
+        <nav>
+            <ul class="nav-links-menu">
+                <li><a href="/" class="nav-item-link">Home</a></li>
+                <li><a href="{% url 'about' %}" class="nav-item-link">About</a></li>
+                <li><a href="{% url 'services' %}" class="nav-item-link">Services</a></li>
+                <li><a href="{% url 'contact' %}" class="nav-item-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Working Live Search Input & Results Dropdown -->
+        <div class="nav-search-container" id="navSearchContainer">
+            <div class="nav-search-input-wrap">
+                <i class="fa-solid fa-magnifying-glass search-icon-left"></i>
+                <input 
+                    type="text" 
+                    class="nav-search-input" 
+                    id="navSearchInput" 
+                    placeholder="Search products, audio, sneakers..." 
+                    autocomplete="off"
+                    oninput="handleSearch(this.value)"
+                    onfocus="handleSearchFocus()"
+                >
+                <button class="search-clear-btn" id="searchClearBtn" onclick="clearSearchInput()" title="Clear Search">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="search-results-dropdown" id="searchResultsDropdown">
+                <!-- Injected via JavaScript -->
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <button class="nav-icon-btn" title="Cart" onclick="showToast('🛒 Shopping Cart (1 item)')">
+                <i class="fa-solid fa-cart-shopping"></i>
+            </button>
+            {% if user.is_authenticated %}
+            <a href="{% url 'account_logout' %}" class="btn-shop-now" title="Logout">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>LOGOUT</span>
+            </a>
+            {% else %}
+            <a href="{% url 'account_login' %}" class="btn-shop-now" title="Login">
+                <i class="fa-regular fa-user"></i>
+                <span>LOGIN</span>
+            </a>
+            {% endif %}
+        </div>
+    </header>
+
+    <!-- 2. Breadcrumbs -->
+    <div class="breadcrumbs-bar">
+        <a href="/">Home</a>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: #9ca3af;"></i>
+        <a href="/#categories">Tech & Audio</a>
+        <i class="fa-solid fa-chevron-right" style="font-size: 0.7rem; color: #9ca3af;"></i>
+        <span class="active">AEROFLOW MAX</span>
+    </div>
+
+    <!-- 3. Main Product Detail Section -->
+    <main class="product-detail-wrapper">
+        <div class="product-showcase-card">
+            
+            <!-- Left Side: Interactive Gallery -->
+            <div class="product-gallery-column">
+                <div class="main-image-display">
+                    <img src="{% static 'images/aeroflow-main.png' %}" alt="AEROFLOW MAX Active Noise Canceling Headphones" class="main-product-img" id="mainProductImg">
+                </div>
+
+                <div class="thumbnails-row">
+                    <div class="thumb-card active" onclick="swapProductView('{% static 'images/aeroflow-main.png' %}', this, 'Main view')">
+                        <div class="thumb-img-box">
+                            <img src="{% static 'images/aeroflow-main.png' %}" alt="Main view">
+                        </div>
+                        <span class="thumb-label">Main view</span>
+                    </div>
+
+                    <div class="thumb-card" onclick="swapProductView('{% static 'images/aeroflow-front.png' %}', this, 'Front view')">
+                        <div class="thumb-img-box">
+                            <img src="{% static 'images/aeroflow-front.png' %}" alt="Front view">
+                        </div>
+                        <span class="thumb-label">Front view</span>
+                    </div>
+
+                    <div class="thumb-card" onclick="swapProductView('{% static 'images/aeroflow-case.png' %}', this, 'Charging case')">
+                        <div class="thumb-img-box">
+                            <img src="{% static 'images/aeroflow-case.png' %}" alt="Charging case">
+                        </div>
+                        <span class="thumb-label">Charging case</span>
+                    </div>
+
+                    <div class="thumb-card" onclick="swapProductView('{% static 'images/aeroflow-detail.png' %}', this, 'Detail view')">
+                        <div class="thumb-img-box">
+                            <img src="{% static 'images/aeroflow-detail.png' %}" alt="Detail view">
+                        </div>
+                        <span class="thumb-label">Detail view</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Product Details & Actions -->
+            <div class="product-info-column">
+                <h1 class="product-main-title">AEROFLOW MAX</h1>
+                <p class="product-tagline">Active Noise Canceling Headphones</p>
+
+                <!-- Reviews Row -->
+                <div class="product-ratings-row">
+                    <div class="rating-stars">
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star"></i>
+                        <i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <span class="rating-score">4.8</span>
+                    <span class="rating-reviews-count">| 1,450 Reviews</span>
+                </div>
+
+                <!-- Price Row -->
+                <div class="product-pricing-wrap">
+                    <span class="price-original">$399</span>
+                    <div class="price-current-row">
+                        <span class="price-current">$299.00</span>
+                        <span class="price-savings-badge">Save $100</span>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <p class="product-description-text">
+                    Immerse yourself in pure sound. Experience industry-leading Active Noise Cancellation, 40-hour battery life, and unparalleled comfort.
+                </p>
+
+                <!-- Purchase Buttons -->
+                <div class="product-buttons-stack">
+                    <button class="btn-add-to-cart" onclick="showToast('🛍️ AEROFLOW MAX added to Cart!')">
+                        ADD TO CART
+                    </button>
+                    <button class="btn-buy-now" onclick="showToast('⚡ Proceeding to Instant Checkout...')">
+                        BUY NOW
+                    </button>
+                </div>
+
+                <!-- Free Shipping Text -->
+                <p class="shipping-hint-text">Free 2-Day Shipping</p>
+
+                <!-- 2x2 Trust Guarantees -->
+                <div class="trust-guarantee-box">
+                    <div class="trust-item-pill">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>Secure Checkout</span>
+                    </div>
+                    <div class="trust-item-pill">
+                        <i class="fa-solid fa-truck-fast"></i>
+                        <span>Fast Shipping</span>
+                    </div>
+                    <div class="trust-item-pill">
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                        <span>30-Day Money Back</span>
+                    </div>
+                    <div class="trust-item-pill">
+                        <i class="fa-solid fa-shield-check"></i>
+                        <span>2-Year Warranty</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- 4. Exclusive 15% OFF Promo Coupon Banner -->
+    <section class="exclusive-banner-section">
+        <div class="exclusive-promo-card">
+            
+            <span class="spark-accent spark-left-top"><i class="fa-solid fa-slash"></i></span>
+            <span class="spark-accent spark-left-dot"></span>
+            <span class="spark-accent spark-left-bot"><i class="fa-solid fa-slash"></i></span>
+
+            <span class="spark-accent spark-mid-top"><i class="fa-solid fa-slash"></i></span>
+            <span class="spark-accent spark-mid-dot"></span>
+            <span class="spark-accent spark-mid-bot"><i class="fa-solid fa-slash"></i></span>
+
+            <span class="spark-accent spark-right-top"><i class="fa-solid fa-slash"></i></span>
+            <span class="spark-accent spark-right-dot"></span>
+            <span class="spark-accent spark-right-bot"><i class="fa-solid fa-slash"></i></span>
+
+            <div class="promo-left-wrap">
+                <div class="promo-tag-icon-box">
+                    <i class="fa-solid fa-tag"></i>
+                </div>
+                <div class="promo-text-block">
+                    <span class="promo-sub-label">EXCLUSIVE OFFER JUST FOR YOU!</span>
+                    <h3 class="promo-main-heading">GET 15% OFF</h3>
+                    <p class="promo-desc-line">On your next order</p>
+                </div>
+            </div>
+
+            <div class="promo-right-wrap">
+                <div class="promo-code-dashed-box" onclick="copyCouponCode('WELCOME15')" title="Click to copy coupon code">
+                    <span class="code-title-small">USE CODE:</span>
+                    <span class="code-string-bold">WELCOME15</span>
+                </div>
+                <span class="promo-validity-text">Offer valid for the next 7 days only.</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 5. Footer -->
+    <footer class="main-footer">
+        <div class="footer-inner">
+            <a href="/" class="footer-brand">
+                <div class="brand-logo-icon">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                </div>
+                <div class="brand-text-wrap">
+                    <span class="brand-title" style="color:#ffffff;">Phidim<span style="color:var(--primary-orange);">service</span></span>
+                    <span class="brand-subtitle" style="color:rgba(255,255,255,0.6);">Shop Smart. Live Better.</span>
+                </div>
+            </a>
+
+            <ul class="footer-links-row">
+                <li><a href="/" class="footer-link-item">Home</a></li>
+                <li><a href="{% url 'about' %}" class="footer-link-item">About</a></li>
+                <li><a href="{% url 'services' %}" class="footer-link-item">Services</a></li>
+                <li><a href="{% url 'contact' %}" class="footer-link-item">Contact</a></li>
+                <li><a href="{% url 'account_login' %}" class="footer-link-item">Account Login</a></li>
+            </ul>
+        </div>
+        <p class="footer-bottom-copy">
+            © 2026 Phidimservice. All Rights Reserved. Delivered with precision and care.
+        </p>
+    </footer>
+
+    <!-- Toast Popup -->
+    <div class="toast-popup" id="toastBox">Message</div>
+
+    <!-- Product Catalog Data & Live Search Script -->
+    <script>
+        const PRODUCT_CATALOG = [
+            {
+                id: 'aeroflow-max',
+                title: 'AEROFLOW MAX Headphone',
+                category: 'Audio & Smart Tech',
+                price: '$299.00',
+                image: "{% static 'images/aeroflow-main.png' %}",
+                url: "{% url 'product_detail' 'aeroflow-max' %}",
+                keywords: ['aeroflow', 'headphone', 'headphones', 'audio', 'sound', 'noise canceling', 'music', 'airpods', 'wireless', 'bluetooth']
+            },
+            {
+                id: 'womens-attire',
+                title: "Women's Luxury Attire & Blazer",
+                category: "Women's Fashion",
+                price: '$149.00',
+                image: "{% static 'images/cat-fashion.png' %}",
+                url: "{% url 'product_detail' 'womens-attire' %}",
+                keywords: ['women', 'attire', 'blazer', 'fashion', 'clothes', 'dress', 'outfit', 'apparel', 'luxury']
+            },
+            {
+                id: 'athletic-sneakers',
+                title: 'Athletic Performance Sneakers',
+                category: 'Footwear & Shoes',
+                price: '$119.00',
+                image: "{% static 'images/category-grid.png' %}",
+                url: "{% url 'product_detail' 'athletic-sneakers' %}",
+                keywords: ['sneakers', 'shoes', 'athletic', 'footwear', 'running', 'kicks', 'white sneakers', 'sport']
+            },
+            {
+                id: 'leather-tote-bags',
+                title: 'Genuine Leather Tote Bag',
+                category: 'Bags & Accessories',
+                price: '$189.00',
+                image: "{% static 'images/hero-showcase.png' %}",
+                url: "{% url 'product_detail' 'leather-tote-bags' %}",
+                keywords: ['bag', 'bags', 'tote', 'leather', 'handbag', 'luxury bag', 'purse', 'travel']
+            },
+            {
+                id: 'charging-case',
+                title: 'AeroFlow Wireless Case',
+                category: 'Audio Accessories',
+                price: '$59.00',
+                image: "{% static 'images/aeroflow-case.png' %}",
+                url: "{% url 'product_detail' 'aeroflow-max' %}",
+                keywords: ['case', 'charging', 'case', 'wireless', 'accessories', 'aeroflow']
+            },
+            {
+                id: 'smart-tech',
+                title: 'Smart Tech Gadgets & Devices',
+                category: 'Electronics & Gadgets',
+                price: '$199.00',
+                image: "{% static 'images/cat-tech.png' %}",
+                url: "{% url 'product_detail' 'aeroflow-max' %}",
+                keywords: ['tech', 'electronics', 'smart', 'gadgets', 'watch', 'phone', 'devices']
+            }
+        ];
+
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById('toastBox');
+            toast.innerText = msg;
+            toast.classList.add('active');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        function copyCouponCode(code) {
+            navigator.clipboard.writeText(code).then(() => {
+                showToast(`🎉 Coupon code "${code}" copied to clipboard! (15% OFF applied)`);
+            }).catch(() => {
+                showToast(`🎉 Coupon code: ${code} (15% OFF)`);
+            });
+        }
+
+        function swapProductView(src, element, label) {
+            const mainImg = document.getElementById('mainProductImg');
+            const allCards = document.querySelectorAll('.thumb-card');
+            
+            allCards.forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+
+            mainImg.style.opacity = '0.3';
+            setTimeout(() => {
+                mainImg.src = src;
+                mainImg.style.opacity = '1';
+            }, 120);
+
+            showToast(`Switched view: ${label}`);
+        }
+
+        // Live Search Handling
+        function handleSearch(query) {
+            const dropdown = document.getElementById('searchResultsDropdown');
+            const clearBtn = document.getElementById('searchClearBtn');
+            const q = query.trim().toLowerCase();
+
+            if (q.length > 0) {
+                clearBtn.style.display = 'block';
+            } else {
+                clearBtn.style.display = 'none';
+            }
+
+            if (!q) {
+                renderTrendingSearches();
+                dropdown.classList.add('active');
+                return;
+            }
+
+            const matches = PRODUCT_CATALOG.filter(item => {
+                return item.title.toLowerCase().includes(q) ||
+                       item.category.toLowerCase().includes(q) ||
+                       item.keywords.some(k => k.includes(q));
+            });
+
+            if (matches.length === 0) {
+                dropdown.innerHTML = `
+                    <div class="search-empty-state">
+                        <i class="fa-solid fa-magnifying-glass" style="font-size: 1.5rem; margin-bottom: 8px; color: #9ca3af; display: block;"></i>
+                        <p>No products found for "<strong>${escapeHtml(query)}</strong>"</p>
+                        <p style="font-size: 0.78rem; color: #9ca3af; margin-top: 4px;">Try searching for <em>headphones</em>, <em>sneakers</em>, <em>bags</em>, or <em>blazers</em></p>
+                    </div>
+                `;
+            } else {
+                let html = `
+                    <div class="search-dropdown-header">
+                        <span>Found ${matches.length} Product${matches.length > 1 ? 's' : ''}</span>
+                        <span style="color: var(--primary-orange); cursor: pointer;" onclick="closeSearchDropdown()">Close</span>
+                    </div>
+                `;
+
+                matches.forEach(item => {
+                    html += `
+                        <a href="${item.url}" class="search-item-row">
+                            <img src="${item.image}" alt="${item.title}" class="search-item-img">
+                            <div class="search-item-info">
+                                <span class="search-item-title">${highlightMatch(item.title, q)}</span>
+                                <span class="search-item-category">${item.category}</span>
+                            </div>
+                            <span class="search-item-price">${item.price}</span>
+                        </a>
+                    `;
+                });
+
+                dropdown.innerHTML = html;
+            }
+
+            dropdown.classList.add('active');
+        }
+
+        function handleSearchFocus() {
+            const input = document.getElementById('navSearchInput');
+            if (!input.value.trim()) {
+                renderTrendingSearches();
+            } else {
+                handleSearch(input.value);
+            }
+            document.getElementById('searchResultsDropdown').classList.add('active');
+        }
+
+        function renderTrendingSearches() {
+            const dropdown = document.getElementById('searchResultsDropdown');
+            dropdown.innerHTML = `
+                <div class="search-dropdown-header">
+                    <span>Popular Searches</span>
+                </div>
+                <div class="search-trending-chips">
+                    <button class="trending-chip" onclick="quickSearch('headphones')">🎧 Headphones</button>
+                    <button class="trending-chip" onclick="quickSearch('aeroflow')">🔥 AeroFlow Max</button>
+                    <button class="trending-chip" onclick="quickSearch('sneakers')">👟 Sneakers</button>
+                    <button class="trending-chip" onclick="quickSearch('bags')">👜 Leather Bags</button>
+                    <button class="trending-chip" onclick="quickSearch('attire')">👗 Women's Attire</button>
+                </div>
+            `;
+        }
+
+        function quickSearch(term) {
+            const input = document.getElementById('navSearchInput');
+            input.value = term;
+            handleSearch(term);
+        }
+
+        function clearSearchInput() {
+            const input = document.getElementById('navSearchInput');
+            input.value = '';
+            document.getElementById('searchClearBtn').style.display = 'none';
+            renderTrendingSearches();
+            input.focus();
+        }
+
+        function closeSearchDropdown() {
+            document.getElementById('searchResultsDropdown').classList.remove('active');
+        }
+
+        function highlightMatch(text, query) {
+            const idx = text.toLowerCase().indexOf(query.toLowerCase());
+            if (idx === -1) return escapeHtml(text);
+            const before = text.substring(0, idx);
+            const match = text.substring(idx, idx + query.length);
+            const after = text.substring(idx + query.length);
+            return `${escapeHtml(before)}<strong style="color: var(--primary-orange);">${escapeHtml(match)}</strong>${escapeHtml(after)}`;
+        }
+
+        function escapeHtml(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+
+        document.addEventListener('click', function(e) {
+            const container = document.getElementById('navSearchContainer');
+            if (container && !container.contains(e.target)) {
+                closeSearchDropdown();
+            }
+        });
+    </script>
+</body>
+</html>
