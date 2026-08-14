@@ -787,6 +787,16 @@
             border: 1px solid #f5d0fe;
         }
 
+        .badge-kyc {
+            background: #eef2ff;
+            color: #4f46e5;
+            border: 1px solid #c7d2fe;
+        }
+
+        .file-input-hidden {
+            display: none !important;
+        }
+
         .section-title-wrap h2 {
             font-family: var(--font-heading);
             font-size: 1.25rem;
@@ -993,6 +1003,411 @@
         .dropzone-btn:hover {
             border-color: var(--primary-orange);
             color: var(--primary-orange);
+        }
+
+        /* ----------------------------------------------------
+           KYC UPLOAD & DASHED DROPZONE STYLES
+        ---------------------------------------------------- */
+        .kyc-status-banner {
+            border-radius: var(--radius-md);
+            padding: 18px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            flex-wrap: wrap;
+            border: 1px solid transparent;
+        }
+
+        .kyc-status-banner.verified {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-color: #bbf7d0;
+        }
+
+        .kyc-status-banner.pending {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-color: #fde68a;
+        }
+
+        .kyc-status-banner.unverified {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-color: #e2e8f0;
+        }
+
+        .kyc-banner-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .kyc-banner-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .kyc-status-banner.verified .kyc-banner-icon {
+            background: #22c55e;
+            color: #ffffff;
+        }
+
+        .kyc-status-banner.pending .kyc-banner-icon {
+            background: #f59e0b;
+            color: #ffffff;
+        }
+
+        .kyc-status-banner.unverified .kyc-banner-icon {
+            background: #64748b;
+            color: #ffffff;
+        }
+
+        .kyc-banner-info h4 {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .kyc-banner-info p {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .kyc-guidelines-box {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+        }
+
+        .kyc-guidelines-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.86rem;
+            font-weight: 700;
+            color: #334155;
+            margin-bottom: 10px;
+        }
+
+        .kyc-guidelines-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            list-style: none;
+        }
+
+        .kyc-guidelines-list li {
+            font-size: 0.8rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .kyc-guidelines-list li i {
+            color: #10b981;
+            font-size: 0.75rem;
+        }
+
+        /* Dual Upload Grid */
+        .kyc-upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .kyc-upload-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .kyc-upload-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .kyc-upload-card:hover {
+            border-color: #cbd5e1;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .kyc-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .kyc-card-title-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .kyc-side-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #f1f5f9;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .kyc-card-title {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .kyc-card-badge {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .kyc-card-badge.required {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .kyc-card-badge.uploaded {
+            background: #ecfdf5;
+            color: #059669;
+            border: 1px solid #a7f3d0;
+        }
+
+        /* Dashed Dropzone Box */
+        .kyc-dropzone {
+            border: 2px dashed #cbd5e1;
+            border-radius: var(--radius-md);
+            background: #f8fafc;
+            padding: 28px 18px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 220px;
+        }
+
+        .kyc-dropzone:hover {
+            border-color: var(--primary-orange);
+            background: #fffaf5;
+            box-shadow: 0 4px 16px rgba(255, 84, 0, 0.08);
+        }
+
+        .kyc-dropzone.drag-over {
+            border-color: var(--primary-orange);
+            background: #fff7ed;
+            box-shadow: 0 0 0 4px rgba(255, 84, 0, 0.18);
+            transform: scale(1.015);
+        }
+
+        .kyc-dropzone-prompt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            pointer-events: none;
+            width: 100%;
+        }
+
+        .kyc-upload-icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1.5px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: var(--primary-orange);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        }
+
+        .kyc-dropzone:hover .kyc-upload-icon-circle {
+            transform: translateY(-3px);
+            background: var(--primary-orange);
+            color: #ffffff;
+        }
+
+        .kyc-dropzone-text h4 {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 3px;
+        }
+
+        .kyc-dropzone-text p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .kyc-dropzone-text strong {
+            color: var(--primary-orange);
+            text-decoration: underline;
+        }
+
+        .kyc-file-hint {
+            font-size: 0.74rem;
+            color: var(--text-subtle);
+            font-weight: 500;
+        }
+
+        /* KYC Image Live Preview */
+        .kyc-preview-wrap {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .kyc-preview-image-box {
+            position: relative;
+            width: 100%;
+            height: 170px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: #0f172a;
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kyc-preview-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .kyc-preview-img:hover {
+            transform: scale(1.04);
+        }
+
+        .kyc-preview-overlay-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(6px);
+            color: #ffffff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .kyc-file-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            gap: 8px;
+        }
+
+        .kyc-file-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow: hidden;
+        }
+
+        .kyc-file-info i {
+            font-size: 1.1rem;
+            color: var(--primary-orange);
+            flex-shrink: 0;
+        }
+
+        .kyc-file-names {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            text-align: left;
+        }
+
+        .kyc-file-name-text {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+
+        .kyc-file-size-text {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .kyc-preview-actions {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .btn-kyc-action {
+            background: #f8fafc;
+            border: 1px solid var(--border-light);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.76rem;
+            font-weight: 600;
+            color: #334155;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .btn-kyc-action:hover {
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
+            background: #fffaf5;
+        }
+
+        .btn-kyc-action.btn-remove:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            background: #fef2f2;
         }
 
         /* ----------------------------------------------------
@@ -1631,6 +2046,20 @@
                             <span class="status-badge unverified"><i class="fa-solid fa-clock"></i> Unverified</span>
                             {% endif %}
                         </div>
+
+                        <div class="quick-meta-item">
+                            <span class="meta-label"><i class="fa-solid fa-id-card"></i> KYC Status</span>
+                            {% if profile and profile.is_verified or not profile and p_form.is_verified.value %}
+                            <span class="status-badge verified"><i class="fa-solid fa-shield-check"></i> Approved</span>
+                            {% elif kyc and kyc.citizenship_front_image %}
+                            <span class="status-badge active"
+                                style="background:#fef3c7; color:#92400e; border: 1px solid #fde68a;"><i
+                                    class="fa-solid fa-hourglass-half"></i> In Review</span>
+                            {% else %}
+                            <span class="status-badge unverified"><i class="fa-solid fa-circle-exclamation"></i>
+                                Required</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </aside>
 
@@ -1898,7 +2327,280 @@
 
 
                     <!-- ==============================================
-                         SECTION 4: ACCOUNT STATUS & SYSTEM SETTINGS
+                         SECTION 4: KYC & IDENTITY VERIFICATION
+                    =============================================== -->
+                    <div class="form-section-card" id="kycSectionCard">
+                        <div class="section-header">
+                            <div class="section-header-left">
+                                <div class="section-icon-badge badge-kyc">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <div class="section-title-wrap">
+                                    <h2>KYC & Identity Verification</h2>
+                                    <p>Upload official citizenship identification documents and document number to
+                                        unlock verified status.</p>
+                                </div>
+                            </div>
+                            <span class="section-tag">Section 04</span>
+                        </div>
+
+                        <!-- KYC Verification Status Banner -->
+                        <div
+                            class="kyc-status-banner {% if profile and profile.is_verified or not profile and p_form.is_verified.value %}verified{% elif kyc and kyc.citizenship_front_image %}pending{% else %}unverified{% endif %}">
+                            <div class="kyc-banner-left">
+                                <div class="kyc-banner-icon">
+                                    {% if profile and profile.is_verified or not profile and p_form.is_verified.value %}
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    {% elif kyc and kyc.citizenship_front_image %}
+                                    <i class="fa-solid fa-hourglass-half"></i>
+                                    {% else %}
+                                    <i class="fa-solid fa-id-card"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="kyc-banner-info">
+                                    <h4>
+                                        {% if profile and profile.is_verified or not profile and
+                                        p_form.is_verified.value %}
+                                        Identity Verified (KYC Approved)
+                                        {% elif kyc and kyc.citizenship_front_image %}
+                                        Documents Submitted - Pending Review
+                                        {% else %}
+                                        Identity Verification Required
+                                        {% endif %}
+                                    </h4>
+                                    <p>
+                                        {% if profile and profile.is_verified or not profile and
+                                        p_form.is_verified.value %}
+                                        Your government-issued citizenship credentials have been authenticated and
+                                        approved.
+                                        {% elif kyc and kyc.citizenship_front_image %}
+                                        Your uploaded citizenship documents are currently being audited by compliance.
+                                        Turnaround is typically within 24 hours.
+                                        {% else %}
+                                        Provide your government citizenship number and clear color photographs of both
+                                        front and back sides.
+                                        {% endif %}
+                                    </p>
+                                </div>
+                            </div>
+
+                            {% if profile and profile.is_verified or not profile and p_form.is_verified.value %}
+                            <span class="status-badge verified"><i class="fa-solid fa-shield-check"></i> Tier 1
+                                Verified</span>
+                            {% elif kyc and kyc.citizenship_front_image %}
+                            <span class="status-badge active"
+                                style="background:#fef3c7; color:#92400e; border: 1px solid #fde68a;"><i
+                                    class="fa-solid fa-clock"></i> In Queue</span>
+                            {% else %}
+                            <span class="status-badge unverified"><i class="fa-solid fa-triangle-exclamation"></i>
+                                Action Required</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Upload Guidelines Box -->
+                        <div class="kyc-guidelines-box">
+                            <div class="kyc-guidelines-header">
+                                <i class="fa-solid fa-circle-info" style="color: var(--primary-orange);"></i>
+                                <span>Document Submission Guidelines</span>
+                            </div>
+                            <ul class="kyc-guidelines-list">
+                                <li><i class="fa-solid fa-check"></i> All 4 corners & edges must be visible</li>
+                                <li><i class="fa-solid fa-check"></i> Clear, readable text without glare or shadows</li>
+                                <li><i class="fa-solid fa-check"></i> Original government citizenship card</li>
+                                <li><i class="fa-solid fa-check"></i> Supported formats: JPG, PNG, WebP (Max 5MB)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Citizenship Number Field -->
+                        <div class="form-group">
+                            <label class="form-label" for="id_citizenship_number">
+                                <span>Citizenship Document Number (`citizenship_number`)</span>
+                                <span class="form-label-hint">Official Citizenship ID Number (max 17 chars)</span>
+                            </label>
+                            <div class="input-icon-wrap">
+                                <i class="fa-solid fa-id-card input-icon"></i>
+                                {{ k_form.citizenship_number }}
+                            </div>
+                            {% if k_form.citizenship_number.errors %}
+                            <div class="field-error-msg">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                {{ k_form.citizenship_number.errors.0 }}
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Dual Upload Dropzones with Dashed Border -->
+                        <div class="kyc-upload-grid">
+
+                            <!-- Card 1: Citizenship Front Image -->
+                            <div class="kyc-upload-card" id="kycCardFront">
+                                <div class="kyc-card-header">
+                                    <div class="kyc-card-title-group">
+                                        <div class="kyc-side-icon">
+                                            <i class="fa-regular fa-image"></i>
+                                        </div>
+                                        <span class="kyc-card-title">Citizenship Front Side</span>
+                                    </div>
+                                    {% if kyc and kyc.citizenship_front_image %}
+                                    <span class="kyc-card-badge uploaded"><i class="fa-solid fa-check"></i>
+                                        Uploaded</span>
+                                    {% else %}
+                                    <span class="kyc-card-badge required">Front Document</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Dashed Dropzone Area -->
+                                <div class="kyc-dropzone" id="frontDropzone"
+                                    onclick="triggerFileInput('id_citizenship_front_image')">
+                                    <div class="kyc-dropzone-prompt" id="frontDropzonePrompt" {% if kyc and
+                                        kyc.citizenship_front_image %}style="display:none;" {% endif %}>
+                                        <div class="kyc-upload-icon-circle">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        </div>
+                                        <div class="kyc-dropzone-text">
+                                            <h4>Drag & drop front image</h4>
+                                            <p>or <strong>Browse file</strong> from your device</p>
+                                        </div>
+                                        <span class="kyc-file-hint">JPG, PNG, WebP up to 5MB</span>
+                                    </div>
+
+                                    <!-- Live Preview State -->
+                                    <div class="kyc-preview-wrap" id="frontPreviewWrap" {% if not kyc or not
+                                        kyc.citizenship_front_image %}style="display:none;" {% endif %}>
+                                        <div class="kyc-preview-image-box">
+                                            <img src="{% if kyc and kyc.citizenship_front_image %}{{ kyc.citizenship_front_image.url }}{% endif %}"
+                                                alt="Citizenship Front Preview" class="kyc-preview-img"
+                                                id="frontPreviewImg">
+                                            <div class="kyc-preview-overlay-badge">
+                                                <i class="fa-solid fa-id-card-clip"></i> Front Side
+                                            </div>
+                                        </div>
+                                        <div class="kyc-file-meta-row" onclick="event.stopPropagation()">
+                                            <div class="kyc-file-info">
+                                                <i class="fa-regular fa-file-image"></i>
+                                                <div class="kyc-file-names">
+                                                    <span class="kyc-file-name-text" id="frontFileName">{% if kyc and
+                                                        kyc.citizenship_front_image %}{{
+                                                        kyc.citizenship_front_image.name|slice:"14:"|default:"citizenship_front.jpg"
+                                                        }}{% else %}citizenship_front.jpg{% endif %}</span>
+                                                    <span class="kyc-file-size-text" id="frontFileSize">{% if kyc and
+                                                        kyc.citizenship_front_image %}Saved document{% else %}Ready to
+                                                        upload{% endif %}</span>
+                                                </div>
+                                            </div>
+                                            <div class="kyc-preview-actions">
+                                                <button type="button" class="btn-kyc-action"
+                                                    onclick="triggerFileInput('id_citizenship_front_image')"
+                                                    title="Select different image">
+                                                    <i class="fa-solid fa-rotate"></i> Change
+                                                </button>
+                                                <button type="button" class="btn-kyc-action btn-remove"
+                                                    onclick="clearKycFile('front')" title="Clear selection">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hidden Django File Input -->
+                                {{ k_form.citizenship_front_image }}
+                                {% if k_form.citizenship_front_image.errors %}
+                                <div class="field-error-msg">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    {{ k_form.citizenship_front_image.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+
+                            <!-- Card 2: Citizenship Back Image -->
+                            <div class="kyc-upload-card" id="kycCardBack">
+                                <div class="kyc-card-header">
+                                    <div class="kyc-card-title-group">
+                                        <div class="kyc-side-icon">
+                                            <i class="fa-regular fa-image"></i>
+                                        </div>
+                                        <span class="kyc-card-title">Citizenship Back Side</span>
+                                    </div>
+                                    {% if kyc and kyc.citizenship_back_image %}
+                                    <span class="kyc-card-badge uploaded"><i class="fa-solid fa-check"></i>
+                                        Uploaded</span>
+                                    {% else %}
+                                    <span class="kyc-card-badge required">Back Document</span>
+                                    {% endif %}
+                                </div>
+
+                                <!-- Dashed Dropzone Area -->
+                                <div class="kyc-dropzone" id="backDropzone"
+                                    onclick="triggerFileInput('id_citizenship_back_image')">
+                                    <div class="kyc-dropzone-prompt" id="backDropzonePrompt" {% if kyc and
+                                        kyc.citizenship_back_image %}style="display:none;" {% endif %}>
+                                        <div class="kyc-upload-icon-circle">
+                                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                                        </div>
+                                        <div class="kyc-dropzone-text">
+                                            <h4>Drag & drop back image</h4>
+                                            <p>or <strong>Browse file</strong> from your device</p>
+                                        </div>
+                                        <span class="kyc-file-hint">JPG, PNG, WebP up to 5MB</span>
+                                    </div>
+
+                                    <!-- Live Preview State -->
+                                    <div class="kyc-preview-wrap" id="backPreviewWrap" {% if not kyc or not
+                                        kyc.citizenship_back_image %}style="display:none;" {% endif %}>
+                                        <div class="kyc-preview-image-box">
+                                            <img src="{% if kyc and kyc.citizenship_back_image %}{{ kyc.citizenship_back_image.url }}{% endif %}"
+                                                alt="Citizenship Back Preview" class="kyc-preview-img"
+                                                id="backPreviewImg">
+                                            <div class="kyc-preview-overlay-badge">
+                                                <i class="fa-solid fa-id-card-clip"></i> Back Side
+                                            </div>
+                                        </div>
+                                        <div class="kyc-file-meta-row" onclick="event.stopPropagation()">
+                                            <div class="kyc-file-info">
+                                                <i class="fa-regular fa-file-image"></i>
+                                                <div class="kyc-file-names">
+                                                    <span class="kyc-file-name-text" id="backFileName">{% if kyc and
+                                                        kyc.citizenship_back_image %}{{
+                                                        kyc.citizenship_back_image.name|slice:"14:"|default:"citizenship_back.jpg"
+                                                        }}{% else %}citizenship_back.jpg{% endif %}</span>
+                                                    <span class="kyc-file-size-text" id="backFileSize">{% if kyc and
+                                                        kyc.citizenship_back_image %}Saved document{% else %}Ready to
+                                                        upload{% endif %}</span>
+                                                </div>
+                                            </div>
+                                            <div class="kyc-preview-actions">
+                                                <button type="button" class="btn-kyc-action"
+                                                    onclick="triggerFileInput('id_citizenship_back_image')"
+                                                    title="Select different image">
+                                                    <i class="fa-solid fa-rotate"></i> Change
+                                                </button>
+                                                <button type="button" class="btn-kyc-action btn-remove"
+                                                    onclick="clearKycFile('back')" title="Clear selection">
+                                                    <i class="fa-solid fa-xmark"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hidden Django File Input -->
+                                {{ k_form.citizenship_back_image }}
+                                {% if k_form.citizenship_back_image.errors %}
+                                <div class="field-error-msg">
+                                    <i class="fa-solid fa-circle-exclamation"></i>
+                                    {{ k_form.citizenship_back_image.errors.0 }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <!-- ==============================================
+                         SECTION 5: ACCOUNT STATUS & SYSTEM SETTINGS
                     =============================================== -->
                     <div class="form-section-card">
                         <div class="section-header">
@@ -1911,7 +2613,7 @@
                                     <p>Account lifecycle flags, verification credentials, and timestamp auditing.</p>
                                 </div>
                             </div>
-                            <span class="section-tag">Section 04</span>
+                            <span class="section-tag">Section 05</span>
                         </div>
 
                         <div class="toggle-cards-list">
@@ -2120,6 +2822,139 @@
                 }
             });
         }
+
+        // 3.1 KYC Drag & Drop and Preview Handlers
+        function triggerFileInput(inputId) {
+            const input = document.getElementById(inputId);
+            if (input) input.click();
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function handleKycFileSelect(file, side) {
+            if (!file) return;
+
+            if (!file.type.startsWith('image/')) {
+                showToast("⚠️ Please select a valid image file (PNG, JPG, WebP).");
+                return;
+            }
+
+            if (file.size > 5 * 1024 * 1024) {
+                showToast("⚠️ File size exceeds 5MB limit. Please choose a smaller image.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const promptEl = document.getElementById(`${side}DropzonePrompt`);
+                const previewWrap = document.getElementById(`${side}PreviewWrap`);
+                const previewImg = document.getElementById(`${side}PreviewImg`);
+                const nameEl = document.getElementById(`${side}FileName`);
+                const sizeEl = document.getElementById(`${side}FileSize`);
+
+                if (promptEl) promptEl.style.display = 'none';
+                if (previewWrap) previewWrap.style.display = 'flex';
+                if (previewImg) previewImg.src = e.target.result;
+                if (nameEl) nameEl.innerText = file.name;
+                if (sizeEl) sizeEl.innerText = formatFileSize(file.size);
+
+                const cardEl = document.getElementById(`kycCard${side.charAt(0).toUpperCase() + side.slice(1)}`);
+                if (cardEl) {
+                    const badge = cardEl.querySelector('.kyc-card-badge');
+                    if (badge) {
+                        badge.className = 'kyc-card-badge uploaded';
+                        badge.innerHTML = '<i class="fa-solid fa-check"></i> Selected';
+                    }
+                }
+
+                showToast(`✓ ${side.charAt(0).toUpperCase() + side.slice(1)} document selected! Click 'Save Changes' to upload.`);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function setupKycDropzone(dropzoneId, inputId, side) {
+            const dropzone = document.getElementById(dropzoneId);
+            const input = document.getElementById(inputId);
+
+            if (!dropzone || !input) return;
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.add('drag-over');
+                }, false);
+            });
+
+            ['dragleave', 'dragend'].forEach(eventName => {
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.remove('drag-over');
+                }, false);
+            });
+
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('drag-over');
+
+                const dt = e.dataTransfer;
+                const files = dt.files;
+
+                if (files && files.length > 0) {
+                    const file = files[0];
+                    try {
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        input.files = dataTransfer.files;
+                    } catch (err) {
+                        console.warn("DataTransfer assignment fallback:", err);
+                    }
+                    handleKycFileSelect(file, side);
+                }
+            }, false);
+
+            input.addEventListener('change', function (e) {
+                if (e.target.files && e.target.files.length > 0) {
+                    handleKycFileSelect(e.target.files[0], side);
+                }
+            });
+        }
+
+        function clearKycFile(side) {
+            const inputId = `id_citizenship_${side}_image`;
+            const input = document.getElementById(inputId);
+            const promptEl = document.getElementById(`${side}DropzonePrompt`);
+            const previewWrap = document.getElementById(`${side}PreviewWrap`);
+            const previewImg = document.getElementById(`${side}PreviewImg`);
+
+            if (input) input.value = '';
+            if (previewImg) previewImg.src = '';
+            if (previewWrap) previewWrap.style.display = 'none';
+            if (promptEl) promptEl.style.display = 'flex';
+
+            const cardEl = document.getElementById(`kycCard${side.charAt(0).toUpperCase() + side.slice(1)}`);
+            if (cardEl) {
+                const badge = cardEl.querySelector('.kyc-card-badge');
+                if (badge) {
+                    badge.className = 'kyc-card-badge required';
+                    badge.innerText = `${side.charAt(0).toUpperCase() + side.slice(1)} Document`;
+                }
+            }
+
+            showToast(`Cleared ${side} document selection.`);
+        }
+
+        // Initialize KYC dropzones
+        setupKycDropzone('frontDropzone', 'id_citizenship_front_image', 'front');
+        setupKycDropzone('backDropzone', 'id_citizenship_back_image', 'back');
 
         // 4. Real-time Form Synchronizers for Sidebar
         const firstNameInput = document.getElementById('id_first_name');

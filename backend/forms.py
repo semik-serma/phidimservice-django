@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, KYC
 
 class UserUpdateForm(forms.ModelForm):
     """
@@ -143,3 +143,53 @@ class ProfileForm(forms.ModelForm):
             if len(phone) != 10:
                 raise forms.ValidationError("Phone number must be exactly 10 digits.")
         return phone
+
+
+class KYCForm(forms.ModelForm):
+    """
+    Form for uploading and updating KYC (Know Your Customer) documents and citizenship ID.
+    """
+    citizenship_number = forms.CharField(
+        max_length=17,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control-input',
+            'placeholder': 'e.g. 27-01-79-04512 or ID number',
+            'maxlength': '17',
+            'id': 'id_citizenship_number'
+        })
+    )
+
+    citizenship_front_image = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={
+            'class': 'file-input-hidden',
+            'id': 'id_citizenship_front_image',
+            'accept': 'image/*'
+        })
+    )
+
+    citizenship_back_image = forms.ImageField(
+        required=False,
+        widget=forms.FileInput(attrs={
+            'class': 'file-input-hidden',
+            'id': 'id_citizenship_back_image',
+            'accept': 'image/*'
+        })
+    )
+
+    class Meta:
+        model = KYC
+        fields = [
+            'citizenship_number',
+            'citizenship_front_image',
+            'citizenship_back_image',
+        ]
+
+    def clean_citizenship_number(self):
+        c_num = self.cleaned_data.get('citizenship_number', '')
+        if c_num:
+            c_num = c_num.strip()
+            if len(c_num) > 17:
+                raise forms.ValidationError("Citizenship number cannot exceed 17 characters.")
+        return c_num

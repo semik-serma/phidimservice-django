@@ -1,8 +1,9 @@
 from django.test import TestCase, Client
 from django.contrib.auth.models import User
 from django.urls import reverse
-from backend.models import Profile
-from backend.forms import ProfileForm, UserUpdateForm
+from backend.models import Profile, KYC
+from backend.forms import ProfileForm, UserUpdateForm, KYCForm
+from django.core.files.uploadedfile import SimpleUploadedFile
 from decimal import Decimal
 
 class ProfileTestCase(TestCase):
@@ -76,3 +77,50 @@ class ProfileTestCase(TestCase):
         })
         self.assertFalse(form.is_valid())
         self.assertIn('phone_number', form.errors)
+
+    def test_kyc_rendering_in_profile_view(self):
+        response = self.client.get(reverse('profile'))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'KYC & Identity Verification')
+        self.assertContains(response, 'citizenship_number')
+        self.assertContains(response, 'Citizenship Front Side')
+        self.assertContains(response, 'Citizenship Back Side')
+        self.assertContains(response, 'frontDropzone')
+        self.assertContains(response, 'backDropzone')
+
+    def test_kyc_submission_authenticated(self):
+        self.client.login(username='testuser', password='Password123!')
+        
+        # 1x1 transparent GIF dummy images
+        dummy_front = SimpleUploadedFile(
+            name='test_front.jpg',
+            content=b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\xff\xff\xff\x21\xf9\x04\x01\x00\x00\x00\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02\x44\x01\x00\x3b',
+            content_type='image/jpeg'
+        )
+        dummy_back = SimpleUploadedFile(
+            name='test_back.jpg',
+            content=b'\x47\x49\x46\x38\x39\x61\x01\x00\x01\x00\x80\x00\x00\x00\x00\x00\xff\xff\xff\x21\xf9\x04\x01\x00\x00\x00\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02\x44\x01\x00\x3b',
+            content_type='image/jpeg'
+        )
+
+        data = {
+            'username': 'testuser',
+            'first_name': 'Test',
+            'last_name': 'User',
+            'email': 'testuser@example.com',
+            'phone_number': '9801234567',
+            'citizenship_number': '27-01-79-12345',
+            'citizenship_front_image': dummy_front,
+            'citizenship_back_image': dummy_back,
+        }
+
+        response = self.client.post(reverse('profile'), data, follow=True)
+        self.assertEqual(response.status_code, 200)
+
+        kyc = KYC.objects.get(profile=self.profile)
+        self.assertEqual(kyc.citizenship_number, '27-01-79-12345')
+        self.assertTrue(bool(kyc.citizenship_front_image))
+        self.assertTrue(bool(kyc.citizenship_back_image))
+
+        self.profile.refresh_from_db()
+        self.assertFalse(self.profile.is_verified)
