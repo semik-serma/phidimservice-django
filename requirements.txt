@@ -5,6 +5,7 @@ charset-normalizer==3.4.9
 cryptography==50.0.0
 Django==6.1
 django-allauth==65.19.0
+django-browser-reload==1.21.0
 idna==3.18
 oauthlib==3.3.1
 pillow==12.3.0
