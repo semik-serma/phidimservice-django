@@ -15,3 +15,12 @@ class Profile(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):
         return self.user.username
+
+class KYC(models.Model):
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    citizenship_number = models.CharField(max_length=17)
+    citizenship_front_image = models.ImageField(upload_to='kyc_documents/')
+    citizenship_back_image = models.ImageField(upload_to='kyc_documents/')
+
+    def __str__(self):
+        return f"KYC for {self.profile.user.username}"
