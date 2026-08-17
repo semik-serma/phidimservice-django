@@ -1,0 +1,53 @@
+<!-- Reusable WebRTC Dashboard Video Calling Modal -->
+<div class="video-call-modal-overlay" id="videoCallModal">
+    <div class="video-call-frame">
+        <!-- Remote Video Stream -->
+        <video id="remoteVideoElement" class="remote-video-feed" autoplay playsinline></video>
+
+        <!-- Local Picture-in-Picture Stream -->
+        <div class="local-pip-feed">
+            <video id="localVideoElement" autoplay playsinline muted></video>
+        </div>
+
+        <!-- Header Overlay -->
+        <div class="call-header-overlay">
+            <img src="/static/images/customer-avatars.png" id="callPartnerAvatar" class="user-avatar-mini" alt="Partner">
+            <div>
+                <div style="font-weight: 700; font-size: 0.95rem;" id="callPartnerName">Specialist</div>
+                <div class="call-status-pill" id="callStatusIndicator">Connecting...</div>
+            </div>
+        </div>
+
+        <!-- Floating Controls Bar -->
+        <div class="call-controls-bar">
+            <button type="button" class="btn-call-ctrl" id="btnToggleMic" onclick="window.videoCallInstance && window.videoCallInstance.toggleAudio()" title="Toggle Microphone">
+                <i class="fa-solid fa-microphone"></i>
+            </button>
+            <button type="button" class="btn-call-ctrl" id="btnToggleCam" onclick="window.videoCallInstance && window.videoCallInstance.toggleVideo()" title="Toggle Camera">
+                <i class="fa-solid fa-video"></i>
+            </button>
+            <button type="button" class="btn-call-ctrl end-call" onclick="window.videoCallInstance && window.videoCallInstance.endCall()" title="End Video Call">
+                <i class="fa-solid fa-phone-slash"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Incoming Call Popup Notification -->
+<div class="incoming-call-alert-banner" id="incomingCallModal">
+    <div style="width: 44px; height: 44px; border-radius: 50%; background: #ff5400; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; box-shadow: 0 0 16px var(--primary-orange-glow);">
+        <i class="fa-solid fa-video"></i>
+    </div>
+    <div>
+        <div style="font-weight: 800; font-size: 0.95rem;" id="incomingCallerName">Incoming Video Call</div>
+        <div style="font-size: 0.78rem; color: #94a3b8;" id="incomingServiceTitle">Service Request Discussion</div>
+    </div>
+    <div class="incoming-call-actions">
+        <button type="button" class="btn-incoming-accept" onclick="window.videoCallInstance && window.videoCallInstance.acceptIncomingCall()">
+            <i class="fa-solid fa-phone"></i> Accept
+        </button>
+        <button type="button" class="btn-incoming-reject" onclick="window.videoCallInstance && window.videoCallInstance.rejectIncomingCall()">
+            <i class="fa-solid fa-xmark"></i> Decline
+        </button>
+    </div>
+</div>

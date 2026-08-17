@@ -1,11 +1,9 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Profile, KYC
+from .models import Profile, KYC, ServiceRequest, ServiceCategory
+
 
 class UserUpdateForm(forms.ModelForm):
-    """
-    Form for updating basic auth.User information.
-    """
     first_name = forms.CharField(
         max_length=30,
         required=False,
@@ -48,9 +46,6 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class ProfileForm(forms.ModelForm):
-    """
-    Form for updating Profile model fields with purpose-driven sectioning.
-    """
     profile_picture = forms.ImageField(
         required=False,
         widget=forms.FileInput(attrs={
@@ -64,20 +59,38 @@ class ProfileForm(forms.ModelForm):
         required=False,
         widget=forms.Textarea(attrs={
             'class': 'form-control-textarea',
-            'placeholder': 'Write a short bio about yourself, your interests, or professional background...',
+            'placeholder': 'Write a short bio about yourself, your skills, or professional experience...',
             'rows': 4,
             'id': 'id_bio'
         })
     )
 
     phone_number = forms.CharField(
-        max_length=10,
+        max_length=20,
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control-input',
-            'placeholder': '9800000000',
-            'maxlength': '10',
+            'placeholder': 'e.g. 9800000000',
             'id': 'id_phone_number'
+        })
+    )
+
+    skills = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control-input',
+            'placeholder': 'e.g. Electrical, HVAC, Plumbing, Auto Repair',
+            'id': 'id_skills'
+        })
+    )
+
+    hourly_rate = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control-input',
+            'placeholder': 'Rate per hour ($ or NPR)',
+            'id': 'id_hourly_rate'
         })
     )
 
@@ -105,6 +118,24 @@ class ProfileForm(forms.ModelForm):
         })
     )
 
+    role = forms.ChoiceField(
+        choices=Profile.ROLE_CHOICES,
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'form-control-select',
+            'id': 'id_role'
+        })
+    )
+
+    availability_status = forms.ChoiceField(
+        choices=Profile.AVAILABILITY_CHOICES,
+        required=False,
+        widget=forms.Select(attrs={
+            'class': 'form-control-select',
+            'id': 'id_availability_status'
+        })
+    )
+
     is_active = forms.BooleanField(
         required=False,
         widget=forms.CheckboxInput(attrs={
@@ -121,41 +152,30 @@ class ProfileForm(forms.ModelForm):
         })
     )
 
-
     class Meta:
         model = Profile
         fields = [
             'profile_picture',
             'bio',
             'phone_number',
+            'role',
+            'skills',
+            'hourly_rate',
+            'availability_status',
             'latitude',
             'longitude',
             'is_active',
             'is_deleted',
         ]
 
-    def clean_phone_number(self):
-        phone = self.cleaned_data.get('phone_number', '')
-        if phone:
-            phone = phone.strip()
-            if not phone.isdigit():
-                raise forms.ValidationError("Phone number must contain digits only.")
-            if len(phone) != 10:
-                raise forms.ValidationError("Phone number must be exactly 10 digits.")
-        return phone
-
 
 class KYCForm(forms.ModelForm):
-    """
-    Form for uploading and updating KYC (Know Your Customer) documents and citizenship ID.
-    """
     citizenship_number = forms.CharField(
-        max_length=17,
+        max_length=30,
         required=False,
         widget=forms.TextInput(attrs={
             'class': 'form-control-input',
             'placeholder': 'e.g. 27-01-79-04512 or ID number',
-            'maxlength': '17',
             'id': 'id_citizenship_number'
         })
     )
@@ -186,10 +206,84 @@ class KYCForm(forms.ModelForm):
             'citizenship_back_image',
         ]
 
-    def clean_citizenship_number(self):
-        c_num = self.cleaned_data.get('citizenship_number', '')
-        if c_num:
-            c_num = c_num.strip()
-            if len(c_num) > 17:
-                raise forms.ValidationError("Citizenship number cannot exceed 17 characters.")
-        return c_num
+
+class ServiceRequestForm(forms.ModelForm):
+    title = forms.CharField(
+        max_length=200,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control-input',
+            'placeholder': 'e.g. AC Repair & Gas Refill',
+            'id': 'id_req_title'
+        })
+    )
+
+    service_type = forms.CharField(
+        max_length=100,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control-input',
+            'placeholder': 'e.g. Emergency Electrical Fix',
+            'id': 'id_req_service_type'
+        })
+    )
+
+    description = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control-textarea',
+            'placeholder': 'Describe what needs fixing or the service requirement in detail...',
+            'rows': 4,
+            'id': 'id_req_description'
+        })
+    )
+
+    priority = forms.ChoiceField(
+        choices=ServiceRequest.PRIORITY_CHOICES,
+        widget=forms.Select(attrs={
+            'class': 'form-control-select',
+            'id': 'id_req_priority'
+        })
+    )
+
+    customer_address = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control-input',
+            'placeholder': 'Street Address, City or Area',
+            'id': 'id_req_address'
+        })
+    )
+
+    customer_phone = forms.CharField(
+        max_length=20,
+        required=False,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control-input',
+            'placeholder': 'Contact phone number for technician',
+            'id': 'id_req_phone'
+        })
+    )
+
+    price_estimate = forms.DecimalField(
+        required=False,
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control-input',
+            'placeholder': 'Offer / Estimated Budget ($ or NPR)',
+            'id': 'id_req_price_estimate'
+        })
+    )
+
+    class Meta:
+        model = ServiceRequest
+        fields = [
+            'category',
+            'title',
+            'service_type',
+            'description',
+            'priority',
+            'customer_address',
+            'customer_phone',
+            'customer_latitude',
+            'customer_longitude',
+            'price_estimate',
+        ]

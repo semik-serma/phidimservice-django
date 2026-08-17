@@ -859,13 +859,16 @@
             </div>
         </a>
 
-        <!-- 4 Clean Nav Items -->
+        <!-- Nav Items -->
         <nav>
             <ul class="nav-links-menu">
                 <li><a href="/" class="nav-item-link">Home</a></li>
                 <li><a href="{% url 'about' %}" class="nav-item-link">About</a></li>
                 <li><a href="{% url 'services' %}" class="nav-item-link active">Services</a></li>
                 <li><a href="{% url 'contact' %}" class="nav-item-link">Contact</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}" class="nav-item-link" style="color:var(--primary-orange); font-weight:700;"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+                {% endif %}
                 <li><a href="{% url 'profile' %}" class="nav-item-link">Profile</a></li>
             </ul>
         </nav>
@@ -894,8 +897,11 @@
         <!-- Navbar Right Action -->
         <div class="nav-actions-wrap">
             {% if user.is_authenticated %}
-                <a href="{% url 'account_logout' %}" class="btn-nav-login" title="Sign out of your Phidimservice account">
-                    <span>LOGOUT</span>
+                <a href="{% url 'dashboard' %}" class="btn-nav-login" title="Go to Dashboard" style="background:var(--primary-orange); border-color:var(--primary-orange); color:#ffffff;">
+                    <span>DASHBOARD</span>
+                    <i class="fa-solid fa-gauge-high"></i>
+                </a>
+                <a href="{% url 'account_logout' %}" class="btn-nav-login" title="Sign out" style="background:#fee2e2; color:#ef4444; border-color:#fca5a5;">
                     <i class="fa-solid fa-arrow-right-from-bracket"></i>
                 </a>
             {% else %}

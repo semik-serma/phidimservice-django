@@ -1842,6 +1842,9 @@
                 <li><a href="{% url 'about' %}" class="nav-item-link">About</a></li>
                 <li><a href="{% url 'services' %}" class="nav-item-link">Services</a></li>
                 <li><a href="{% url 'contact' %}" class="nav-item-link">Contact</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}" class="nav-item-link" style="color:var(--primary-orange); font-weight:700;"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+                {% endif %}
                 <li><a href="{% url 'profile' %}" class="nav-item-link active">Profile</a></li>
             </ul>
         </nav>
@@ -1864,8 +1867,11 @@
         <!-- Header Actions -->
         <div class="nav-actions-wrap">
             {% if user.is_authenticated %}
-            <a href="{% url 'account_logout' %}" class="btn-nav-action btn-nav-login" title="Sign out">
-                <span>LOGOUT</span>
+            <a href="{% url 'dashboard' %}" class="btn-nav-action btn-nav-primary" title="Go to Dashboard" style="background:var(--primary-orange); border-color:var(--primary-orange); color:#ffffff;">
+                <i class="fa-solid fa-gauge-high"></i>
+                <span>DASHBOARD</span>
+            </a>
+            <a href="{% url 'account_logout' %}" class="btn-nav-action btn-nav-login" title="Sign out" style="background:#fee2e2; color:#ef4444; border-color:#fca5a5;">
                 <i class="fa-solid fa-arrow-right-from-bracket"></i>
             </a>
             {% else %}
@@ -2359,8 +2365,7 @@
                                 </div>
                                 <div class="kyc-banner-info">
                                     <h4>
-                                        {% if profile and profile.is_verified or not profile and
-                                        p_form.is_verified.value %}
+                                        {% if profile and profile.is_verified or not profile and p_form.is_verified.value %}
                                         Identity Verified (KYC Approved)
                                         {% elif kyc and kyc.citizenship_front_image %}
                                         Documents Submitted - Pending Review
@@ -2369,8 +2374,7 @@
                                         {% endif %}
                                     </h4>
                                     <p>
-                                        {% if profile and profile.is_verified or not profile and
-                                        p_form.is_verified.value %}
+                                        {% if profile and profile.is_verified or not profile and p_form.is_verified.value %}
                                         Your government-issued citizenship credentials have been authenticated and
                                         approved.
                                         {% elif kyc and kyc.citizenship_front_image %}
@@ -2450,10 +2454,8 @@
                                 </div>
 
                                 <!-- Dashed Dropzone Area -->
-                                <div class="kyc-dropzone" id="frontDropzone"
-                                    onclick="triggerFileInput('id_citizenship_front_image')">
-                                    <div class="kyc-dropzone-prompt" id="frontDropzonePrompt" {% if kyc and
-                                        kyc.citizenship_front_image %}style="display:none;" {% endif %}>
+                                <div class="kyc-dropzone" id="frontDropzone" onclick="triggerFileInput('id_citizenship_front_image')">
+                                    <div class="kyc-dropzone-prompt" id="frontDropzonePrompt" {% if kyc and kyc.citizenship_front_image %}style="display:none;"{% endif %}>
                                         <div class="kyc-upload-icon-circle">
                                             <i class="fa-solid fa-cloud-arrow-up"></i>
                                         </div>
@@ -2465,8 +2467,7 @@
                                     </div>
 
                                     <!-- Live Preview State -->
-                                    <div class="kyc-preview-wrap" id="frontPreviewWrap" {% if not kyc or not
-                                        kyc.citizenship_front_image %}style="display:none;" {% endif %}>
+                                    <div class="kyc-preview-wrap" id="frontPreviewWrap" {% if not kyc or not kyc.citizenship_front_image %}style="display:none;"{% endif %}>
                                         <div class="kyc-preview-image-box">
                                             <img src="{% if kyc and kyc.citizenship_front_image %}{{ kyc.citizenship_front_image.url }}{% endif %}"
                                                 alt="Citizenship Front Preview" class="kyc-preview-img"
@@ -2479,13 +2480,8 @@
                                             <div class="kyc-file-info">
                                                 <i class="fa-regular fa-file-image"></i>
                                                 <div class="kyc-file-names">
-                                                    <span class="kyc-file-name-text" id="frontFileName">{% if kyc and
-                                                        kyc.citizenship_front_image %}{{
-                                                        kyc.citizenship_front_image.name|slice:"14:"|default:"citizenship_front.jpg"
-                                                        }}{% else %}citizenship_front.jpg{% endif %}</span>
-                                                    <span class="kyc-file-size-text" id="frontFileSize">{% if kyc and
-                                                        kyc.citizenship_front_image %}Saved document{% else %}Ready to
-                                                        upload{% endif %}</span>
+                                                    <span class="kyc-file-name-text" id="frontFileName">{% if kyc and kyc.citizenship_front_image %}{{ kyc.citizenship_front_image.name|slice:"14:"|default:"citizenship_front.jpg" }}{% else %}citizenship_front.jpg{% endif %}</span>
+                                                    <span class="kyc-file-size-text" id="frontFileSize">{% if kyc and kyc.citizenship_front_image %}Saved document{% else %}Ready to upload{% endif %}</span>
                                                 </div>
                                             </div>
                                             <div class="kyc-preview-actions">
@@ -2532,10 +2528,8 @@
                                 </div>
 
                                 <!-- Dashed Dropzone Area -->
-                                <div class="kyc-dropzone" id="backDropzone"
-                                    onclick="triggerFileInput('id_citizenship_back_image')">
-                                    <div class="kyc-dropzone-prompt" id="backDropzonePrompt" {% if kyc and
-                                        kyc.citizenship_back_image %}style="display:none;" {% endif %}>
+                                <div class="kyc-dropzone" id="backDropzone" onclick="triggerFileInput('id_citizenship_back_image')">
+                                    <div class="kyc-dropzone-prompt" id="backDropzonePrompt" {% if kyc and kyc.citizenship_back_image %}style="display:none;"{% endif %}>
                                         <div class="kyc-upload-icon-circle">
                                             <i class="fa-solid fa-cloud-arrow-up"></i>
                                         </div>
@@ -2547,8 +2541,7 @@
                                     </div>
 
                                     <!-- Live Preview State -->
-                                    <div class="kyc-preview-wrap" id="backPreviewWrap" {% if not kyc or not
-                                        kyc.citizenship_back_image %}style="display:none;" {% endif %}>
+                                    <div class="kyc-preview-wrap" id="backPreviewWrap" {% if not kyc or not kyc.citizenship_back_image %}style="display:none;"{% endif %}>
                                         <div class="kyc-preview-image-box">
                                             <img src="{% if kyc and kyc.citizenship_back_image %}{{ kyc.citizenship_back_image.url }}{% endif %}"
                                                 alt="Citizenship Back Preview" class="kyc-preview-img"
@@ -2561,13 +2554,8 @@
                                             <div class="kyc-file-info">
                                                 <i class="fa-regular fa-file-image"></i>
                                                 <div class="kyc-file-names">
-                                                    <span class="kyc-file-name-text" id="backFileName">{% if kyc and
-                                                        kyc.citizenship_back_image %}{{
-                                                        kyc.citizenship_back_image.name|slice:"14:"|default:"citizenship_back.jpg"
-                                                        }}{% else %}citizenship_back.jpg{% endif %}</span>
-                                                    <span class="kyc-file-size-text" id="backFileSize">{% if kyc and
-                                                        kyc.citizenship_back_image %}Saved document{% else %}Ready to
-                                                        upload{% endif %}</span>
+                                                    <span class="kyc-file-name-text" id="backFileName">{% if kyc and kyc.citizenship_back_image %}{{ kyc.citizenship_back_image.name|slice:"14:"|default:"citizenship_back.jpg" }}{% else %}citizenship_back.jpg{% endif %}</span>
+                                                    <span class="kyc-file-size-text" id="backFileSize">{% if kyc and kyc.citizenship_back_image %}Saved document{% else %}Ready to upload{% endif %}</span>
                                                 </div>
                                             </div>
                                             <div class="kyc-preview-actions">

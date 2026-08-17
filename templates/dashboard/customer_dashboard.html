@@ -1,0 +1,513 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard | Phidim Service Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <style>
+        .modal-form-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(6, 17, 13, 0.8);
+            backdrop-filter: blur(14px);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-form-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .form-input-control {
+            width: 100%;
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 0.92rem;
+            outline: none;
+            margin-top: 6px;
+            font-family: inherit;
+        }
+
+        .form-input-control:focus {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 3px rgba(255, 84, 0, 0.15);
+        }
+
+        .location-detect-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            padding: 10px 14px;
+            background: var(--primary-orange-light);
+            border-radius: 10px;
+            font-size: 0.82rem;
+            color: var(--primary-orange);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Header Navbar -->
+    <header class="header-navbar">
+        <a href="/" class="nav-brand">
+            <div class="brand-logo-icon">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="brand-text-wrap">
+                <div class="brand-title">Phidim<span>service</span></div>
+                <div class="brand-subtitle">On-Demand Specialist Network</div>
+            </div>
+        </a>
+
+        <ul class="nav-links-menu">
+            <li><a href="/" class="nav-item-link">Home</a></li>
+            <li><a href="/services/" class="nav-item-link">Services</a></li>
+            <li><a href="/dashboard/" class="nav-item-link active">Dashboard</a></li>
+            <li><a href="/profile/" class="nav-item-link">My Profile</a></li>
+        </ul>
+
+        <div class="nav-right-actions">
+            <a href="/profile/" class="user-profile-badge">
+                <img src="{{ profile.display_avatar }}" class="user-avatar-mini" alt="User">
+                <span>{{ request.user.first_name|default:request.user.username }}</span>
+                <span class="role-pill-badge customer">Customer</span>
+            </a>
+            <a href="/accounts/logout/" class="btn-sm-action" style="background:#f1f5f9; color:#475569;" title="Logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Dashboard Hero Banner -->
+    <section class="dashboard-hero-banner">
+        <div class="banner-content-wrap">
+            <div>
+                <h1 class="banner-title-text">Welcome back, {{ request.user.first_name|default:request.user.username }}!</h1>
+                <p class="banner-subtext">Manage your on-demand service bookings, track active specialists in real time, and start video calls.</p>
+            </div>
+            <div class="banner-action-buttons">
+                <button type="button" class="btn-primary-orange" onclick="openRequestModal()">
+                    <i class="fa-solid fa-plus"></i> Request New Service
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Container -->
+    <main class="dashboard-main-container">
+        <!-- Metric Cards -->
+        <div class="metrics-row-grid">
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Total Requests</span>
+                    <span class="metric-number-val">{{ total_requests }}</span>
+                </div>
+                <div class="metric-icon-box">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+            </div>
+
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Active Jobs</span>
+                    <span class="metric-number-val">{{ active_requests.count }}</span>
+                </div>
+                <div class="metric-icon-box" style="background:var(--badge-blue-bg); color:var(--badge-blue-text);">
+                    <i class="fa-solid fa-person-digging"></i>
+                </div>
+            </div>
+
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Completed Services</span>
+                    <span class="metric-number-val">{{ completed_count }}</span>
+                </div>
+                <div class="metric-icon-box" style="background:var(--badge-green-bg); color:var(--badge-green-text);">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two-Column Interactive Layout -->
+        <div class="dashboard-grid-layout">
+            <!-- Left: Live GPS Tracking Map -->
+            <div class="dash-panel-card">
+                <div class="panel-header-bar">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-location-crosshairs"></i> Live Service Map & Technician Route
+                    </div>
+                    <span class="role-pill-badge customer" id="trackingStatusPill">Live GPS Telemetry</span>
+                </div>
+
+                <div class="live-map-viewport" id="customerTrackingMap"></div>
+
+                <div style="padding: 16px 20px; background:#faf8f5; border-top:1px solid var(--border-light); display:flex; align-items:center; justify-content:space-between; font-size:0.88rem;">
+                    <div>
+                        <span style="color:var(--text-muted);">Active Service:</span>
+                        <strong id="activeJobTitleDisplay">
+                            {% if active_requests.first %}{{ active_requests.first.title }}{% else %}No active tracking job{% endif %}
+                        </strong>
+                    </div>
+                    <div>
+                        <span style="color:var(--text-muted);">Distance:</span>
+                        <strong id="technicianDistanceDisplay" style="color:var(--primary-orange);">
+                            Calculating...
+                        </strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Active & Recent Requests List -->
+            <div class="dash-panel-card">
+                <div class="panel-header-bar">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-bolt"></i> Active Service Requests
+                    </div>
+                </div>
+
+                <div class="requests-list-flow">
+                    {% if active_requests %}
+                        {% for req in active_requests %}
+                            <div class="request-item-card" id="reqCard-{{ req.id }}">
+                                <div class="request-card-top">
+                                    <span class="req-category-tag">{{ req.category.name|default:"General Service" }}</span>
+                                    <span class="req-status-badge {{ req.status }}">{{ req.get_status_display }}</span>
+                                </div>
+
+                                <div class="req-title-text">{{ req.title }}</div>
+                                <div class="req-desc-snippet">{{ req.description|truncatewords:20 }}</div>
+
+                                {% if req.technician %}
+                                    <div style="display:flex; align-items:center; gap:10px; padding:8px 12px; background:#f8fafc; border-radius:10px;">
+                                        <img src="{{ req.technician.profile.display_avatar }}" class="user-avatar-mini" alt="Technician">
+                                        <div>
+                                            <div style="font-weight:700; font-size:0.88rem;">{{ req.technician.get_full_name|default:req.technician.username }}</div>
+                                            <div style="font-size:0.75rem; color:var(--text-muted);">Assigned Specialist</div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                                <div class="req-card-footer">
+                                    <div class="req-price-text">${{ req.price_estimate|default:"500.00" }}</div>
+                                    <div class="req-actions-group">
+                                        {% if req.technician %}
+                                            <button type="button" class="btn-sm-action btn-call-tech" onclick="triggerVideoCall('{{ req.id }}', '{{ req.technician.id }}', '{{ req.technician.get_full_name|default:req.technician.username }}', '{{ req.technician.profile.display_avatar }}', '{{ req.title }}')">
+                                                <i class="fa-solid fa-video"></i> Video Call
+                                            </button>
+                                        {% endif %}
+                                        <button type="button" class="btn-sm-action btn-track-job" onclick="loadRequestOnMap('{{ req.id }}')">
+                                            <i class="fa-solid fa-map-pin"></i> Track
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div style="text-align:center; padding:50px 20px; color:var(--text-muted);">
+                            <i class="fa-solid fa-screwdriver-wrench" style="font-size:2.5rem; color:var(--primary-orange); margin-bottom:12px; opacity:0.6;"></i>
+                            <div style="font-weight:700; font-size:1rem; color:var(--text-dark);">No active service requests</div>
+                            <p style="font-size:0.85rem; margin-top:4px;">Click "Request New Service" to connect with certified local technicians.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Request New Service Modal -->
+    <div class="modal-form-overlay" id="requestServiceModal">
+        <div class="modal-form-card">
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
+                <h2 style="font-family:var(--font-heading); font-size:1.4rem; font-weight:800;">Book a Service Specialist</h2>
+                <button type="button" onclick="closeRequestModal()" style="background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--text-muted);">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="newServiceForm" onsubmit="submitServiceBooking(event)">
+                {% csrf_token %}
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:0.82rem; font-weight:700; text-transform:uppercase;">Service Category</label>
+                    <select name="category_id" id="modalCategory" class="form-input-control" required>
+                        {% for cat in categories %}
+                            <option value="{{ cat.id }}">{{ cat.name }} (Starting ${{ cat.base_price }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:0.82rem; font-weight:700; text-transform:uppercase;">Job Title</label>
+                    <input type="text" name="title" id="modalTitle" class="form-input-control" placeholder="e.g. Electrical Short Circuit Repair in Living Room" required>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:0.82rem; font-weight:700; text-transform:uppercase;">Description & Symptoms</label>
+                    <textarea name="description" id="modalDesc" class="form-input-control" rows="3" placeholder="Describe the issue, device model, or maintenance requirements in detail..." required></textarea>
+                </div>
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                    <div>
+                        <label style="font-size:0.82rem; font-weight:700; text-transform:uppercase;">Priority Level</label>
+                        <select name="priority" id="modalPriority" class="form-input-control">
+                            <option value="standard">Standard (Regular)</option>
+                            <option value="urgent">Urgent Emergency</option>
+                            <option value="scheduled">Scheduled Appointment</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-size:0.82rem; font-weight:700; text-transform:uppercase;">Estimated Budget ($)</label>
+                        <input type="number" name="price_estimate" id="modalPrice" class="form-input-control" value="650" step="50">
+                    </div>
+                </div>
+
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:0.82rem; font-weight:700; text-transform:uppercase;">Service Address / Location</label>
+                    <input type="text" name="address" id="modalAddress" class="form-input-control" placeholder="e.g. Ward 4, Phidim Bazaar, Panchthar" required>
+                    
+                    <div class="location-detect-bar" id="gpsStatusBox">
+                        <i class="fa-solid fa-location-arrow"></i>
+                        <span id="gpsStatusText">Acquiring current GPS device coordinates...</span>
+                    </div>
+                    <input type="hidden" name="latitude" id="modalLat">
+                    <input type="hidden" name="longitude" id="modalLng">
+                </div>
+
+                <button type="submit" class="btn-primary-orange" style="width:100%; justify-content:center; padding:14px;">
+                    <span>Post Service Request</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Include Video Calling Modal Component -->
+    {% include 'dashboard/components/video_call_modal.html' %}
+
+    <!-- Socket.IO & Core JS -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="{% static 'js/location-tracker.js' %}"></script>
+    <script src="{% static 'js/maps-manager.js' %}"></script>
+    <script src="{% static 'js/video-call.js' %}"></script>
+
+    <script>
+        const SOCKET_URL = '{{ SOCKET_SERVER_URL }}';
+        const GOOGLE_MAPS_KEY = '{{ GOOGLE_MAPS_API_KEY }}';
+        const CURRENT_USER_ID = '{{ request.user.id }}';
+        const CURRENT_USER_NAME = '{{ request.user.get_full_name|default:request.user.username }}';
+        const CURRENT_USER_AVATAR = '{{ profile.display_avatar }}';
+        const CSRF_TOKEN = '{{ csrf_token }}';
+
+        let socket = null;
+        let mapsManager = null;
+        let locationTracker = null;
+        let videoCall = null;
+        let activeTrackingRequestId = '{% if active_requests.first %}{{ active_requests.first.id }}{% endif %}';
+
+        // Initialize on DOM Ready
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Setup Socket.IO
+            try {
+                socket = io(SOCKET_URL, { reconnection: true, timeout: 5000 });
+                socket.on('connect', () => {
+                    console.log('[Socket] Connected to real-time server:', socket.id);
+                    socket.emit('register-user', {
+                        userId: CURRENT_USER_ID,
+                        role: 'customer',
+                        username: CURRENT_USER_NAME
+                    });
+
+                    if (activeTrackingRequestId) {
+                        socket.emit('join-service-room', {
+                            requestId: activeTrackingRequestId,
+                            userId: CURRENT_USER_ID,
+                            role: 'customer'
+                        });
+                    }
+                });
+
+                socket.on('technician-location-updated', (data) => {
+                    console.log('[Socket] Technician moved:', data);
+                    if (mapsManager) {
+                        mapsManager.updateTechnicianMarker({ lat: data.latitude, lng: data.longitude });
+                    }
+                });
+
+                socket.on('service-status-changed', (data) => {
+                    console.log('[Socket] Service status changed:', data);
+                    const card = document.getElementById(`reqCard-${data.requestId}`);
+                    if (card) {
+                        const badge = card.querySelector('.req-status-badge');
+                        if (badge) {
+                            badge.className = `req-status-badge ${data.status}`;
+                            badge.innerText = data.statusDisplay || data.status;
+                        }
+                    }
+                });
+            } catch (e) {
+                console.warn('[Socket] Connection failed, real-time fallback active:', e);
+            }
+
+            // 2. Setup Video Calling Client
+            videoCall = new PhidimVideoCall({
+                socket: socket,
+                userId: CURRENT_USER_ID,
+                userName: CURRENT_USER_NAME,
+                userAvatar: CURRENT_USER_AVATAR,
+                userRole: 'customer'
+            });
+            window.videoCallInstance = videoCall;
+
+            // 3. Setup Location Tracker for GPS capture
+            locationTracker = new LocationTracker({
+                socket: socket,
+                csrfToken: CSRF_TOKEN,
+                userRole: 'customer',
+                userId: CURRENT_USER_ID
+            });
+
+            // Get initial location
+            try {
+                const coords = await locationTracker.requestPermissionAndGetLocation();
+                document.getElementById('modalLat').value = coords.latitude;
+                document.getElementById('modalLng').value = coords.longitude;
+                document.getElementById('gpsStatusText').innerText = `GPS coordinates locked (${coords.latitude.toFixed(4)}, ${coords.longitude.toFixed(4)})`;
+            } catch (err) {
+                document.getElementById('gpsStatusText').innerText = 'Location permission not granted. You can still enter your address.';
+            }
+
+            // 4. Setup Map Manager
+            mapsManager = new PhidimMapsManager('customerTrackingMap', {
+                googleApiKey: GOOGLE_MAPS_KEY,
+                customerCoords: {
+                    lat: '{{ profile.latitude|default:"27.7172" }}',
+                    lng: '{{ profile.longitude|default:"85.3239" }}'
+                }
+            });
+            await mapsManager.init();
+
+            if (activeTrackingRequestId) {
+                loadRequestOnMap(activeTrackingRequestId);
+            }
+        });
+
+        // Load specific service request on map
+        async function loadRequestOnMap(requestId) {
+            activeTrackingRequestId = requestId;
+            if (socket && socket.connected) {
+                socket.emit('join-service-room', {
+                    requestId: requestId,
+                    userId: CURRENT_USER_ID,
+                    role: 'customer'
+                });
+            }
+
+            try {
+                const res = await fetch(`/api/requests/${requestId}/tracking/`);
+                const data = await res.json();
+                if (data.success && mapsManager) {
+                    document.getElementById('activeJobTitleDisplay').innerText = data.title;
+                    document.getElementById('technicianDistanceDisplay').innerText = data.distance_formatted || 'In Route';
+
+                    if (data.customer.latitude && data.customer.longitude) {
+                        mapsManager.updateCustomerMarker({ lat: data.customer.latitude, lng: data.customer.longitude });
+                    }
+                    if (data.technician && data.technician.latitude && data.technician.longitude) {
+                        mapsManager.updateTechnicianMarker({ lat: data.technician.latitude, lng: data.technician.longitude });
+                    }
+                }
+            } catch (err) {
+                console.error('Error fetching tracking data:', err);
+            }
+        }
+
+        // Trigger in-dashboard WebRTC video call to assigned technician
+        async function triggerVideoCall(requestId, techId, techName, techAvatar, serviceTitle) {
+            try {
+                const res = await fetch(`/api/call/session/${requestId}/`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': CSRF_TOKEN }
+                });
+                const data = await res.json();
+                if (data.success && videoCall) {
+                    videoCall.startCall({
+                        targetUserId: techId,
+                        requestId: requestId,
+                        roomId: data.room_id,
+                        targetName: techName,
+                        targetAvatar: techAvatar,
+                        serviceTitle: serviceTitle
+                    });
+                }
+            } catch (err) {
+                alert('Could not start video call. Please try again.');
+            }
+        }
+
+        // Modal Helpers
+        function openRequestModal() {
+            document.getElementById('requestServiceModal').style.display = 'flex';
+        }
+
+        function closeRequestModal() {
+            document.getElementById('requestServiceModal').style.display = 'none';
+        }
+
+        async function submitServiceBooking(e) {
+            e.preventDefault();
+            const form = document.getElementById('newServiceForm');
+            const payload = {
+                category_id: form.category_id.value,
+                title: form.title.value,
+                description: form.description.value,
+                priority: form.priority.value,
+                price_estimate: form.price_estimate.value,
+                address: form.address.value,
+                latitude: form.latitude.value,
+                longitude: form.longitude.value
+            };
+
+            try {
+                const res = await fetch('/api/requests/create/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': CSRF_TOKEN
+                    },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Service request posted successfully! Connecting with specialists...');
+                    window.location.reload();
+                } else {
+                    alert(data.error || 'Failed to create service request.');
+                }
+            } catch (err) {
+                alert('Network error submitting request.');
+            }
+        }
+    </script>
+</body>
+</html>

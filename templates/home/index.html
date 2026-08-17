@@ -1890,6 +1890,9 @@
                 <li><a href="{% url 'about' %}" class="nav-item-link">About</a></li>
                 <li><a href="{% url 'services' %}" class="nav-item-link">Services</a></li>
                 <li><a href="{% url 'contact' %}" class="nav-item-link">Contact</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}" class="nav-item-link" style="color:var(--primary-orange); font-weight:700;"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></li>
+                {% endif %}
                 <li><a href="{% url 'profile' %}" class="nav-item-link">Profile</a></li>
             </ul>
         </nav>
@@ -1919,13 +1922,13 @@
                 onclick="document.getElementById('navSearchInput').focus()">
                 <i class="fa-solid fa-magnifying-glass"></i>
             </button>
-            <button class="nav-icon-btn" title="Your Shopping Cart" onclick="showToast('🛒 Cart: 0 items')">
-                <i class="fa-solid fa-cart-shopping"></i>
-            </button>
             {% if user.is_authenticated %}
-            <a href="{% url 'account_logout' %}" class="btn-shop-now" title="Logout">
+            <a href="{% url 'dashboard' %}" class="btn-shop-now" title="Go to Dashboard" style="background:var(--primary-orange); border-color:var(--primary-orange);">
+                <i class="fa-solid fa-gauge-high"></i>
+                <span>DASHBOARD</span>
+            </a>
+            <a href="{% url 'account_logout' %}" class="nav-icon-btn" title="Logout" style="color:#ef4444;">
                 <i class="fa-solid fa-right-from-bracket"></i>
-                <span>LOGOUT</span>
             </a>
             {% else %}
             <a href="{% url 'account_login' %}" class="btn-shop-now" title="Login">

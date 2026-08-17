@@ -1,0 +1,282 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Operations Center | Phidim Service Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <style>
+        .admin-table-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.88rem;
+        }
+
+        .admin-table th {
+            padding: 14px 18px;
+            background: #f8fafc;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .admin-table td {
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-light);
+            color: var(--text-dark);
+        }
+
+        .admin-table tr:hover td {
+            background: #faf8f5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Header Navbar -->
+    <header class="header-navbar">
+        <a href="/" class="nav-brand">
+            <div class="brand-logo-icon">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="brand-text-wrap">
+                <div class="brand-title">Phidim<span>service</span></div>
+                <div class="brand-subtitle">Master Administration</div>
+            </div>
+        </a>
+
+        <ul class="nav-links-menu">
+            <li><a href="/" class="nav-item-link">Home</a></li>
+            <li><a href="/services/" class="nav-item-link">Services</a></li>
+            <li><a href="/dashboard/" class="nav-item-link active">Admin Panel</a></li>
+            <li><a href="/admin/" class="nav-item-link" target="_blank">Django Admin <i class="fa-solid fa-arrow-up-right-from-square"></i></a></li>
+        </ul>
+
+        <div class="nav-right-actions">
+            <a href="/profile/" class="user-profile-badge">
+                <img src="{{ profile.display_avatar }}" class="user-avatar-mini" alt="Admin">
+                <span>{{ request.user.first_name|default:request.user.username }}</span>
+                <span class="role-pill-badge admin">Admin</span>
+            </a>
+            <a href="/accounts/logout/" class="btn-sm-action" style="background:#f1f5f9; color:#475569;" title="Logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Admin Hero Banner -->
+    <section class="dashboard-hero-banner">
+        <div class="banner-content-wrap">
+            <div>
+                <h1 class="banner-title-text">Platform Operations & Governance</h1>
+                <p class="banner-subtext">Manage verified technicians, review KYC certifications, oversee live service dispatches, and track platform metrics.</p>
+            </div>
+            <div class="banner-action-buttons">
+                <a href="/admin/" target="_blank" class="btn-primary-orange">
+                    <i class="fa-solid fa-sliders"></i> Django Database Admin
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <main class="dashboard-main-container">
+        <!-- Metric Cards -->
+        <div class="metrics-row-grid">
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Total Users</span>
+                    <span class="metric-number-val">{{ total_users }}</span>
+                </div>
+                <div class="metric-icon-box" style="background:var(--badge-blue-bg); color:var(--badge-blue-text);">
+                    <i class="fa-solid fa-users"></i>
+                </div>
+            </div>
+
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Active Technicians</span>
+                    <span class="metric-number-val">{{ total_technicians }}</span>
+                </div>
+                <div class="metric-icon-box" style="background:var(--badge-green-bg); color:var(--badge-green-text);">
+                    <i class="fa-solid fa-user-gear"></i>
+                </div>
+            </div>
+
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Total Requests</span>
+                    <span class="metric-number-val">{{ total_requests }}</span>
+                </div>
+                <div class="metric-icon-box">
+                    <i class="fa-solid fa-cubes"></i>
+                </div>
+            </div>
+
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Pending KYC Verifications</span>
+                    <span class="metric-number-val">{{ pending_kyc.count }}</span>
+                </div>
+                <div class="metric-icon-box" style="background:var(--badge-amber-bg); color:var(--badge-amber-text);">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending KYC Verifications -->
+        <div class="dash-panel-card" style="margin-bottom:28px;">
+            <div class="panel-header-bar">
+                <div class="panel-title">
+                    <i class="fa-solid fa-id-card-clip"></i> Pending Technician KYC Verifications
+                </div>
+                <span class="role-pill-badge technician">{{ pending_kyc.count }} Awaiting Review</span>
+            </div>
+
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Technician</th>
+                            <th>Citizenship / ID No</th>
+                            <th>Documents</th>
+                            <th>Submission Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if pending_kyc %}
+                            {% for item in pending_kyc %}
+                                <tr id="kycRow-{{ item.id }}">
+                                    <td>
+                                        <div style="font-weight:700;">{{ item.profile.full_name }}</div>
+                                        <div style="font-size:0.75rem; color:var(--text-muted);">@{{ item.profile.user.username }} • {{ item.profile.phone_number }}</div>
+                                    </td>
+                                    <td><code>{{ item.citizenship_number }}</code></td>
+                                    <td>
+                                        {% if item.citizenship_front_image %}
+                                            <a href="{{ item.citizenship_front_image.url }}" target="_blank" class="btn-sm-action" style="background:#f1f5f9; color:var(--text-dark);">
+                                                <i class="fa-solid fa-image"></i> Front
+                                            </a>
+                                        {% endif %}
+                                        {% if item.citizenship_back_image %}
+                                            <a href="{{ item.citizenship_back_image.url }}" target="_blank" class="btn-sm-action" style="background:#f1f5f9; color:var(--text-dark);">
+                                                <i class="fa-solid fa-image"></i> Back
+                                            </a>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ item.submitted_at|date:"M d, Y H:i" }}</td>
+                                    <td>
+                                        <button type="button" class="btn-sm-action" style="background:#10b981; color:#fff;" onclick="reviewKYC('{{ item.id }}', 'approve')">
+                                            <i class="fa-solid fa-check"></i> Approve
+                                        </button>
+                                        <button type="button" class="btn-sm-action" style="background:#ef4444; color:#fff;" onclick="reviewKYC('{{ item.id }}', 'reject')">
+                                            <i class="fa-solid fa-xmark"></i> Reject
+                                        </button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">
+                                    <i class="fa-solid fa-check-circle" style="color:#10b981; font-size:1.5rem; margin-bottom:6px;"></i>
+                                    <div>All technician KYC documents have been reviewed!</div>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Recent Service Requests -->
+        <div class="dash-panel-card">
+            <div class="panel-header-bar">
+                <div class="panel-title">
+                    <i class="fa-solid fa-bolt"></i> Recent Service Requests Overview
+                </div>
+            </div>
+
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Title & Category</th>
+                            <th>Customer</th>
+                            <th>Assigned Specialist</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for req in recent_requests %}
+                            <tr>
+                                <td><strong>#{{ req.id }}</strong></td>
+                                <td>
+                                    <div style="font-weight:700;">{{ req.title }}</div>
+                                    <div style="font-size:0.75rem; color:var(--text-muted);">{{ req.category.name|default:"General" }}</div>
+                                </td>
+                                <td>{{ req.customer.get_full_name|default:req.customer.username }}</td>
+                                <td>
+                                    {% if req.technician %}
+                                        <span style="color:#059669; font-weight:600;">{{ req.technician.get_full_name|default:req.technician.username }}</span>
+                                    {% else %}
+                                        <span style="color:var(--text-muted);">Unassigned</span>
+                                    {% endif %}
+                                </td>
+                                <td><span class="req-status-badge {{ req.status }}">{{ req.get_status_display }}</span></td>
+                                <td>{{ req.created_at|date:"M d, Y" }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const CSRF_TOKEN = '{{ csrf_token }}';
+
+        async function reviewKYC(kycId, action) {
+            let reason = '';
+            if (action === 'reject') {
+                reason = prompt('Enter rejection reason for technician:', 'Document image is blurred or invalid ID.');
+                if (reason === null) return;
+            }
+
+            try {
+                const res = await fetch(`/api/admin/kyc/${kycId}/action/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+                    body: JSON.stringify({ action, reason })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert(data.message);
+                    const row = document.getElementById(`kycRow-${kycId}`);
+                    if (row) row.remove();
+                } else {
+                    alert(data.error || 'Action failed.');
+                }
+            } catch (e) {
+                alert('Network error.');
+            }
+        }
+    </script>
+</body>
+</html>

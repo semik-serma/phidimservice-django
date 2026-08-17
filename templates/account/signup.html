@@ -4,280 +4,399 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - Meet AI</title>
+    <title>Create Account | Phidim Service Platform</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-orange: #ff5400;
+            --primary-orange-hover: #e04800;
+            --primary-orange-glow: rgba(255, 84, 0, 0.35);
+            --hero-bg-dark: #122b20;
+            --hero-bg-deep: #0b1c15;
+            --card-bg: rgba(18, 43, 32, 0.8);
+            --border-card: rgba(255, 255, 255, 0.12);
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --text-muted: #64748b;
+            --font-heading: 'Outfit', sans-serif;
+            --font-main: 'Plus Jakarta Sans', sans-serif;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-main);
         }
 
         body {
             min-height: 100vh;
-            background-color: #09080e;
-            color: #f1f1f5;
+            background: radial-gradient(circle at top right, #1a3d2e 0%, var(--hero-bg-deep) 60%, #06110d 100%);
+            color: var(--text-main);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 24px;
+            padding: 30px 20px;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Ambient Glow Orbs */
-        .glow-orb-1 {
+        .ambient-glow-1 {
             position: absolute;
-            top: -120px;
-            right: -120px;
-            width: 480px;
-            height: 480px;
-            background: radial-gradient(circle, rgba(217, 70, 239, 0.28) 0%, rgba(168, 85, 247, 0.12) 45%, transparent 70%);
-            filter: blur(60px);
+            top: -150px;
+            right: -150px;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(255, 84, 0, 0.2) 0%, transparent 70%);
+            filter: blur(90px);
             pointer-events: none;
-            z-index: 0;
         }
 
-        .glow-orb-2 {
+        .ambient-glow-2 {
             position: absolute;
-            bottom: -100px;
-            left: -100px;
-            width: 450px;
-            height: 450px;
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.22) 0%, rgba(139, 92, 246, 0.1) 50%, transparent 70%);
-            filter: blur(70px);
+            bottom: -150px;
+            left: -150px;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(18, 43, 32, 0.6) 0%, transparent 70%);
+            filter: blur(90px);
             pointer-events: none;
-            z-index: 0;
         }
 
-        .auth-container {
+        .back-home-btn {
+            position: fixed;
+            top: 24px;
+            left: 28px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #cbd5e1;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-decoration: none;
+            z-index: 10;
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            backdrop-filter: blur(12px);
+            transition: all 0.25s ease;
+        }
+
+        .back-home-btn:hover {
+            color: #ffffff;
+            background: var(--primary-orange);
+            border-color: var(--primary-orange);
+            transform: translateX(-3px);
+            box-shadow: 0 4px 16px var(--primary-orange-glow);
+        }
+
+        .auth-wrapper {
             width: 100%;
-            max-width: 480px;
+            max-width: 500px;
             position: relative;
             z-index: 1;
+            margin: 40px auto 20px;
         }
 
-        /* Brand Header */
         .brand-header {
             text-align: center;
             margin-bottom: 24px;
         }
 
-        .brand-badge {
+        .brand-logo-badge {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 14px;
+            gap: 12px;
+            margin-bottom: 12px;
             text-decoration: none;
+            color: #ffffff;
         }
 
-        .brand-icon {
-            width: 42px;
-            height: 42px;
+        .brand-logo-icon {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, #ff7a00, #ff4500);
             border-radius: 12px;
-            background: linear-gradient(135deg, #d946ef 0%, #a855f7 100%);
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 20px rgba(217, 70, 239, 0.55);
-        }
-
-        .brand-icon svg {
-            width: 22px;
-            height: 22px;
-            fill: #ffffff;
+            color: #ffffff;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 16px var(--primary-orange-glow);
         }
 
         .brand-name {
-            font-size: 24px;
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-name span {
+            color: var(--primary-orange);
         }
 
         .auth-title {
-            font-size: 24px;
-            font-weight: 700;
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            font-weight: 800;
             color: #ffffff;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.5px;
         }
 
         .auth-subtitle {
-            font-size: 14px;
-            color: #8e8b9f;
-            margin-top: 6px;
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-top: 4px;
         }
 
-        /* Glassmorphism Card */
         .auth-card {
-            background: rgba(19, 17, 28, 0.85);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 32px;
-            box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.6), 0 0 35px rgba(217, 70, 239, 0.06);
+            background: var(--card-bg);
+            backdrop-filter: blur(28px);
+            -webkit-backdrop-filter: blur(28px);
+            border: 1px solid var(--border-card);
+            border-radius: 20px;
+            padding: 34px 30px;
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 84, 0, 0.05);
+            position: relative;
         }
 
-        /* Alerts & Messages */
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 15%;
+            right: 15%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-orange), transparent);
+        }
+
+        /* Role Selector Cards */
+        .role-selector-section {
+            margin-bottom: 20px;
+        }
+
+        .role-selector-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .role-options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .role-option-card {
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            padding: 12px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .role-option-card:hover {
+            border-color: rgba(255, 84, 0, 0.5);
+            background: rgba(255, 84, 0, 0.05);
+        }
+
+        .role-option-card.selected {
+            border-color: var(--primary-orange);
+            background: rgba(255, 84, 0, 0.15);
+            box-shadow: 0 0 16px var(--primary-orange-glow);
+        }
+
+        .role-card-icon {
+            font-size: 1.2rem;
+            color: var(--primary-orange);
+        }
+
+        .role-card-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .role-card-desc {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
         .alert {
             padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 13px;
-            margin-bottom: 20px;
-            line-height: 1.5;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            margin-bottom: 18px;
+            line-height: 1.45;
         }
 
         .alert-error {
-            background: rgba(239, 68, 68, 0.12);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.35);
             color: #fca5a5;
         }
 
         .alert-info {
-            background: rgba(217, 70, 239, 0.12);
-            border: 1px solid rgba(217, 70, 239, 0.3);
-            color: #f0abfc;
+            background: rgba(255, 84, 0, 0.15);
+            border: 1px solid rgba(255, 84, 0, 0.35);
+            color: #ffb58a;
         }
 
-        /* Social Buttons */
-        .social-buttons {
+        .social-oauth-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 22px;
         }
 
-        .btn-social {
+        .btn-oauth-social {
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
             padding: 11px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 500;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
             text-decoration: none;
-            color: #e2e8f0;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.2s ease;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.25s ease;
         }
 
-        .btn-social:hover {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.16);
+        .btn-oauth-social:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.25);
             transform: translateY(-1px);
         }
 
-        .btn-social.facebook {
-            background: rgba(24, 119, 242, 0.1);
+        .btn-oauth-social.google:hover {
+            border-color: rgba(66, 133, 244, 0.6);
+            box-shadow: 0 0 16px rgba(66, 133, 244, 0.25);
+        }
+
+        .btn-oauth-social.github:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            box-shadow: 0 0 16px rgba(255, 255, 255, 0.15);
+        }
+
+        .btn-oauth-social.facebook {
+            background: rgba(24, 119, 242, 0.12);
             border-color: rgba(24, 119, 242, 0.25);
-            color: #ffffff;
         }
 
-        .btn-social.facebook:hover {
-            background: rgba(24, 119, 242, 0.2);
-            border-color: rgba(24, 119, 242, 0.45);
-            box-shadow: 0 0 16px rgba(24, 119, 242, 0.2);
+        .btn-oauth-social.facebook:hover {
+            background: rgba(24, 119, 242, 0.22);
+            border-color: rgba(24, 119, 242, 0.5);
+            box-shadow: 0 0 16px rgba(24, 119, 242, 0.3);
         }
 
-        .social-icon {
-            width: 20px;
-            height: 20px;
+        .oauth-icon {
+            width: 18px;
+            height: 18px;
             flex-shrink: 0;
         }
 
-        /* Divider */
-        .divider {
+        .auth-divider {
             display: flex;
             align-items: center;
-            margin: 22px 0;
-            color: #5c5870;
-            font-size: 12px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
+            margin: 20px 0;
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
         }
 
-        .divider::before,
-        .divider::after {
+        .auth-divider::before,
+        .auth-divider::after {
             content: '';
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.08), transparent);
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        .divider span {
-            padding: 0 14px;
+        .auth-divider span {
+            padding: 0 12px;
         }
 
-        /* Form Controls */
         .form-group {
             margin-bottom: 16px;
         }
 
         .form-label {
             display: block;
-            font-size: 13px;
+            font-size: 0.78rem;
             font-weight: 600;
-            color: #c4c1d6;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #cbd5e1;
             margin-bottom: 6px;
         }
 
         .form-help {
-            font-size: 11px;
-            color: #7b788f;
+            font-size: 0.75rem;
+            color: var(--text-dim);
             margin-top: 4px;
-            line-height: 1.4;
         }
 
         input[type="text"],
         input[type="email"],
         input[type="password"] {
             width: 100%;
-            background: rgba(255, 255, 255, 0.035);
-            border: 1px solid rgba(255, 255, 255, 0.09);
-            border-radius: 12px;
-            padding: 11px 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 11px 14px;
             color: #ffffff;
-            font-size: 14px;
+            font-size: 0.92rem;
             outline: none;
-            transition: all 0.2s ease;
+            transition: all 0.25s ease;
         }
 
         input[type="text"]:focus,
         input[type="email"]:focus,
         input[type="password"]:focus {
-            border-color: #d946ef;
-            background: rgba(217, 70, 239, 0.04);
-            box-shadow: 0 0 0 3px rgba(217, 70, 239, 0.15), 0 0 16px rgba(217, 70, 239, 0.2);
+            border-color: var(--primary-orange);
+            background: rgba(255, 84, 0, 0.05);
+            box-shadow: 0 0 0 3px rgba(255, 84, 0, 0.2);
         }
 
         .field-error {
             color: #f87171;
-            font-size: 12px;
-            margin-top: 4px;
+            font-size: 0.8rem;
+            margin-top: 5px;
         }
 
-        /* Submit Button */
-        .btn-submit {
+        .btn-submit-main {
             width: 100%;
-            background: linear-gradient(135deg, #d946ef 0%, #ec4899 50%, #a855f7 100%);
+            background: linear-gradient(135deg, var(--primary-orange) 0%, #e04800 100%);
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             color: #ffffff;
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 0.96rem;
+            font-weight: 700;
             padding: 13px;
             cursor: pointer;
             transition: all 0.25s ease;
-            box-shadow: 0 4px 18px rgba(217, 70, 239, 0.4);
+            box-shadow: 0 4px 18px var(--primary-orange-glow);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -285,91 +404,103 @@
             margin-top: 20px;
         }
 
-        .btn-submit:hover {
-            opacity: 0.94;
-            transform: translateY(-1px);
-            box-shadow: 0 6px 24px rgba(217, 70, 239, 0.55);
+        .btn-submit-main:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--primary-orange-glow);
         }
 
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        /* Footer switch link */
-        .auth-footer {
+        .auth-bottom-footer {
             text-align: center;
-            margin-top: 24px;
-            font-size: 13px;
-            color: #8e8b9f;
+            margin-top: 22px;
+            font-size: 0.88rem;
+            color: var(--text-dim);
         }
 
-        .auth-footer a {
-            color: #d946ef;
-            font-weight: 600;
+        .auth-bottom-footer a {
+            color: var(--primary-orange);
+            font-weight: 700;
             text-decoration: none;
             margin-left: 4px;
-            transition: color 0.2s ease;
         }
 
-        .auth-footer a:hover {
-            color: #f0abfc;
+        .auth-bottom-footer a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
 <body>
+    <div class="ambient-glow-1"></div>
+    <div class="ambient-glow-2"></div>
 
-    <!-- Ambient Glow Lights -->
-    <div class="glow-orb-1"></div>
-    <div class="glow-orb-2"></div>
+    <a href="/" class="back-home-btn">
+        <i class="fa-solid fa-arrow-left"></i> Home
+    </a>
 
-    <div class="auth-container">
-
-        <!-- Brand Header -->
+    <div class="auth-wrapper">
         <div class="brand-header">
-            <a href="/" class="brand-badge">
-                <div class="brand-icon">
-                    <svg viewBox="0 0 24 24">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zm0 9l-8-4v6l8 4 8-4v-6l-8 4zm0 6l-6-3v4l6 3 6-3v-4l-6 3z"/>
-                    </svg>
+            <a href="/" class="brand-logo-badge">
+                <div class="brand-logo-icon">
+                    <i class="fa-solid fa-bolt"></i>
                 </div>
-                <span class="brand-name">Meet AI</span>
+                <div class="brand-name">Phidim<span>service</span></div>
             </a>
             <h1 class="auth-title">Create an Account</h1>
-            <p class="auth-subtitle">Join Meet AI and unlock AI-powered meeting analytics</p>
+            <p class="auth-subtitle">Join the on-demand service and technician network</p>
         </div>
 
-        <!-- Auth Card -->
         <div class="auth-card">
+            <!-- Role Selection -->
+            <div class="role-selector-section">
+                <span class="role-selector-label">I want to join as:</span>
+                <div class="role-options-grid">
+                    <div class="role-option-card selected" id="roleCardCustomer" onclick="selectRole('customer')">
+                        <i class="fa-solid fa-user-tie role-card-icon"></i>
+                        <div class="role-card-title">Customer</div>
+                        <div class="role-card-desc">Request & track services</div>
+                    </div>
+                    <div class="role-option-card" id="roleCardTechnician" onclick="selectRole('technician')">
+                        <i class="fa-solid fa-screwdriver-wrench role-card-icon"></i>
+                        <div class="role-card-title">Technician</div>
+                        <div class="role-card-desc">Accept jobs & earn</div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Social OAuth Buttons -->
-            <div class="social-buttons">
+            <div class="social-oauth-group">
                 <!-- Google -->
-                <a href="{% provider_login_url 'google' %}" class="btn-social">
-                    <svg class="social-icon" viewBox="0 0 24 24">
+                <a href="{% provider_login_url 'google' %}" class="btn-oauth-social google" onclick="attachSelectedRole(this)">
+                    <svg class="oauth-icon" viewBox="0 0 24 24">
                         <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.68v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.17z"/>
                         <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
                         <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 9.99 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
                         <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
                     </svg>
-                    Sign up with Google
+                    <span>Sign up with Google</span>
+                </a>
+
+                <!-- GitHub -->
+                <a href="{% provider_login_url 'github' %}" class="btn-oauth-social github" onclick="attachSelectedRole(this)">
+                    <svg class="oauth-icon" viewBox="0 0 24 24" fill="#ffffff">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                    </svg>
+                    <span>Sign up with GitHub</span>
                 </a>
 
                 <!-- Facebook -->
-                <a href="{% provider_login_url 'facebook' %}" class="btn-social facebook">
-                    <svg class="social-icon" viewBox="0 0 24 24" fill="#1877F2">
+                <a href="{% provider_login_url 'facebook' %}" class="btn-oauth-social facebook" onclick="attachSelectedRole(this)">
+                    <svg class="oauth-icon" viewBox="0 0 24 24" fill="#1877F2">
                         <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
                     </svg>
-                    Sign up with Facebook
+                    <span>Sign up with Facebook</span>
                 </a>
             </div>
 
-            <!-- Divider -->
-            <div class="divider">
+            <div class="auth-divider">
                 <span>OR SIGN UP WITH EMAIL</span>
             </div>
 
-            <!-- Django Messages -->
+            <!-- Messages -->
             {% if messages %}
                 {% for message in messages %}
                     <div class="alert alert-info">
@@ -386,8 +517,9 @@
             {% endif %}
 
             <!-- Form -->
-            <form method="POST" action="{% url 'account_signup' %}">
+            <form method="POST" action="{% url 'account_signup' %}" id="signupForm">
                 {% csrf_token %}
+                <input type="hidden" name="user_role" id="selectedUserRole" value="customer">
 
                 {% for field in form %}
                     <div class="form-group">
@@ -404,24 +536,55 @@
                     </div>
                 {% endfor %}
 
-                <!-- Submit Button -->
-                <button type="submit" class="btn-submit">
+                <button type="submit" class="btn-submit-main">
                     <span>Create Account</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
-                    </svg>
+                    <i class="fa-solid fa-arrow-right"></i>
                 </button>
             </form>
 
-            <!-- Switch to Sign In -->
-            <div class="auth-footer">
+            <div class="auth-bottom-footer">
                 Already have an account?
                 <a href="{% url 'account_login' %}">Sign In</a>
             </div>
-
         </div>
-
     </div>
 
+    <script>
+        let currentSelectedRole = 'customer';
+
+        function selectRole(role) {
+            currentSelectedRole = role;
+            document.getElementById('selectedUserRole').value = role;
+            
+            const customerCard = document.getElementById('roleCardCustomer');
+            const techCard = document.getElementById('roleCardTechnician');
+
+            if (role === 'customer') {
+                customerCard.classList.add('selected');
+                techCard.classList.remove('selected');
+            } else {
+                techCard.classList.add('selected');
+                customerCard.classList.remove('selected');
+            }
+
+            // Save role in session storage for OAuth redirects
+            fetch('/api/auth/set-pending-role/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ role: role })
+            }).catch(() => {});
+        }
+
+        function attachSelectedRole(linkElement) {
+            // Also notify backend of pending role before redirecting to social provider
+            navigator.sendBeacon && navigator.sendBeacon(
+                '/api/auth/set-pending-role/', 
+                new Blob([JSON.stringify({ role: currentSelectedRole, csrfmiddlewaretoken: '{{ csrf_token }}' })], { type: 'application/json' })
+            );
+        }
+    </script>
 </body>
 </html>

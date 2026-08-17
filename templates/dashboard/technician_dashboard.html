@@ -1,0 +1,449 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technician Dashboard | Phidim Service Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <style>
+        .duty-toggle-switch {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            padding: 4px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .duty-pill {
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+        }
+
+        .duty-pill.active {
+            background: #22c55e;
+            color: #ffffff;
+            box-shadow: 0 0 14px rgba(34, 197, 94, 0.4);
+        }
+
+        .duty-pill.offline {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        .job-action-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border-light);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Unified Header Navbar -->
+    <header class="header-navbar">
+        <a href="/" class="nav-brand">
+            <div class="brand-logo-icon">
+                <i class="fa-solid fa-bolt"></i>
+            </div>
+            <div class="brand-text-wrap">
+                <div class="brand-title">Phidim<span>service</span></div>
+                <div class="brand-subtitle">Specialist Workstation</div>
+            </div>
+        </a>
+
+        <ul class="nav-links-menu">
+            <li><a href="/" class="nav-item-link">Home</a></li>
+            <li><a href="/services/" class="nav-item-link">Services</a></li>
+            <li><a href="/dashboard/" class="nav-item-link active">Jobs & Telemetry</a></li>
+            <li><a href="/profile/" class="nav-item-link">Specialist Profile</a></li>
+        </ul>
+
+        <div class="nav-right-actions">
+            <div class="duty-toggle-switch" onclick="toggleOnlineDuty()">
+                <span class="duty-pill {% if profile.is_online %}active{% endif %}" id="dutyPillOnline">
+                    <i class="fa-solid fa-signal"></i> Available
+                </span>
+                <span class="duty-pill {% if not profile.is_online %}offline{% endif %}" id="dutyPillOffline">
+                    Offline
+                </span>
+            </div>
+
+            <a href="/profile/" class="user-profile-badge">
+                <img src="{{ profile.display_avatar }}" class="user-avatar-mini" alt="Technician">
+                <span>{{ request.user.first_name|default:request.user.username }}</span>
+                <span class="role-pill-badge technician">Technician</span>
+            </a>
+            <a href="/accounts/logout/" class="btn-sm-action" style="background:#f1f5f9; color:#475569;" title="Logout">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Technician Hero Banner -->
+    <section class="dashboard-hero-banner">
+        <div class="banner-content-wrap">
+            <div>
+                <h1 class="banner-title-text">Technician Dispatch & Job Center</h1>
+                <p class="banner-subtext">Manage active job routes, stream high-accuracy GPS coordinates, and connect with customers.</p>
+            </div>
+            <div class="banner-action-buttons">
+                <a href="/profile/" class="btn-secondary-dark">
+                    <i class="fa-solid fa-id-card"></i> KYC Status: {{ profile.kyc.get_status_display|default:"Verified" }}
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Container -->
+    <main class="dashboard-main-container">
+        <!-- Metric Cards -->
+        <div class="metrics-row-grid">
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Available Requests</span>
+                    <span class="metric-number-val">{{ available_jobs.count }}</span>
+                </div>
+                <div class="metric-icon-box" style="background:var(--badge-amber-bg); color:var(--badge-amber-text);">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+            </div>
+
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Jobs Completed</span>
+                    <span class="metric-number-val">{{ completed_count }}</span>
+                </div>
+                <div class="metric-icon-box" style="background:var(--badge-green-bg); color:var(--badge-green-text);">
+                    <i class="fa-solid fa-certificate"></i>
+                </div>
+            </div>
+
+            <div class="metric-stat-card">
+                <div class="metric-info-box">
+                    <span class="metric-label-text">Total Earnings</span>
+                    <span class="metric-number-val">${{ total_earnings|floatformat:2 }}</span>
+                </div>
+                <div class="metric-icon-box">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Two-Column Interactive Layout -->
+        <div class="dashboard-grid-layout">
+            <!-- Left: Active Assigned Job & GPS Navigation -->
+            <div class="dash-panel-card">
+                <div class="panel-header-bar">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-route"></i> Active Job Route & GPS Broadcaster
+                    </div>
+                    <span class="role-pill-badge technician" id="activeStatusPill">
+                        {% if active_job %}{{ active_job.get_status_display }}{% else %}Standing By{% endif %}
+                    </span>
+                </div>
+
+                <div class="live-map-viewport" id="technicianLiveMap"></div>
+
+                <div style="padding: 20px; background:#ffffff; border-top:1px solid var(--border-light);">
+                    {% if active_job %}
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <div>
+                                <span class="req-category-tag">{{ active_job.category.name|default:"Specialist Task" }}</span>
+                                <h3 style="font-size:1.15rem; font-weight:800; margin-top:6px; color:var(--text-dark);">{{ active_job.title }}</h3>
+                                <p style="font-size:0.85rem; color:var(--text-muted); margin-top:4px;">{{ active_job.description }}</p>
+                                <div style="margin-top:8px; font-size:0.85rem; color:var(--text-dark);">
+                                    <i class="fa-solid fa-location-dot" style="color:var(--primary-orange);"></i>
+                                    <strong>Client Address:</strong> {{ active_job.customer_address|default:"Location provided on map" }}
+                                </div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-size:1.2rem; font-weight:800; color:var(--text-dark);">${{ active_job.price_estimate|default:"650.00" }}</div>
+                                <span class="req-status-badge {{ active_job.status }}">{{ active_job.get_status_display }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Job Action Progression Bar -->
+                        <div class="job-action-bar">
+                            {% if active_job.status == 'ACCEPTED' %}
+                                <button type="button" class="btn-primary-orange" onclick="updateJobStatus('{{ active_job.id }}', 'EN_ROUTE')">
+                                    <i class="fa-solid fa-car"></i> Start Route (En Route)
+                                </button>
+                            {% elif active_job.status == 'EN_ROUTE' %}
+                                <button type="button" class="btn-primary-orange" onclick="updateJobStatus('{{ active_job.id }}', 'IN_PROGRESS')">
+                                    <i class="fa-solid fa-play"></i> Arrived & Start Work
+                                </button>
+                            {% elif active_job.status == 'IN_PROGRESS' %}
+                                <button type="button" class="btn-sm-action" style="background:#10b981; color:#ffffff; padding:10px 20px; font-size:0.9rem;" onclick="updateJobStatus('{{ active_job.id }}', 'COMPLETED')">
+                                    <i class="fa-solid fa-check-double"></i> Complete Service
+                                </button>
+                            {% endif %}
+
+                            <button type="button" class="btn-sm-action btn-call-tech" style="padding:10px 18px;" onclick="triggerVideoCall('{{ active_job.id }}', '{{ active_job.customer.id }}', '{{ active_job.customer.get_full_name|default:active_job.customer.username }}', '{{ active_job.customer.profile.display_avatar }}', '{{ active_job.title }}')">
+                                <i class="fa-solid fa-video"></i> Call Customer
+                            </button>
+                        </div>
+                    {% else %}
+                        <div style="text-align:center; padding:30px 10px; color:var(--text-muted);">
+                            <i class="fa-solid fa-mug-hot" style="font-size:2rem; color:var(--primary-orange); opacity:0.6; margin-bottom:10px;"></i>
+                            <div style="font-weight:700; color:var(--text-dark);">No active job currently assigned</div>
+                            <p style="font-size:0.85rem;">Select and accept an incoming service request from the pool on the right.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Right: Available Jobs Pool -->
+            <div class="dash-panel-card">
+                <div class="panel-header-bar">
+                    <div class="panel-title">
+                        <i class="fa-solid fa-list-check"></i> Available Job Requests
+                    </div>
+                    <span class="req-category-tag" style="background:var(--badge-amber-bg); color:var(--badge-amber-text);">Real-Time Feed</span>
+                </div>
+
+                <div class="requests-list-flow">
+                    {% if available_jobs %}
+                        {% for job in available_jobs %}
+                            <div class="request-item-card" id="availJobCard-{{ job.id }}">
+                                <div class="request-card-top">
+                                    <span class="req-category-tag">{{ job.category.name|default:"General Repair" }}</span>
+                                    <span class="req-status-badge PENDING">New Request</span>
+                                </div>
+
+                                <div class="req-title-text">{{ job.title }}</div>
+                                <div class="req-desc-snippet">{{ job.description|truncatewords:18 }}</div>
+
+                                <div style="font-size:0.82rem; color:var(--text-muted);">
+                                    <i class="fa-solid fa-location-dot" style="color:var(--primary-orange);"></i> {{ job.customer_address|default:"Phidim Area" }}
+                                </div>
+
+                                <div class="req-card-footer">
+                                    <div class="req-price-text">${{ job.price_estimate|default:"500.00" }}</div>
+                                    <div class="req-actions-group">
+                                        <button type="button" class="btn-primary-orange" style="padding:7px 16px; font-size:0.82rem;" onclick="acceptJob('{{ job.id }}')">
+                                            <i class="fa-solid fa-check"></i> Accept Job
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div style="text-align:center; padding:50px 20px; color:var(--text-muted);">
+                            <i class="fa-solid fa-radar" style="font-size:2.2rem; color:var(--primary-orange); opacity:0.6; margin-bottom:10px;"></i>
+                            <div style="font-weight:700; color:var(--text-dark);">Scanning for incoming requests...</div>
+                            <p style="font-size:0.85rem; margin-top:4px;">New customer service requests will appear here automatically.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Include Video Calling Modal Component -->
+    {% include 'dashboard/components/video_call_modal.html' %}
+
+    <!-- Socket.IO & Core JS -->
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <script src="{% static 'js/location-tracker.js' %}"></script>
+    <script src="{% static 'js/maps-manager.js' %}"></script>
+    <script src="{% static 'js/video-call.js' %}"></script>
+
+    <script>
+        const SOCKET_URL = '{{ SOCKET_SERVER_URL }}';
+        const GOOGLE_MAPS_KEY = '{{ GOOGLE_MAPS_API_KEY }}';
+        const CURRENT_USER_ID = '{{ request.user.id }}';
+        const CURRENT_USER_NAME = '{{ request.user.get_full_name|default:request.user.username }}';
+        const CURRENT_USER_AVATAR = '{{ profile.display_avatar }}';
+        const CSRF_TOKEN = '{{ csrf_token }}';
+
+        let socket = null;
+        let mapsManager = null;
+        let locationTracker = null;
+        let videoCall = null;
+        let isOnline = {{ profile.is_online|yesno:"true,false" }};
+        let activeJobId = '{% if active_job %}{{ active_job.id }}{% endif %}';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Setup Socket.IO
+            try {
+                socket = io(SOCKET_URL, { reconnection: true, timeout: 5000 });
+                socket.on('connect', () => {
+                    console.log('[Socket] Connected as Technician:', socket.id);
+                    socket.emit('register-user', {
+                        userId: CURRENT_USER_ID,
+                        role: 'technician',
+                        username: CURRENT_USER_NAME
+                    });
+
+                    if (activeJobId) {
+                        socket.emit('join-service-room', {
+                            requestId: activeJobId,
+                            userId: CURRENT_USER_ID,
+                            role: 'technician'
+                        });
+                    }
+                });
+            } catch (e) {
+                console.warn('[Socket] Connection fallback active:', e);
+            }
+
+            // 2. Setup Video Calling Client
+            videoCall = new PhidimVideoCall({
+                socket: socket,
+                userId: CURRENT_USER_ID,
+                userName: CURRENT_USER_NAME,
+                userAvatar: CURRENT_USER_AVATAR,
+                userRole: 'technician'
+            });
+            window.videoCallInstance = videoCall;
+
+            // 3. Setup Location Tracker (Starts continuous GPS streaming when active job is present)
+            locationTracker = new LocationTracker({
+                socket: socket,
+                csrfToken: CSRF_TOKEN,
+                userRole: 'technician',
+                userId: CURRENT_USER_ID,
+                currentRequestId: activeJobId || null
+            });
+
+            locationTracker.onLocationUpdate((coords) => {
+                if (mapsManager) {
+                    mapsManager.updateTechnicianMarker({ lat: coords.latitude, lng: coords.longitude });
+                }
+            });
+
+            try {
+                const initialCoords = await locationTracker.requestPermissionAndGetLocation();
+                if (activeJobId) {
+                    locationTracker.startWatching(activeJobId);
+                }
+            } catch (e) {
+                console.warn('GPS permission not granted:', e);
+            }
+
+            // 4. Setup Map Manager
+            mapsManager = new PhidimMapsManager('technicianLiveMap', {
+                googleApiKey: GOOGLE_MAPS_KEY,
+                technicianCoords: {
+                    lat: '{{ profile.latitude|default:"27.7172" }}',
+                    lng: '{{ profile.longitude|default:"85.3239" }}'
+                },
+                customerCoords: {
+                    lat: '{% if active_job and active_job.customer_latitude %}{{ active_job.customer_latitude }}{% endif %}',
+                    lng: '{% if active_job and active_job.customer_longitude %}{{ active_job.customer_longitude }}{% endif %}'
+                }
+            });
+            await mapsManager.init();
+        });
+
+        // Toggle Online / Offline Status
+        async function toggleOnlineDuty() {
+            isOnline = !isOnline;
+            const onlinePill = document.getElementById('dutyPillOnline');
+            const offlinePill = document.getElementById('dutyPillOffline');
+
+            if (isOnline) {
+                onlinePill.classList.add('active');
+                offlinePill.classList.remove('offline');
+            } else {
+                onlinePill.classList.remove('active');
+                offlinePill.classList.add('offline');
+            }
+
+            try {
+                await fetch('/api/technician/toggle-status/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+                    body: JSON.stringify({ is_online: isOnline, availability_status: isOnline ? 'available' : 'offline' })
+                });
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Accept a job from the pool
+        async function acceptJob(jobId) {
+            try {
+                const res = await fetch(`/api/requests/${jobId}/status/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+                    body: JSON.stringify({ status: 'ACCEPTED' })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert('Job accepted! Loading navigation & customer details...');
+                    window.location.reload();
+                } else {
+                    alert(data.error || 'Failed to accept job.');
+                }
+            } catch (e) {
+                alert('Network error accepting job.');
+            }
+        }
+
+        // Update lifecycle status of active job
+        async function updateJobStatus(jobId, status) {
+            try {
+                const res = await fetch(`/api/requests/${jobId}/status/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
+                    body: JSON.stringify({ status: status })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    if (socket && socket.connected) {
+                        socket.emit('service-status-update', {
+                            requestId: jobId,
+                            status: status,
+                            statusDisplay: status,
+                            message: `Technician updated status to ${status}`
+                        });
+                    }
+                    window.location.reload();
+                } else {
+                    alert(data.error || 'Status update error.');
+                }
+            } catch (e) {
+                alert('Network error updating status.');
+            }
+        }
+
+        // Trigger Video Call to Customer
+        async function triggerVideoCall(requestId, customerId, customerName, customerAvatar, serviceTitle) {
+            try {
+                const res = await fetch(`/api/call/session/${requestId}/`, {
+                    method: 'POST',
+                    headers: { 'X-CSRFToken': CSRF_TOKEN }
+                });
+                const data = await res.json();
+                if (data.success && videoCall) {
+                    videoCall.startCall({
+                        targetUserId: customerId,
+                        requestId: requestId,
+                        roomId: data.room_id,
+                        targetName: customerName,
+                        targetAvatar: customerAvatar,
+                        serviceTitle: serviceTitle
+                    });
+                }
+            } catch (err) {
+                alert('Could not start video call.');
+            }
+        }
+    </script>
+</body>
+</html>

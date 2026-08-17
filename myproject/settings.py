@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
     
     # Local apps
     'backend',
@@ -82,6 +83,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'backend.context_processors.global_platform_settings',
             ],
         },
     },
@@ -106,7 +108,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # Redirect URLs
-LOGIN_REDIRECT_URL = '/home/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 LOGIN_URL = '/accounts/login/'
 
@@ -117,10 +119,9 @@ SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_LOGIN_REDIRECT_URL = LOGIN_REDIRECT_URL
 SOCIALACCOUNT_LOGIN_REDIRECT_URL = LOGIN_REDIRECT_URL
-SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
 SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
-ACCOUNT_SIGNUP_FIELDS = ['email', 'username*', 'password1*', 'password2*']  # allauth < 65
+ACCOUNT_SIGNUP_FIELDS = ['email', 'username*', 'password1*', 'password2*']
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
@@ -136,28 +137,43 @@ SOCIALACCOUNT_PROVIDERS = {
             'access_type': 'online',
         }
     },
-       "facebook": {
-        "METHOD": "oauth2",
-        "APPS": [
+    'facebook': {
+        'METHOD': 'oauth2',
+        'APPS': [
             {
-                    "client_id": os.getenv("FACEBOOK_CLIENT_ID"),
-                    "secret": os.getenv("FACEBOOK_CLIENT_SECRET"),
-                "key": "",
+                'client_id': os.getenv("FACEBOOK_CLIENT_ID"),
+                'secret': os.getenv("FACEBOOK_CLIENT_SECRET"),
+                'key': '',
             },
         ],
-        "SCOPE": [
-            "email",
-            "public_profile",
+        'SCOPE': [
+            'email',
+            'public_profile',
         ],
-        "FIELDS": [
-            "id",
-            "email",
-            "name",
-            "first_name",
-            "last_name",
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+        ],
+    },
+    'github': {
+        'APP': {
+            'client_id': os.getenv("GITHUB_CLIENT_ID"),
+            'secret': os.getenv("GITHUB_CLIENT_SECRET"),
+            'key': ''
+        },
+        'SCOPE': [
+            'user',
+            'user:email',
         ],
     },
 }
+
+# External Services Settings
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', '')
+SOCKET_SERVER_URL = os.getenv('SOCKET_SERVER_URL', 'http://localhost:5001')
 
 
 # Password validation

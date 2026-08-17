@@ -1,97 +1,80 @@
-
-# backend/signals.py
-
 import requests
-
 from django.core.files.base import ContentFile
+from django.db.models.signals import post_save
 from django.dispatch import receiver
-
+from django.contrib.auth.models import User
 from allauth.account.signals import user_signed_up
 
 from .models import Profile
 
 
-@receiver(user_signed_up)
-def save_social_avatar(request, user, **kwargs):
-    print("\n========== SOCIAL AVATAR DEBUG ==========")
-    print(f"[1] User signed up: {user}")
-    print(f"[1] User ID: {user.pk}")
-
-    sociallogin = kwargs.get("sociallogin")
-
-    if not sociallogin:
-        print("[ERROR] No sociallogin object found.")
-        return
-
-    print(f"[2] Social provider: {sociallogin.account.provider}")
-    print(f"[2] Social account UID: {sociallogin.account.uid}")
-
-    extra_data = sociallogin.account.extra_data
-
-    print(f"[3] Social account extra_data: {extra_data}")
-
-    picture_url = extra_data.get("picture")
-
-    if not picture_url:
-        print("[ERROR] No 'picture' found in extra_data.")
-        print(f"[DEBUG] Available keys: {list(extra_data.keys())}")
-        return
-
-    print(f"[4] Profile picture URL found: {picture_url}")
-
-    try:
-        profile, created = Profile.objects.get_or_create(user=user)
-
-        print(
-            f"[5] Profile {'created' if created else 'already exists'}: "
-            f"profile_id={profile.pk}"
-        )
-
-    except Exception as e:
-        print(f"[ERROR] Failed to get/create Profile: {e}")
-        return
-
-    try:
-        print("[6] Downloading profile picture...")
-
-        response = requests.get(
-            picture_url,
-            timeout=10,
-        )
-
-        print(f"[7] HTTP status: {response.status_code}")
-        print(f"[7] Content-Type: {response.headers.get('Content-Type')}")
-        print(f"[7] Content-Length: {len(response.content)} bytes")
-
-        response.raise_for_status()
-
-    except requests.RequestException as e:
-        print(f"[ERROR] Failed to download profile picture: {e}")
-        return
-
-    try:
-        filename = f"{user.pk}.jpg"
-
-        print(f"[8] Saving profile picture...")
-        print(f"[8] Filename: {filename}")
-        print(f"[8] Existing profile_picture: {profile.profile_picture}")
-
-        profile.profile_picture.save(
-            filename,
-            ContentFile(response.content),
-            save=True,
-        )
-
-        print("[9] Profile picture saved successfully!")
-        print(f"[9] Saved path: {profile.profile_picture.name}")
-
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    """
+    Ensure every User always has an associated Profile.
+    If the user is superuser, set role to admin.
+    """
+    if created:
+        role = 'admin' if instance.is_superuser or instance.is_staff else 'customer'
+        Profile.objects.get_or_create(user=instance, defaults={'role': role})
+    else:
         try:
-            print(f"[9] Saved URL: {profile.profile_picture.url}")
-        except Exception as e:
-            print(f"[WARNING] Could not get profile_picture.url: {e}")
+            if instance.is_superuser and instance.profile.role != 'admin':
+                instance.profile.role = 'admin'
+                instance.profile.save()
+        except Exception:
+            pass
 
-    except Exception as e:
-        print(f"[ERROR] Failed to save profile picture: {e}")
+
+@receiver(user_signed_up)
+def save_social_avatar_and_details(request, user, **kwargs):
+    """
+    Extracts social avatar, first/last names, and syncs to user Profile
+    across Google, GitHub, and Facebook.
+    """
+    sociallogin = kwargs.get("sociallogin")
+    if not sociallogin:
         return
 
-    print("========== SOCIAL AVATAR DEBUG END ==========\n")
+    provider = sociallogin.account.provider
+    extra_data = sociallogin.account.extra_data or {}
+    picture_url = None
+
+    if provider == 'google':
+        picture_url = extra_data.get("picture")
+    elif provider == 'github':
+        picture_url = extra_data.get("avatar_url")
+        if not user.first_name and extra_data.get("name"):
+            parts = extra_data["name"].split(" ", 1)
+            user.first_name = parts[0]
+            if len(parts) > 1:
+                user.last_name = parts[1]
+            user.save()
+    elif provider == 'facebook':
+        picture_obj = extra_data.get("picture")
+        if isinstance(picture_obj, dict):
+            picture_url = picture_obj.get("data", {}).get("url")
+        else:
+            picture_url = f"https://graph.facebook.com/{sociallogin.account.uid}/picture?type=large"
+
+    profile, _ = Profile.objects.get_or_create(user=user)
+
+    # Check if role was chosen in session (e.g. from signup page)
+    if request and hasattr(request, 'session'):
+        chosen_role = request.session.get('pending_signup_role')
+        if chosen_role in ['customer', 'technician']:
+            profile.role = chosen_role
+            profile.save()
+
+    if picture_url:
+        try:
+            response = requests.get(picture_url, timeout=10)
+            if response.status_code == 200:
+                filename = f"avatar_{user.pk}.jpg"
+                profile.profile_picture.save(
+                    filename,
+                    ContentFile(response.content),
+                    save=True,
+                )
+        except Exception as e:
+            print(f"[WARNING] Could not save avatar from {provider}: {e}")
